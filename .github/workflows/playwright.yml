@@ -41,10 +41,9 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
-      # blob reporter so the shards can be merged into one HTML report afterwards, allure-playwright writes allure-results
-      # (both override the reporters in the config)
+      # the reporters (blob for the merged HTML report, allure-results) and the other CI settings come from playwright.config.ts (CI=true)
       - name: Run Playwright tests
-        run: npx playwright test tests/YtMasterSafeActions.spec.ts --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} --reporter=blob,allure-playwright
+        run: npx playwright test tests/YtMasterSafeActions.spec.ts --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - name: Upload blob report
         if: ${{ !cancelled() }}

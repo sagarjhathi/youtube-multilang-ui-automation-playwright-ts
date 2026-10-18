@@ -59,7 +59,7 @@ Notes:
 
 Every run writes two reports:
 
-- **Playwright HTML report**: `playwright-report/`, open with `npx playwright show-report`.
+- **Playwright HTML report**: `playwright-report/`, open with `npm run report`.
 - **Allure results**: `allure-results/`. Turn them into a report with:
 
   ```
@@ -131,18 +131,46 @@ Setting `IS_CRON=true` makes the tests read the `...CI` keys instead.
 
 ### `playwright.config.ts`
 
-| Setting | Value |
-|---|---|
-| Browser | Playwright's Chromium, 1920x1080 viewport, `--disable-blink-features=AutomationControlled` |
-| Workers | 2 |
-| Retries | 0 locally and 1 on CI in the config; `YtMasterSafeActions.spec.ts` also sets 1 retry for itself |
-| Test timeout | 40 minutes |
-| Action timeout | 30 seconds |
-| `slowMo` | 500 ms between browser actions |
-| Trace | kept on failure; screenshots and video off |
-| Reporters | HTML and Allure (`allure-playwright`, results in `allure-results/`) |
+The settings that differ between a local run and a CI run sit side by side in two objects, `local` and `ci`, at the top of the file. Everything else is shared.
 
-When the `CI` environment variable is set, the screenshot helper `GenericUtility.capture()` does nothing.
+| Setting | Local | CI (`CI=true`) |
+|---|---|---|
+| `retries` | 0 | 1 |
+| `forbidOnly` (fail if `test.only` is left in) | off | on |
+| `globalTimeout` (limit for the whole run) | none | 80 minutes, so the 90-minute job still has time to upload the reports |
+| `trace` | kept on failure | kept on failure (set to `'off'` for smaller artifacts) |
+| Reporters | HTML (never opens by itself) and Allure | blob (merged into one HTML report afterwards) and Allure |
+
+Shared by both: one project per chosen browser (see Browsers below) at 1920x1080, headless, 2 workers (`PW_WORKERS=3` changes it for one run), a 40-minute test timeout, a 30-second action timeout, `slowMo` of 500 ms, screenshots and video off.
+
+To try the CI settings on your machine: `CI=true npx playwright test` (PowerShell: `$env:CI = "true"; npx playwright test`). Open the local HTML report with `npm run report`.
+
+When the `CI` environment variable is set, the screenshot helper `GenericUtility.capture()` also does nothing.
+
+### Browsers
+
+By default the tests run in Playwright's Chromium only. Choose others with the `BROWSERS` environment variable:
+
+| Value | Runs |
+|---|---|
+| (not set) | `chromium` |
+| `firefox` | one browser |
+| `chromium,webkit` | several browsers (names are not case sensitive, spaces are ignored, a repeated name runs once) |
+| `all` | `chromium`, `chrome`, `edge`, `firefox` and `webkit` |
+
+```
+# PowerShell
+$env:BROWSERS = "firefox"; npx playwright test tests/YtMasterSafeActions.spec.ts
+
+# Git Bash / Linux / macOS
+BROWSERS=chromium,webkit npx playwright test tests/YtMasterSafeActions.spec.ts
+```
+
+- Every chosen browser runs every test, so two browsers take twice as long. With `all` the safe spec lists 40 tests (8 per browser).
+- An unknown name stops the run with a message that lists the valid ones.
+- `chrome` and `edge` use the Google Chrome and Microsoft Edge installed on the machine. `chromium`, `firefox` and `webkit` need `npm run install:browsers` once.
+- The `--disable-blink-features=AutomationControlled` flag exists only in Chromium based browsers, so only `chromium`, `chrome` and `edge` get it.
+- The expected data was captured in Chromium, so Firefox and WebKit can show small differences in text or layout. CI installs only Chromium. To run other browsers there, set `BROWSERS` in the workflow's `env:` and install them in the install step.
 
 ## How the tests work
 
