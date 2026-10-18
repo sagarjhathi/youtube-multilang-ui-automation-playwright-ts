@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>YouTube UI Validator Reports</title>
+<title>YouTube UI Validator - Playwright + TypeScript Reports</title>
 <style>
   :root { --bg: #f6f7f9; --card: #ffffff; --text: #1c1f24; --muted: #5d6673; --line: #dfe3e8; --accent: #1a56db; }
   @media (prefers-color-scheme: dark) {
@@ -13,6 +13,7 @@
   body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
   main { max-width: 640px; margin: 0 auto; padding: 48px 16px; }
   h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  .stack { color: var(--accent); margin: 0 0 4px; font-size: 0.95rem; font-weight: 600; }
   .info { color: var(--muted); margin: 0 0 28px; font-size: 0.9rem; }
   a.card { display: block; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; color: var(--text); text-decoration: none; }
   a.card:hover, a.card:focus-visible { border-color: var(--accent); outline: none; }
@@ -23,6 +24,7 @@
 <body>
 <main>
   <h1>YouTube Multi-Language UI Validator</h1>
+  <p class="stack">Playwright + TypeScript</p>
   <p class="info">__RUN_INFO__</p>
   <a class="card" href="allure/index.html">
     <strong>Allure report</strong>
