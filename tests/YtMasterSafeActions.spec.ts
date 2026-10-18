@@ -1,840 +1,246 @@
-import { Locator, test, expect } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import GenericUtility from "../utils/GenericUtility";
 import YtLandingPage from "../pages/YtLandingPage";
-import SafeActions from "../utils/SafeActions";
 import { readJson } from "../utils/ReadJSON";
-import {checkLanguage, detectLanguage} from "../eld-language-detection/languageDetector.mjs"
-import { read } from "fs";
+import { checkDetectedLanguage, checkLanguageAttribute, removeOptionalEntries } from "../utils/LanguageChecks";
+import { detectLanguage } from "../eld-language-detection/languageDetector.mjs";
 
-// YouTube adds and removes "YouTube Music" and "YouTube TV" in the side menu between runs, so both are left out of the comparison.
-const withoutOptionalYoutubeEntries = (text: string): string => text.replace(/\s*YouTube\s+(Music|TV)\b/g, "").trim();
-
-// Settings button locator taken from the Java project: the host element, which is always in the page (the inner <a> is not).
-const SETTINGS_BUTTON_XPATH = "//ytd-topbar-menu-button-renderer[@class='style-scope ytd-masthead style-default']";
-
-// Like the Selenium project, where a click waits for the whole page to load: give the page up to 2 minutes after a language is picked.
-const LANGUAGE_PAGE_LOAD_TIMEOUT = 120000;
-
-// Like the TestNG RetryListener: run a failed test once more, in a fresh browser.
+// If a test fails, run it once more in a fresh browser (like the TestNG retry in the Java project).
 test.describe.configure({ retries: 1 });
 
-// Languages (as shown in YouTube's language list) that eld cannot detect.
-const LANGUAGES_NOT_SUPPORTED_BY_ELD: string[] = ["Afrikaans", "Bahasa Indonesia", "Bosanski", "Dansk"];
+
+// ------------------------------------------------------------ test data
+
+const sideMenuRows = readJson("verifyingSideMenuLanguageAsInSettings.json");
+const collapsedMenuRows = readJson("verifyingSideMenuCollapsedLangAsInSettings.json");
+const languageRows = readJson("ApplicableLanguageExpectedLanguage.json");
+const attributeRows = readJson("ApplicableLanguageExpectedAttibute.json");
+const globalFilterRows = readJson("verifyingGlobalFilterLandingPage.json");
+const countryRows = readJson("Country_Name_Code.json");
 
 
+// ------------------------------------------------------------ expanded side menu
 
 test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
-
     const landingPage = new YtLandingPage(page, testInfo);
-    landingPage.settingEllipsesButton = page.locator(SETTINGS_BUTTON_XPATH).first();
     const genericUtility = new GenericUtility(page);
-    const safeActions = new SafeActions(page);
-    const testName: string = testInfo.title;
-
-    const rows = readJson("verifyingSideMenuLanguageAsInSettings.json");
 
     await landingPage.openingLandingPage();
-    await safeActions.safeClick(landingPage.settingEllipsesButton);
-    await safeActions.safeClick(landingPage.languageDropdownUnderSettings);
+    await landingPage.openLanguageList();
 
-    const languagesRowCount: number = genericUtility.resolveLanguageIterationCount(rows.length);
+    const languageCount = genericUtility.resolveLanguageIterationCount(sideMenuRows.length);
 
-    // about a minute per language is plenty; the default 30s limit is too short for a loop
-    test.setTimeout(languagesRowCount * 60000 + 60000);
+    // about a minute per language, the default test timeout is too short for a loop
+    test.setTimeout(languageCount * 60000 + 60000);
 
-    for (let languageIndex = 0; languageIndex < languagesRowCount; languageIndex++) {
-
-        const langText: string = rows[languageIndex]["Applied Language"];
-        console.log("[" + testName + "] " + langText + " lang text from the data file, row " + languageIndex);
+    for (let i = 0; i < languageCount; i++) {
+        const langText = sideMenuRows[i]["Applied Language"];
+        console.log(langText + "  row " + i);
 
         await genericUtility.capture(testInfo);
-
-        await safeActions.safeDomClick(landingPage.getLanguageElementByName(langText));
-        await landingPage.waitForPageToLoad(LANGUAGE_PAGE_LOAD_TIMEOUT);
-
-        // await landingPage.clickingSettingEllipsesButton();
-        // await genericUtility.capture(testInfo);
-        // await landingPage.clickingSettingEllipsesButton();
-
+        await landingPage.pickLanguage(langText);
         await landingPage.expandSideMenuIfCollapsed();
 
-        const listOfSideMenu: Locator[] = await safeActions.safeFindElements(landingPage.sideMenuExpandedList);
-        let sideMenuItems: string = "";
-        for (let sideMenuItem = 0; sideMenuItem < listOfSideMenu.length; sideMenuItem++) {
-            sideMenuItems += await listOfSideMenu[sideMenuItem].innerText();
-            if (sideMenuItem !== listOfSideMenu.length - 1) {
-                sideMenuItems += " ";
-            }
-        }
+        const actualText = await landingPage.readExpandedSideMenu();
+        const expectedText = sideMenuRows[i]["Expected Data"];
 
-        console.log("[" + testName + "] Side menu text read from the page: " + sideMenuItems);
+        // soft assertion: a mismatch is reported at the end, the loop keeps going
+        expect.soft(removeOptionalEntries(actualText), "Mismatch in the Actual and Expected data for language=" + langText)
+            .toBe(removeOptionalEntries(expectedText));
 
-        // soft assertion: a mismatch is reported at the end of the test and the loop keeps going
-        expect.soft(withoutOptionalYoutubeEntries(sideMenuItems), "Mismatch in the Actual and Expected data for language=" + langText)
-            .toBe(withoutOptionalYoutubeEntries(rows[languageIndex]["Expected Data"]));
-
-        await safeActions.safeClick(landingPage.settingEllipsesButton);
-        await safeActions.safeClick(landingPage.languageDropdownUnderSettings);
-
-        // // before the next language is picked: the page must be loaded and the language list fully read
-        // await landingPage.waitForPageToLoad();
-        // await landingPage.waitForLanguageListToStabilize();
-
-
+        await landingPage.openLanguageList();
     }
 });
 
 
-
-
-
-
-	test('verifyingSideMenuLanguageAsInSettingsLingua', async ({page},testInfo)=> {
-
-
-
-		let landingPage=new YtLandingPage(page,testInfo);
-		landingPage.settingEllipsesButton = page.locator(SETTINGS_BUTTON_XPATH).first();
-		let genericUtility=new GenericUtility(page);
-		const safeActions = new SafeActions(page);
-
-
-
-		await landingPage.openingLandingPage();
-
-
-
-
-		await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-		await safeActions.safeClick(landingPage.languageDropdownUnderSettings);
-
-		let testName:string = testInfo.title;
-        
-        
-       const rows = readJson("ApplicableLanguageExpectedLanguage.json");
-       const attribute= readJson("ApplicableLanguageExpectedAttibute.json")
-		let LanguagesRowCount :number= rows.length;
-
-	
-		LanguagesRowCount = genericUtility.resolveLanguageIterationCount(LanguagesRowCount);
-
-
-		for(let languageIndex=0;languageIndex<LanguagesRowCount;languageIndex++) {
-
-			let langText:string=rows[languageIndex]['Applicable Language'];
-            
-			console.log(langText+" lang text from the sheet   "+languageIndex);
-
-
-
-
-
-
-			await safeActions.safeDomClick(landingPage.getLanguageElementByName(langText));
-			await landingPage.waitForPageToLoad(LANGUAGE_PAGE_LOAD_TIMEOUT);
-            
-			// await landingPage.clickingSettingEllipsesButton();
-			// genericUtility.isElementInViewport(landingPage.languageDropdownUnderSettings);
-			// await genericUtility.capture(testInfo);
-			// await landingPage.clickingSettingEllipsesButton();
-
-
-			await landingPage.expandSideMenuIfCollapsed();
-			let listOfSideMenu:Locator[]=await safeActions.safeFindElements(landingPage.sideMenuExpandedList);
-
-			// StringBuilder sideMenuItems=new StringBuilder();
-            let sideMenuItems:string='';
-			for(let sideMenuItem=0;sideMenuItem<listOfSideMenu.length;sideMenuItem++) {
-				console.log(await listOfSideMenu[sideMenuItem].innerText());
-                sideMenuItems+=await listOfSideMenu[sideMenuItem].innerText();
-				if(sideMenuItem!=listOfSideMenu.length-1) {
-					sideMenuItems+=" ";
-				}
-
-			}
-
-
-
-
-			let applicableLanguage:string=rows[languageIndex]['Applicable Language'];
-			let detectedLanguage:string=detectLanguage(sideMenuItems.toString());
-			let expectedLanguage:string=rows[languageIndex]['Expected Language'];
-
-
-			let expectedLanguageAttribute:string =attribute[languageIndex]['Expected Attribute'];
-			let detectedLanguageAttribute :string|null =await genericUtility.getLangAttribute();
-
-			console.log("ApplicableLanguage  "+applicableLanguage+"     "+"Detected Language   "+detectedLanguage+"  "+"Expected Language  "+expectedLanguage);
-			console.log("ApplicableLanguage  "+applicableLanguage+"     "+"Detected Language attribute   "+detectedLanguageAttribute+"  "+"Expected Language attribute "+expectedLanguageAttribute);
-
-
-            // eld has no model for these, so its answer is unreliable; the lang attribute check below still covers them
-            if (LANGUAGES_NOT_SUPPORTED_BY_ELD.includes(langText)) {
-                console.log("Skipping detected language check for " + langText + " (not supported by eld)");
-            } else {
-                await expect.soft(
-                    detectedLanguage.toLowerCase(),
-                    `Detected language mismatch for language=${langText}`
-                ).toBe(expectedLanguage.toLowerCase());
-            }
-
-await expect.soft(
-  detectedLanguageAttribute?.toLowerCase(),
-  `Language attribute mismatch for language=${langText}`
-).toBe(expectedLanguageAttribute.toLowerCase());
-
-			await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-			await safeActions.safeClick(landingPage.languageDropdownUnderSettings);
-
-		}
-
-	});
-
-
-
-
-    
-
-	test('verifyingSideMenuCollapsedLangAsInSettings',async({page},testInfo)=>{
-
-
-
-           
-		let landingPage=new YtLandingPage(page,testInfo);
-		landingPage.settingEllipsesButton = page.locator(SETTINGS_BUTTON_XPATH).first();
-		let genericUtility=new GenericUtility(page);
-		const safeActions = new SafeActions(page);
-	
-
-
-
-		// FileReader verifyingSideMenuCollapsedLangAsInSettingsDataReader=new FileReader();
-		// verifyingSideMenuCollapsedLangAsInSettingsDataReader.loadWorkbook("data/verifyingSideMenuCollapsedLangAsInSettings.xlsx");
-		// verifyingSideMenuCollapsedLangAsInSettingsDataReader.loadSheet("verifyingSideMenuCollapsedLangA");
-
-        const verifyingSideMenuCollapsedLangAsInSettingsDataReader = readJson("verifyingSideMenuCollapsedLangAsInSettings.json");
-
-
-
-		// FileReader applicableExpectedReader=new FileReader();
-		// applicableExpectedReader.loadWorkbook("data/ApplicableLanguageExpectedLanguage.xlsx");
-		// applicableExpectedReader.loadSheet("AppVExpectLanguages");
-
-        const applicableExpectedReader = readJson("ApplicableLanguageExpectedLanguage.json");
-
-
-		let LanguagesRowCount :number= verifyingSideMenuCollapsedLangAsInSettingsDataReader.length;
-		let testName:string = testInfo.title;
-
-		await landingPage.openingLandingPage();
-		await safeActions.safeClick(landingPage.ellipsesYtLandingPageTopLeft);
-
-
-
-		await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-		await safeActions.safeClick(landingPage.languageDropdownUnderSettings);
-
-
-	
-		
-
-		LanguagesRowCount = genericUtility.resolveLanguageIterationCount(LanguagesRowCount);
-
-
-		for(let languageIndex=0;languageIndex<LanguagesRowCount;languageIndex++) {
-
-			let langText:string= await verifyingSideMenuCollapsedLangAsInSettingsDataReader[languageIndex]['Applied Language'];
-			console.log(langText+"    "+languageIndex);
-
-
-			await safeActions.safeDomClick(landingPage.getLanguageElementByName(langText));
-			await landingPage.waitForPageToLoad(LANGUAGE_PAGE_LOAD_TIMEOUT);
-		//	waitUtility.waitForElementReady(landingPage.sideMenuCollapsedList);
-          //  await safeActions.safeFindElements(landingPage.sideMenuCollapsedList);
-			// await landingPage.clickingSettingEllipsesButton();
-			// genericUtility.isElementInViewport(landingPage.languageDropdownUnderSettings);
-			// await genericUtility.capture( testInfo);
-			// await landingPage.clickingSettingEllipsesButton();
-
-			await genericUtility.getLangAttribute();
-
-			let listOfSideMenu:Locator[]=await safeActions.safeFindElements(landingPage.sideMenuCollapsedList);
-
-			// StringBuilder sideMenuItems=new StringBuilder();
-            let sideMenuItems:string='';
-			for(let sideMenuItem=0;sideMenuItem<listOfSideMenu.length;sideMenuItem++) {
-				console.log(await listOfSideMenu[sideMenuItem].innerText());
-				//sideMenuItems.append(listOfSideMenu.get(sideMenuItem).getText());
-                sideMenuItems+=await listOfSideMenu[sideMenuItem].innerText();
-
-				if(sideMenuItem!=listOfSideMenu.length-1) {
-					sideMenuItems+=' ';
-				}
-			}
-
-			let expectedData:string =	verifyingSideMenuCollapsedLangAsInSettingsDataReader[languageIndex]['Expected Data'];
-			let actualData:string = sideMenuItems.toString();
-
-
-			//softAssert.assertEquals(actualData.trim(),expectedData.trim(),"Mismatch in the Actual and Expected data for language="+langText);
-
-             // soft assertion: a mismatch is reported at the end of the test and the loop keeps going
-        expect.soft(sideMenuItems.trim().toLowerCase(), "Mismatch in the Actual and Expected data for language=" + langText)
-            .toBe(verifyingSideMenuCollapsedLangAsInSettingsDataReader[languageIndex]["Expected Data"].trim().toLowerCase());
-
-
-			await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-			await safeActions.safeClick(landingPage.languageDropdownUnderSettings);
-
-
-
-            
-		}
-
-	
-
-
-    });
-
-	
-	
-
-
-
-
-
-
-
-
-
-	test('verifyingSideMenuCollapsedLangAsInSettingsLingua', async ({page},testInfo)=>{
-
-
-
- 
-		let landingPage=new YtLandingPage(page,testInfo);
-		landingPage.settingEllipsesButton = page.locator(SETTINGS_BUTTON_XPATH).first();
-		let genericUtility=new GenericUtility(page);
-		const safeActions = new SafeActions(page);
-	
-
-
-
-
-		// FileReader applicableExpectedReader=new FileReader();
-		// applicableExpectedReader.loadWorkbook("data/ApplicableLanguageExpectedLanguage.xlsx");
-		// applicableExpectedReader.loadSheet("AppVExpectLanguages");
- 
-        let  applicableExpectedReader= readJson("ApplicableLanguageExpectedLanguage.json");
-
-		// FileReader applicableExpectedAttributeReader=new FileReader();
-		// applicableExpectedAttributeReader.loadWorkbook("data/ApplicableLanguageExpectedAttibute.xlsx");
-		// applicableExpectedAttributeReader.loadSheet("Attribute");
-        let applicableExpectedAttributeReader= readJson("ApplicableLanguageExpectedAttibute.json");
-
-
-
-		let LanguagesRowCount:number= applicableExpectedReader.length;
-		let testName:string = testInfo.title;
-		await landingPage.openingLandingPage();
-
-
-
-
-
-		//List<Integer> sizes=genericUtility.getWindowHeightWidth();
-		await safeActions.safeClick(landingPage.ellipsesYtLandingPageTopLeft);
-
-
-		await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-
-		await safeActions.safeClick(landingPage.languageDropdownUnderSettings);
-
-
-		LanguagesRowCount = genericUtility.resolveLanguageIterationCount(LanguagesRowCount);
-
-		for(let languageIndex=0;languageIndex<LanguagesRowCount;languageIndex++) {
-
-			let langText:string=applicableExpectedReader[languageIndex]['Applicable Language'];
-			console.log(langText+"    "+languageIndex);
-
-
-			await safeActions.safeDomClick(landingPage.getLanguageElementByName(langText));
-			await landingPage.waitForPageToLoad(LANGUAGE_PAGE_LOAD_TIMEOUT);
-
-			// await landingPage.clickingSettingEllipsesButton();
-		//	genericUtility.isElementInViewport(landingPage.languageDropdownUnderSettings);
-			// await genericUtility.capture(testInfo);
-			// await landingPage.clickingSettingEllipsesButton();
-
-			await genericUtility.getLangAttribute();
-
-			let listOfSideMenu:Locator[]=await safeActions.safeFindElements(landingPage.sideMenuCollapsedList);
-
-		//	StringBuilder sideMenuItems=new StringBuilder();
-        let sideMenuItems:string='';
-			for(let sideMenuItem=0;sideMenuItem<listOfSideMenu.length;sideMenuItem++) {
-				console.log(listOfSideMenu[sideMenuItem].innerText());
-                sideMenuItems+=await listOfSideMenu[sideMenuItem].innerText();
-				if(sideMenuItem!=listOfSideMenu.length-1) {
-					sideMenuItems+=' ';
-				}
-			}
-
-
-
-			let applicableLanguage:string=applicableExpectedReader[languageIndex]['Applicable Language'];
-			let detectedLanguage:string =detectLanguage(sideMenuItems.toString());
-			console.log("text sent to lingua is "+"      "+sideMenuItems.toString());
-			let expectedLanguage:string=applicableExpectedReader[languageIndex]['Expected Language'];
-
-
-			let expectedLanguageAttribute=applicableExpectedAttributeReader[languageIndex]['Expected Attribute'];
-
-			let detectedLanguageAttribute:string|null =await genericUtility.getLangAttribute();
-
-			console.log("ApplicableLanguage  "+applicableLanguage+"     "+"Detected Language   "+detectedLanguage+"  "+"Expected Language  "+expectedLanguage);
-			console.log("ApplicableLanguage  "+applicableLanguage+"     "+"Detected Language attribute   "+detectedLanguageAttribute+"  "+"Expected Language attribute "+expectedLanguageAttribute);
-
-
-
-			// softAssert.assertEquals(detectedLanguage, expectedLanguage, "Language detection mismatch for language="+langText);
-			// softAssert.assertEquals(detectedLanguageAttribute, expectedLanguageAttribute, "Language attributr mismatch for language="+langText);
-
-
-
-               // eld has no model for these, so its answer is unreliable; the lang attribute check below still covers them
-            if (LANGUAGES_NOT_SUPPORTED_BY_ELD.includes(langText)) {
-                console.log("Skipping detected language check for " + langText + " (not supported by eld)");
-            } else {
-                await expect.soft(
-                    detectedLanguage.toLowerCase(),
-                    `Detected language mismatch for language=${langText}`
-                ).toBe(expectedLanguage.toLowerCase());
-            }
-
-await expect.soft(
-  detectedLanguageAttribute?.toLowerCase(),
-  `Language attribute mismatch for language=${langText}`
-).toBe(expectedLanguageAttribute.toLowerCase());
-
-
-			await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-			await safeActions.safeClick(landingPage.languageDropdownUnderSettings);
-
-		}
-	
-
-
-    });	
-	
-
-
-    test('verifyingSettingOptionsLang', async({page},testInfo)=>{
-
-
-
-
-		let landingPage=new YtLandingPage(page,testInfo);
-		landingPage.settingEllipsesButton = page.locator(SETTINGS_BUTTON_XPATH).first();
-		let genericUtility=new GenericUtility(page);
-		const safeActions = new SafeActions(page);
-
-
-
-
-
-		// FileReader applicableExpectedLangReader=new FileReader();
-		// applicableExpectedLangReader.loadWorkbook("data/ApplicableLanguageExpectedLanguage.xlsx");
-		// applicableExpectedLangReader.loadSheet("AppVExpectLanguages");
-            let applicableExpectedLangReader=readJson("ApplicableLanguageExpectedLanguage.json");
-
-
-
-		// FileReader applicableExpectedAttributeReader=new FileReader();
-		// applicableExpectedAttributeReader.loadWorkbook("data/ApplicableLanguageExpectedAttibute.xlsx");
-		// applicableExpectedAttributeReader.loadSheet("Attribute");
-            let applicableExpectedAttributeReader=readJson("ApplicableLanguageExpectedAttibute.json");
-
-
-
-		let testName:string = testInfo.title;
-
-
-		let LanguagesRowCount:number= applicableExpectedLangReader.length;
-
-		await landingPage.openingLandingPage();
-		await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-		await safeActions.safeClick(landingPage.languageDropdownUnderSettings);
-
-
-
-		LanguagesRowCount = genericUtility.resolveLanguageIterationCount(LanguagesRowCount);
-
-		for(let languageIndex=1;languageIndex<LanguagesRowCount;languageIndex++) {
-
-			let langText:string =applicableExpectedLangReader[languageIndex]['Applicable Language'];
-			console.log(langText+"    "+languageIndex);
-
-
-			await safeActions.safeDomClick(landingPage.getLanguageElementByName(langText));
-			await landingPage.waitForPageToLoad(LANGUAGE_PAGE_LOAD_TIMEOUT);
-
-			// await landingPage.clickingSettingEllipsesButton();
-		//	genericUtility.isElementInViewport(landingPage.languageDropdownUnderSettings);
-			// await genericUtility.capture(testInfo);
-			// await landingPage.clickingSettingEllipsesButton();
-
-
-
-			await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-			let languageFromSettings:string =await landingPage.getsettingEllipsesOptionsListLandingPage();
-			await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-
-			let applicableLanguage:string=applicableExpectedLangReader[languageIndex]['Applicable Language'];
-			let detectedLanguage:string=detectLanguage(languageFromSettings);
-			let expectedLanguage:string=applicableExpectedLangReader[languageIndex]['Expected Language'];
-
-
-		    let expectedLanguageAttribute:string=await applicableExpectedAttributeReader[languageIndex]['Expected Attribute'];
-		    let detectedLanguageAttribute:string |null=await genericUtility.getLangAttribute();
-
-			console.log("ApplicableLanguage  "+applicableLanguage+"     "+"Detected Language   "+detectedLanguage+"  "+"Expected Language  "+expectedLanguage);
-			console.log("ApplicableLanguage  "+applicableLanguage+"     "+"Detected Language attribute   "+detectedLanguageAttribute+"  "+"Expected Language attribute "+expectedLanguageAttribute);
-
-			// softAssert.assertEquals(detectedLanguage, expectedLanguage, "Language detection mismatch for language="+langText);
-			// softAssert.assertEquals(detectedLanguageAttribute, expectedLanguageAttribute, "Language attributr mismatch for language="+langText);
-
-
-             if (LANGUAGES_NOT_SUPPORTED_BY_ELD.includes(langText)) {
-                console.log("Skipping detected language check for " + langText + " (not supported by eld)");
-            } else {
-                await expect.soft(
-                    detectedLanguage.toLowerCase(),
-                    `Detected language mismatch for language=${langText}`
-                ).toBe(expectedLanguage.toLowerCase());
-            }
-
-await expect.soft(
-  detectedLanguageAttribute?.toLowerCase(),
-  `Language attribute mismatch for language=${langText}`
-).toBe(expectedLanguageAttribute.toLowerCase());
-
-
-			await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-			await safeActions.safeClick(landingPage.languageDropdownUnderSettings);
-
-
-		}
-
-
-
-    })
-
-
-	
-
-
-
-
-	test('verifyCountryCodeAsBasedOnRegion', async({page},testInfo)=>{
-
-
-
-        
-	//	FileReader reader=new FileReader();
-
- 
-		let landingPage=new YtLandingPage(page,testInfo);
-		landingPage.settingEllipsesButton = page.locator(SETTINGS_BUTTON_XPATH).first();
-		let genericUtility=new GenericUtility(page);
-		const safeActions = new SafeActions(page);
-	
-
-		// reader.loadWorkbook("data/Country_Name_Code.xlsx");
-		// reader.loadSheet("CountryNameCode");
-
-        let reader=readJson("Country_Name_Code.json");
-
-
-		await landingPage.openingLandingPage();
-
-		await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-		await safeActions.safeClick(landingPage.locationDropdownUnderSettings);
-
-
-
-
-		let locationList:Locator[]=await landingPage.getLocationList();
-		let locationListSize:number=locationList.length;
-
-
-
-	    let testName=testInfo.title;
-
-
-	
-		
-
-		locationListSize = genericUtility.resolveCountryIterationCount(locationListSize);
-
-
-
-
-
-		for(let locationIndex=1;locationIndex<locationListSize;locationIndex++) {
-			locationList=await landingPage.getLocationList();
-		    let locationText :string = await locationList[locationIndex].innerText();
-
-
-			console.log(locationText+"    "+locationIndex);
-
-		    let locationTextFromSheet:string=reader[locationIndex]['Country Name'];
-			console.log(locationTextFromSheet+"  location text from sheet  "+locationIndex);
-
-
-
-
-			await safeActions.safeClick(locationList[locationIndex]);
-			await landingPage.waitForPageToLoad();
-
-			// await landingPage.clickingSettingEllipsesButton();
-			//genericUtility.isElementInViewport(landingPage.locationDropdownUnderSettings);
-			// await genericUtility.capture(testInfo);
-			// await landingPage.clickingSettingEllipsesButton();
-
-
-            let applicableLocation:string =locationText;
-			let expectedCountryCode:string =reader[locationIndex]['Country Code'];
-			let  detectedCountryCode:string=await landingPage.getCountryCode();
-
-			console.log("applicable location is ==  "+applicableLocation+" Expected location  =="+expectedCountryCode+"  detected country code"+detectedCountryCode);
-			//softAssert.assertEquals(detectedCountryCode, expectedCountryCode,"Country code mismacth for location="+locationText);
-
-
-             expect.soft(detectedCountryCode.trim().toLowerCase(), "Mismatch in the Actual and Expected data for location=" + locationText)
-            .toBe(expectedCountryCode.trim().toLowerCase());
-
-
-			await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-			await safeActions.safeClick(landingPage.locationDropdownUnderSettings);
-
-
-
-		}
-	
-    })
-
-	
-
-
-
-	test('verifyingGlobalFilterLandingPage', async({page},testInfo)=>{
-
-
-
-
-
-
-        
+test("verifyingSideMenuLanguageAsInSettingsLingua", async ({ page }, testInfo) => {
     const landingPage = new YtLandingPage(page, testInfo);
-    landingPage.settingEllipsesButton = page.locator(SETTINGS_BUTTON_XPATH).first();
     const genericUtility = new GenericUtility(page);
-    const safeActions = new SafeActions(page);
-    const testName: string = testInfo.title;
+
+    await landingPage.openingLandingPage();
+    await landingPage.openLanguageList();
+
+    const languageCount = genericUtility.resolveLanguageIterationCount(languageRows.length);
+
+    for (let i = 0; i < languageCount; i++) {
+        const langText = languageRows[i]["Applicable Language"];
+        console.log(langText + "  row " + i);
+
+        await landingPage.pickLanguage(langText);
+        await landingPage.expandSideMenuIfCollapsed();
+
+        const sideMenuText = await landingPage.readExpandedSideMenu();
+
+        checkDetectedLanguage(langText, detectLanguage(sideMenuText), languageRows[i]["Expected Language"]);
+        checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
+
+        await landingPage.openLanguageList();
+    }
+});
 
 
+// ------------------------------------------------------------ collapsed side menu
 
-		// FileReader verifyingGlobalFilterLandingPageDataReader=new FileReader();
-		// verifyingGlobalFilterLandingPageDataReader.loadWorkbook("data/verifyingGlobalFilterLandingPage.xlsx");
-		// verifyingGlobalFilterLandingPageDataReader.loadSheet("verifyingGlobalFilterLandingPag");
-let verifyingGlobalFilterLandingPageDataReader=readJson("verifyingGlobalFilterLandingPage.json");
-
-		await landingPage.openingLandingPage();
-		await landingPage.givingInputUnderSearchBar("youtube");
-		await genericUtility.clickEnter(landingPage.searchInputLandinfPage);
-
-		let LanguagesRowCount:number= verifyingGlobalFilterLandingPageDataReader.length;
-
-
-
-
-	
-
-		LanguagesRowCount = genericUtility.resolveLanguageIterationCount(LanguagesRowCount);
-
-		for(let languageIndex=1;languageIndex<LanguagesRowCount;languageIndex++) {
-
-			await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-			await safeActions.safeClick(landingPage.languageDropdownUnderSettings);
-
-
-		   let langText :string =verifyingGlobalFilterLandingPageDataReader[languageIndex]['Applied Language'];
-			console.log(langText+"    "+languageIndex);
-
-
-		//	genericUtility.smoothScrollToElement(landingPage.getLanguageElementByNameBy(langText));
-			await safeActions.safeDomClick(landingPage.getLanguageElementByName(langText));
-			await landingPage.waitForPageToLoad(LANGUAGE_PAGE_LOAD_TIMEOUT);
-
-			// await landingPage.clickingSettingEllipsesButton();
-			//genericUtility.isElementInViewport(landingPage.languageDropdownUnderSettings);
-			// await genericUtility.capture(testInfo);
-			// await landingPage.clickingSettingEllipsesButton();
-
-
-
-			await safeActions.safeClick(landingPage.globalFilterButton);
-		//	genericUtility.isElementInViewport(landingPage.globalFilterData);
-			await genericUtility.capture(testInfo);
-			let globalSettingText:string= await landingPage.getDataFromGlobalFilterPopup();
-			await safeActions.safeClick(landingPage.closeButtonGlobalFilterPopup);
-
-	      let  expectedData:string=verifyingGlobalFilterLandingPageDataReader[languageIndex]['Expected Data'];
-			let actualValue:string =globalSettingText;
-
-
-    // soft assertion: a mismatch is reported at the end of the test and the loop keeps going
-        expect.soft(actualValue.trim().toLowerCase(), "Mismatch in the Actual and Expected data for language=" + langText)
-            .toBe(expectedData.trim().toLowerCase());
-
-
-
-		}
-
-
-
-    })
-
-
-
-
-
-
-
-	test('verifyingGlobalFilterLandingPageLingua', async({page},testInfo)=>{
-
-
-
-
-
-
-        
+test("verifyingSideMenuCollapsedLangAsInSettings", async ({ page }, testInfo) => {
     const landingPage = new YtLandingPage(page, testInfo);
-    landingPage.settingEllipsesButton = page.locator(SETTINGS_BUTTON_XPATH).first();
     const genericUtility = new GenericUtility(page);
-    const safeActions = new SafeActions(page);
-    const testName: string = testInfo.title;
+
+    await landingPage.openingLandingPage();
+    await landingPage.clickLeftMenuButton();
+    await landingPage.openLanguageList();
+
+    const languageCount = genericUtility.resolveLanguageIterationCount(collapsedMenuRows.length);
+
+    for (let i = 0; i < languageCount; i++) {
+        const langText = collapsedMenuRows[i]["Applied Language"];
+        console.log(langText + "  row " + i);
+
+        await landingPage.pickLanguage(langText);
+
+        const actualText = await landingPage.readCollapsedSideMenu();
+        const expectedText = collapsedMenuRows[i]["Expected Data"];
+
+        expect.soft(actualText.trim().toLowerCase(), "Mismatch in the Actual and Expected data for language=" + langText)
+            .toBe(expectedText.trim().toLowerCase());
+
+        await landingPage.openLanguageList();
+    }
+});
 
 
-		// FileReader applicableExpectedLangReader=new FileReader();
-		// applicableExpectedLangReader.loadWorkbook("data/ApplicableLanguageExpectedLanguage.xlsx");
-		// applicableExpectedLangReader.loadSheet("AppVExpectLanguages");
+test("verifyingSideMenuCollapsedLangAsInSettingsLingua", async ({ page }, testInfo) => {
+    const landingPage = new YtLandingPage(page, testInfo);
+    const genericUtility = new GenericUtility(page);
 
-        let applicableExpectedLangReader= readJson("ApplicableLanguageExpectedLanguage.json");
+    await landingPage.openingLandingPage();
+    await landingPage.clickLeftMenuButton();
+    await landingPage.openLanguageList();
 
-		// FileReader applicableExpectedAttributeReader=new FileReader();
-		// applicableExpectedAttributeReader.loadWorkbook("data/ApplicableLanguageExpectedAttibute.xlsx");
-		// applicableExpectedAttributeReader.loadSheet("Attribute");
+    const languageCount = genericUtility.resolveLanguageIterationCount(languageRows.length);
 
-        let applicableExpectedAttributeReader=readJson("ApplicableLanguageExpectedAttibute.json");
-		let LanguagesRowCount:number = applicableExpectedLangReader.length;
+    for (let i = 0; i < languageCount; i++) {
+        const langText = languageRows[i]["Applicable Language"];
+        console.log(langText + "  row " + i);
 
+        await landingPage.pickLanguage(langText);
 
-	 
+        const sideMenuText = await landingPage.readCollapsedSideMenu();
 
+        checkDetectedLanguage(langText, detectLanguage(sideMenuText), languageRows[i]["Expected Language"]);
+        checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
 
-		await landingPage.openingLandingPage();
-		await landingPage.givingInputUnderSearchBar("youtube");
-		await genericUtility.clickEnter(landingPage.searchInputLandinfPage);
-
-
-		
-
-		LanguagesRowCount = genericUtility.resolveLanguageIterationCount(LanguagesRowCount);
-
-
-		for(let languageIndex=1;languageIndex<LanguagesRowCount;languageIndex++) {
-
-			await safeActions.safeClick(landingPage.settingEllipsesButton);
-
-			await safeActions.safeClick(landingPage.languageDropdownUnderSettings);
+        await landingPage.openLanguageList();
+    }
+});
 
 
-	let  langText:string =applicableExpectedLangReader[languageIndex]['Applicable Language'];
-			console.log(langText+"    "+languageIndex);
+// ------------------------------------------------------------ settings menu options (starts at row 1, like the Java test)
+
+test("verifyingSettingOptionsLang", async ({ page }, testInfo) => {
+    const landingPage = new YtLandingPage(page, testInfo);
+    const genericUtility = new GenericUtility(page);
+
+    await landingPage.openingLandingPage();
+    await landingPage.openLanguageList();
+
+    const languageCount = genericUtility.resolveLanguageIterationCount(languageRows.length);
+
+    for (let i = 1; i < languageCount; i++) {
+        const langText = languageRows[i]["Applicable Language"];
+        console.log(langText + "  row " + i);
+
+        await landingPage.pickLanguage(langText);
+
+        const settingsText = await landingPage.readSettingsMenuText();
+
+        checkDetectedLanguage(langText, detectLanguage(settingsText), languageRows[i]["Expected Language"]);
+        checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
+
+        await landingPage.openLanguageList();
+    }
+});
 
 
-			await safeActions.safeDomClick(landingPage.getLanguageElementByName(langText));
-			await landingPage.waitForPageToLoad(LANGUAGE_PAGE_LOAD_TIMEOUT);
+// ------------------------------------------------------------ country code next to the logo (starts at row 1, like the Java test)
 
-			// await landingPage.clickingSettingEllipsesButton();
-			//genericUtility.isElementInViewport(landingPage.languageDropdownUnderSettings);
-			// await genericUtility.capture(testInfo);
-			// await landingPage.clickingSettingEllipsesButton();
+test("verifyCountryCodeAsBasedOnRegion", async ({ page }, testInfo) => {
+    const landingPage = new YtLandingPage(page, testInfo);
+    const genericUtility = new GenericUtility(page);
 
+    await landingPage.openingLandingPage();
+    await landingPage.openLocationList();
 
+    const allLocations = await landingPage.getLocationList();
+    const locationCount = genericUtility.resolveCountryIterationCount(allLocations.length);
 
-			await safeActions.safeClick(landingPage.globalFilterButton);
-		//	genericUtility.isElementInViewport(landingPage.globalFilterData);
-			await genericUtility.capture(testInfo);
-		   let globalSettingText:string =await landingPage.getDataFromGlobalFilterPopup();
-			await safeActions.safeClick(landingPage.closeButtonGlobalFilterPopup);
+    for (let i = 1; i < locationCount; i++) {
+        const locationText = await landingPage.pickLocation(i);
 
+        const detectedCode = await landingPage.getCountryCode();
+        const expectedCode = countryRows[i]["Country Code"];
+        console.log(locationText + "  row " + i + "  detected code: " + detectedCode + "  expected code: " + expectedCode);
 
-            let applicableLanguage=applicableExpectedLangReader[languageIndex]['Applicable Language'];
-			let  detectedLanguage=detectLanguage(globalSettingText);
-			let  expectedLanguage=applicableExpectedLangReader[languageIndex]['Expected Language'];
+        expect.soft(detectedCode.trim().toLowerCase(), "Mismatch in the Actual and Expected data for location=" + locationText)
+            .toBe(expectedCode.trim().toLowerCase());
 
-		    let expectedLanguageAttribute:string=applicableExpectedAttributeReader[languageIndex]['Expected Attribute'];
-		    let detectedLanguageAttribute:string |null =await genericUtility.getLangAttribute();
-
-			console.log("ApplicableLanguage  "+applicableLanguage+"     "+"Detected Language   "+detectedLanguage+"  "+"Expected Language  "+expectedLanguage);
-			console.log("ApplicableLanguage  "+applicableLanguage+"     "+"Detected Language attribute   "+detectedLanguageAttribute+"  "+"Expected Language attribute "+expectedLanguageAttribute);
-
-			// softAssert.assertEquals(detectedLanguage, expectedLanguage, "Language detection mismatch for language="+langText);
-			// softAssert.assertEquals(detectedLanguageAttribute, expectedLanguageAttribute, "Language attributr mismatch for language"+langText);
+        await landingPage.openLocationList();
+    }
+});
 
 
-                  if (LANGUAGES_NOT_SUPPORTED_BY_ELD.includes(langText)) {
-                console.log("Skipping detected language check for " + langText + " (not supported by eld)");
-            } else {
-                await expect.soft(
-                    detectedLanguage.toLowerCase(),
-                    `Detected language mismatch for language=${langText}`
-                ).toBe(expectedLanguage.toLowerCase());
-            }
+// ------------------------------------------------------------ global filter popup on the search results (starts at row 1, like the Java test)
 
-await expect.soft(
-  detectedLanguageAttribute?.toLowerCase(),
-  `Language attribute mismatch for language=${langText}`
-).toBe(expectedLanguageAttribute.toLowerCase());
+test("verifyingGlobalFilterLandingPage", async ({ page }, testInfo) => {
+    const landingPage = new YtLandingPage(page, testInfo);
+    const genericUtility = new GenericUtility(page);
+
+    await landingPage.openingLandingPage();
+    await landingPage.givingInputUnderSearchBar("youtube");
+    await genericUtility.clickEnter(landingPage.searchInputLandinfPage);
+
+    const languageCount = genericUtility.resolveLanguageIterationCount(globalFilterRows.length);
+
+    for (let i = 1; i < languageCount; i++) {
+        const langText = globalFilterRows[i]["Applied Language"];
+        console.log(langText + "  row " + i);
+
+        await landingPage.openLanguageList();
+        await landingPage.pickLanguage(langText);
+
+        await landingPage.openGlobalFilterPopup();
+        await genericUtility.capture(testInfo);
+        const filterText = await landingPage.getDataFromGlobalFilterPopup();
+        await landingPage.dismissGlobalFilterPopup();
+
+        expect.soft(filterText.trim().toLowerCase(), "Mismatch in the Actual and Expected data for language=" + langText)
+            .toBe(globalFilterRows[i]["Expected Data"].trim().toLowerCase());
+    }
+});
 
 
+test("verifyingGlobalFilterLandingPageLingua", async ({ page }, testInfo) => {
+    const landingPage = new YtLandingPage(page, testInfo);
+    const genericUtility = new GenericUtility(page);
 
-		}
+    await landingPage.openingLandingPage();
+    await landingPage.givingInputUnderSearchBar("youtube");
+    await genericUtility.clickEnter(landingPage.searchInputLandinfPage);
 
-	
+    const languageCount = genericUtility.resolveLanguageIterationCount(languageRows.length);
 
+    for (let i = 1; i < languageCount; i++) {
+        const langText = languageRows[i]["Applicable Language"];
+        console.log(langText + "  row " + i);
 
+        await landingPage.openLanguageList();
+        await landingPage.pickLanguage(langText);
 
+        await landingPage.openGlobalFilterPopup();
+        await genericUtility.capture(testInfo);
+        const filterText = await landingPage.getDataFromGlobalFilterPopup();
+        await landingPage.dismissGlobalFilterPopup();
 
-
-    });
-
-
-
-	
+        checkDetectedLanguage(langText, detectLanguage(filterText), languageRows[i]["Expected Language"]);
+        checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
+    }
+});

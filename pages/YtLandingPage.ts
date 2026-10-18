@@ -1,10 +1,19 @@
 import test, { expect, Locator, Page, TestInfo } from "@playwright/test";
+import SafeActions from "../utils/SafeActions";
+import GenericUtility from "../utils/GenericUtility";
 
 class YtLandingPage {
 
     private page: Page;
 
     private testInfo: TestInfo;
+
+    private safeActions: SafeActions;
+
+    private genericUtility: GenericUtility;
+
+    // after a language is picked the page can take a while to load, wait up to 2 minutes (like Selenium, which waits for the whole page)
+    private static LANGUAGE_PAGE_LOAD_TIMEOUT = 120000;
 
     private sideMenu: Locator;
 
@@ -49,12 +58,15 @@ class YtLandingPage {
     constructor(page: Page, testInfo: TestInfo) {
         this.page = page;
         this.testInfo = testInfo;
+        this.safeActions = new SafeActions(page);
+        this.genericUtility = new GenericUtility(page);
 
         this.sideMenu = page.locator("//div[@class='style-scope ytd-mini-guide-renderer']");
         this.sideMenuExpandedList = page.locator("//ytd-guide-entry-renderer[@class='style-scope ytd-guide-section-renderer']").filter({ visible: true });
      //   this.settingEllipsesButton = page.locator("//ytd-topbar-menu-button-renderer[@class='style-scope ytd-masthead style-default']");
      
-        this.settingEllipsesButton = page.locator('ytd-topbar-menu-button-renderer a')
+        // the host element, same locator as the Java project (the inner <a> is not always in the page)
+        this.settingEllipsesButton = page.locator("//ytd-topbar-menu-button-renderer[@class='style-scope ytd-masthead style-default']").first();
 
         this.languageDropdownUnderSettings = page.locator("(//div[@id='content-icon'])[2]");
         this.languageList = page.locator("//yt-multi-page-menu-section-renderer[@class='style-scope ytd-multi-page-menu-renderer']//ytd-compact-link-renderer").filter({ visible: true });
@@ -346,5 +358,76 @@ class YtLandingPage {
 	}
 
 
+
+    // ------------------------------------------------------------------
+    // Steps that use the safe actions (used by YtMasterSafeActions.spec.ts)
+    // ------------------------------------------------------------------
+
+    /** Opens the settings menu, then its language list. */
+    public async openLanguageList() :Promise<void> {
+        await this.safeActions.safeClick(this.settingEllipsesButton);
+        await this.safeActions.safeClick(this.languageDropdownUnderSettings);
+    }
+
+    /** Opens the settings menu, then its location list. */
+    public async openLocationList() :Promise<void> {
+        await this.safeActions.safeClick(this.settingEllipsesButton);
+        await this.safeActions.safeClick(this.locationDropdownUnderSettings);
+    }
+
+    /** Opens the settings menu if it is closed, closes it if it is open. */
+    public async toggleSettingsMenu() :Promise<void> {
+        await this.safeActions.safeClick(this.settingEllipsesButton);
+    }
+
+    /** Clicks the menu button at the top left. */
+    public async clickLeftMenuButton() :Promise<void> {
+        await this.safeActions.safeClick(this.ellipsesYtLandingPageTopLeft);
+    }
+
+    /** Clicks the language in the open list and waits for the page to load in that language. */
+    public async pickLanguage(name:string) :Promise<void> {
+        await this.safeActions.safeDomClick(this.getLanguageElementByName(name));
+        await this.waitForPageToLoad(YtLandingPage.LANGUAGE_PAGE_LOAD_TIMEOUT);
+    }
+
+    /** Clicks the location at this position in the open list, waits for the page to load, and returns the name of the location. */
+    public async pickLocation(index:number) :Promise<string> {
+        const locations = await this.getLocationList();
+        const locationText = await locations[index].innerText();
+        await this.safeActions.safeClick(locations[index]);
+        await this.waitForPageToLoad();
+        return locationText;
+    }
+
+    /** Text of the expanded side menu, all the items joined with a space. */
+    public async readExpandedSideMenu() :Promise<string> {
+        const items = await this.safeActions.safeFindElements(this.sideMenuExpandedList);
+        return await this.genericUtility.joinTexts(items);
+    }
+
+    /** Text of the collapsed side menu, all the items joined with a space. */
+    public async readCollapsedSideMenu() :Promise<string> {
+        const items = await this.safeActions.safeFindElements(this.sideMenuCollapsedList);
+        return await this.genericUtility.joinTexts(items);
+    }
+
+    /** Opens the settings menu, reads the text of its options, closes it again. */
+    public async readSettingsMenuText() :Promise<string> {
+        await this.safeActions.safeClick(this.settingEllipsesButton);
+        const settingsText = await this.getsettingEllipsesOptionsListLandingPage();
+        await this.safeActions.safeClick(this.settingEllipsesButton);
+        return settingsText;
+    }
+
+    /** Opens the global filter popup on the search results page. */
+    public async openGlobalFilterPopup() :Promise<void> {
+        await this.safeActions.safeClick(this.globalFilterButton);
+    }
+
+    /** Closes the global filter popup. */
+    public async dismissGlobalFilterPopup() :Promise<void> {
+        await this.safeActions.safeClick(this.closeButtonGlobalFilterPopup);
+    }
 }
 export default YtLandingPage;

@@ -21,6 +21,15 @@ class GenericUtility{
     }
 
 
+	/** Joins the text of all the items into one string, separated by a space. */
+	public async joinTexts(items:Locator[]):Promise<string> {
+        const texts:string[]=[];
+        for(const item of items){
+            texts.push(await item.innerText());
+        }
+        return texts.join(" ");
+    }
+
 	public async getLangAttribute():Promise<string |null> {
         console.log("getLangAttribute() - locating <html> and reading lang property");
         try {
