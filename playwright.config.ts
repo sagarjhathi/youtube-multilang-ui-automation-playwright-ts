@@ -1,4 +1,4 @@
-import { defineConfig, devices, ReporterDescription } from '@playwright/test';
+import { defineConfig, devices, ReporterDescription, PlaywrightWorkerOptions } from '@playwright/test';
 
 // GitHub Actions sets CI=true. To try the CI settings on your machine: CI=true npx playwright test
 const isCI = !!process.env.CI;
@@ -17,6 +17,7 @@ type RunSettings = {
   globalTimeout: number;                       // limit for the whole run in ms, 0 = no limit
   trace: 'off' | 'on' | 'retain-on-failure';   // when to keep the Playwright trace
   reporter: ReporterDescription[];
+  video: PlaywrightWorkerOptions['video'];     // when to keep a video of the test, can also set the video size
 };
 
 const local: RunSettings = {
@@ -26,6 +27,7 @@ const local: RunSettings = {
   trace: 'retain-on-failure',
   // open: 'never' keeps the terminal free after a failure. Open the report yourself with: npm run report
   reporter: [['html', { open: 'never' }], ALLURE],
+  video: 'retain-on-failure',                  // 'on' would also keep a video of every passing test
 };
 
 const ci: RunSettings = {
@@ -37,6 +39,7 @@ const ci: RunSettings = {
   trace: 'retain-on-failure',                  // use 'off' to keep CI artifacts small
   // blob reports of all the shards are merged into one HTML report after the run
   reporter: [['blob'], ALLURE],
+  video: { mode: 'retain-on-failure', size: { width: 640, height: 360 } },   // small video to keep the published report light
 };
 
 const run = isCI ? ci : local;
@@ -100,7 +103,7 @@ export default defineConfig({
   use: {
     trace: run.trace,
     screenshot: 'off',
-    video: 'off',
+    video: run.video,
 
     headless: true,                            // set to false to watch the browser
     actionTimeout: 30 * 1000,                  // one click or one wait

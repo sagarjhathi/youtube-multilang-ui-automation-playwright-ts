@@ -139,9 +139,10 @@ The settings that differ between a local run and a CI run sit side by side in tw
 | `forbidOnly` (fail if `test.only` is left in) | off | on |
 | `globalTimeout` (limit for the whole run) | none | 80 minutes, so the 90-minute job still has time to upload the reports |
 | `trace` | kept on failure | kept on failure (set to `'off'` for smaller artifacts) |
+| `video` | kept on failure | kept on failure, at 640x360 to keep the published report light |
 | Reporters | HTML (never opens by itself) and Allure | blob (merged into one HTML report afterwards) and Allure |
 
-Shared by both: one project per chosen browser (see Browsers below) at 1920x1080, headless, 2 workers (`PW_WORKERS=3` changes it for one run), a 40-minute test timeout, a 30-second action timeout, `slowMo` of 500 ms, screenshots and video off.
+Shared by both: one project per chosen browser (see Browsers below) at 1920x1080, headless, 2 workers (`PW_WORKERS=3` changes it for one run), a 40-minute test timeout, a 30-second action timeout, `slowMo` of 500 ms, screenshots off.
 
 To try the CI settings on your machine: `CI=true npx playwright test` (PowerShell: `$env:CI = "true"; npx playwright test`). Open the local HTML report with `npm run report`.
 
