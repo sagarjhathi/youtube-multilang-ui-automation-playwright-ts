@@ -2,8 +2,7 @@ import { test, expect } from "@playwright/test";
 import GenericUtility from "../utils/GenericUtility";
 import YtLandingPage from "../pages/YtLandingPage";
 import { readJson } from "../utils/ReadJSON";
-import { checkDetectedLanguage, checkLanguageAttribute, removeOptionalEntries } from "../utils/LanguageChecks";
-import { detectLanguage } from "../eld-language-detection/languageDetector.mjs";
+import { checkDetectedLanguage, checkLanguageAttribute, normalizeForCompare, removeOptionalEntries } from "../utils/LanguageChecks";
 
 // If a test fails, run it once more in a fresh browser (like the TestNG retry in the Java project).
 test.describe.configure({ retries: 1 });
@@ -71,7 +70,7 @@ test("verifyingSideMenuLanguageAsInSettingsLingua", async ({ page }, testInfo) =
 
         const sideMenuText = await landingPage.readExpandedSideMenu();
 
-        checkDetectedLanguage(langText, detectLanguage(sideMenuText), languageRows[i]["Expected Language"]);
+        checkDetectedLanguage(langText, sideMenuText, languageRows[i]["Expected Language"]);
         checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
 
         await landingPage.openLanguageList();
@@ -100,8 +99,8 @@ test("verifyingSideMenuCollapsedLangAsInSettings", async ({ page }, testInfo) =>
         const actualText = await landingPage.readCollapsedSideMenu();
         const expectedText = collapsedMenuRows[i]["Expected Data"];
 
-        expect.soft(actualText.trim().toLowerCase(), "Mismatch in the Actual and Expected data for language=" + langText)
-            .toBe(expectedText.trim().toLowerCase());
+        expect.soft(normalizeForCompare(actualText), "Mismatch in the Actual and Expected data for language=" + langText)
+            .toBe(normalizeForCompare(expectedText));
 
         await landingPage.openLanguageList();
     }
@@ -126,7 +125,7 @@ test("verifyingSideMenuCollapsedLangAsInSettingsLingua", async ({ page }, testIn
 
         const sideMenuText = await landingPage.readCollapsedSideMenu();
 
-        checkDetectedLanguage(langText, detectLanguage(sideMenuText), languageRows[i]["Expected Language"]);
+        checkDetectedLanguage(langText, sideMenuText, languageRows[i]["Expected Language"]);
         checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
 
         await landingPage.openLanguageList();
@@ -153,7 +152,7 @@ test("verifyingSettingOptionsLang", async ({ page }, testInfo) => {
 
         const settingsText = await landingPage.readSettingsMenuText();
 
-        checkDetectedLanguage(langText, detectLanguage(settingsText), languageRows[i]["Expected Language"]);
+        checkDetectedLanguage(langText, settingsText, languageRows[i]["Expected Language"]);
         checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
 
         await landingPage.openLanguageList();
@@ -212,8 +211,8 @@ test("verifyingGlobalFilterLandingPage", async ({ page }, testInfo) => {
         const filterText = await landingPage.getDataFromGlobalFilterPopup();
         await landingPage.dismissGlobalFilterPopup();
 
-        expect.soft(filterText.trim().toLowerCase(), "Mismatch in the Actual and Expected data for language=" + langText)
-            .toBe(globalFilterRows[i]["Expected Data"].trim().toLowerCase());
+        expect.soft(normalizeForCompare(filterText), "Mismatch in the Actual and Expected data for language=" + langText)
+            .toBe(normalizeForCompare(globalFilterRows[i]["Expected Data"]));
     }
 });
 
@@ -240,7 +239,7 @@ test("verifyingGlobalFilterLandingPageLingua", async ({ page }, testInfo) => {
         const filterText = await landingPage.getDataFromGlobalFilterPopup();
         await landingPage.dismissGlobalFilterPopup();
 
-        checkDetectedLanguage(langText, detectLanguage(filterText), languageRows[i]["Expected Language"]);
+        checkDetectedLanguage(langText, filterText, languageRows[i]["Expected Language"]);
         checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
     }
 });
