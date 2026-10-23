@@ -1,5 +1,8 @@
 # YouTube Multi-Language UI Validator (Playwright)
 
+[![Playwright tests](https://github.com/sagarjhathi/youtube-multi-language-ui-validator-automation-play/actions/workflows/playwright.yml/badge.svg)](https://github.com/sagarjhathi/youtube-multi-language-ui-validator-automation-play/actions/workflows/playwright.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 End-to-end tests that switch the YouTube interface language (and region) again and again, and check that the UI shows the right text for each one. Written with Playwright and TypeScript. It is the Playwright version of a Java and Selenium project that does the same checks.
 
 The tests run against the **live** youtube.com, signed out, in a real browser. Nothing is mocked.
