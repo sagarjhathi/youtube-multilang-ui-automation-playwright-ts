@@ -38,6 +38,48 @@ export function removeOptionalEntries(text: string) {
     return normalizeText(text).replace(/\s*YouTube\s+(Music|TV)\b/g, "").replace(/\s+/g, " ").trim();
 }
 
+/**
+ * Removes the Hype/Live entry from both the side menu text and the expected text, so the rest can be compared as is.
+ * YouTube shows either word in that slot, it changes between runs and differs per language, so it can't be removed
+ * by keyword. It is also not found by position or by a neighbour, which can move. Instead the side menu items are
+ * matched against the expected text from the start and from the end, item by item. If exactly one item is left in
+ * the middle, that is the Hype/Live slot and it is ignored (and logged). Anything else is left alone, so the
+ * comparison fails and shows the full texts.
+ */
+export function removeHypeOrLive(sideMenuItems: string[], expectedText: string) {
+    const expected = removeOptionalEntries(expectedText);
+    const items = sideMenuItems.map(item => removeOptionalEntries(item)).filter(item => item !== "");
+    const actual = items.join(" ");
+    if (actual === expected) {
+        return { expected, actual };
+    }
+
+    let left = expected;
+    let start = 0;
+    while (start < items.length && (left === items[start] || left.startsWith(items[start] + " "))) {
+        left = left.slice(items[start].length).trim();
+        start++;
+    }
+    let end = items.length;
+    while (end > start && (left === items[end - 1] || left.endsWith(" " + items[end - 1]))) {
+        left = left.slice(0, left.length - items[end - 1].length).trim();
+        end--;
+    }
+
+    if (end - start !== 1 || left === "") {
+        return { expected, actual };
+    }
+    console.log("Ignored the Hype/Live entry | page: \"" + items[start] + "\" | expected: \"" + left + "\"");
+    const withoutEntry = [...items.slice(0, start), ...items.slice(end)].join(" ");
+    return { expected: withoutEntry, actual: withoutEntry };
+}
+
+/** The attribute file is read by row number, so its row must be for the same language as the language file. */
+export function checkAttributeRowIsForLanguage(langText: string, attributeRowLanguage: string, row: number) {
+    expect.soft(attributeRowLanguage, "Sheet rows out of sync | attribute row " + row + " is not \"" + langText + "\"")
+        .toBe(langText);
+}
+
 /** Removes the words YouTube leaves untranslated, so they do not confuse the language detector. English pages keep them. */
 export function removeEnglishWordsForNonEnglish(text: string, langText: string) {
     if (langText.trim().toLowerCase().startsWith("english")) {

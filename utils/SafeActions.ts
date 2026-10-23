@@ -28,10 +28,9 @@ class SafeActions {
 
     /** Error with what failed, the locator, the last reason and the page url. */
     private failure(action: string, locator: Locator, reason: string): Error {
-        return new Error(action + " failed after " + this.attempts + " attempts."
-            + "\n  Element: " + locator
-            + "\n  Reason: " + reason
-            + "\n  Page: " + this.page.url());
+        // one line, so the first line of the message (which LoopGuard reports) has everything
+        return new Error(action + " failed after " + this.attempts + " attempts | element=" + locator
+            + " | reason=" + reason + " | page=" + this.page.url());
     }
 
     /** Refreshes the page after the 2nd failed attempt, and later ones, as long as there is another attempt left. */
