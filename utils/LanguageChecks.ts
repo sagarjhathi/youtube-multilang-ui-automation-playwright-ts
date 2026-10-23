@@ -52,8 +52,8 @@ export function removeEnglishWordsForNonEnglish(text: string, langText: string) 
 }
 
 
-/** Finds the language of the text from the page and checks it, unless eld cannot detect that language. */
-export function checkDetectedLanguage(langText: string, textFromPage: string, expectedLanguage: string) {
+/** Finds the language of the text from the page ("source" names the part of the page, used in the error message) and checks it, unless eld cannot detect that language. */
+export function checkDetectedLanguage(langText: string, textFromPage: string, expectedLanguage: string, source: string) {
     const detectedLanguage = detectLanguage(removeEnglishWordsForNonEnglish(textFromPage, langText));
     console.log(langText + "  detected language: " + detectedLanguage + "  expected language: " + expectedLanguage);
 
@@ -61,7 +61,7 @@ export function checkDetectedLanguage(langText: string, textFromPage: string, ex
         console.log("Skipping the detected language check for " + langText + " (eld cannot detect it)");
         return;
     }
-    expect.soft(detectedLanguage.toLowerCase(), "Detected language mismatch for language=" + langText)
+    expect.soft(detectedLanguage.toLowerCase(), 'Language of the ' + source + ' text is wrong after switching to "' + langText + '"')
         .toBe(expectedLanguage.toLowerCase());
 }
 
@@ -69,6 +69,6 @@ export function checkDetectedLanguage(langText: string, textFromPage: string, ex
 export function checkLanguageAttribute(langText: string, detectedAttribute: string | null, expectedAttribute: string) {
     console.log(langText + "  detected lang attribute: " + detectedAttribute + "  expected lang attribute: " + expectedAttribute);
 
-    expect.soft((detectedAttribute || "").toLowerCase(), "Language attribute mismatch for language=" + langText)
+    expect.soft((detectedAttribute || "").toLowerCase(), '<html lang> attribute is wrong after switching to "' + langText + '"')
         .toBe(expectedAttribute.toLowerCase());
 }

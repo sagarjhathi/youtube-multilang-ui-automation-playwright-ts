@@ -44,7 +44,7 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
         const expectedText = sideMenuRows[i]["Expected Data"];
 
         // soft assertion: a mismatch is reported at the end, the loop keeps going
-        expect.soft(removeOptionalEntries(actualText), "Mismatch in the Actual and Expected data for language=" + langText)
+        expect.soft(removeOptionalEntries(actualText), 'Side menu text is wrong after switching to "' + langText + '"')
             .toBe(removeOptionalEntries(expectedText));
 
         await landingPage.openLanguageList();
@@ -70,7 +70,7 @@ test("verifyingSideMenuLanguageAsInSettingsLingua", async ({ page }, testInfo) =
 
         const sideMenuText = await landingPage.readExpandedSideMenu();
 
-        checkDetectedLanguage(langText, sideMenuText, languageRows[i]["Expected Language"]);
+        checkDetectedLanguage(langText, sideMenuText, languageRows[i]["Expected Language"], "side menu");
         checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
 
         await landingPage.openLanguageList();
@@ -99,7 +99,7 @@ test("verifyingSideMenuCollapsedLangAsInSettings", async ({ page }, testInfo) =>
         const actualText = await landingPage.readCollapsedSideMenu();
         const expectedText = collapsedMenuRows[i]["Expected Data"];
 
-        expect.soft(normalizeForCompare(actualText), "Mismatch in the Actual and Expected data for language=" + langText)
+        expect.soft(normalizeForCompare(actualText), 'Collapsed side menu text is wrong after switching to "' + langText + '"')
             .toBe(normalizeForCompare(expectedText));
 
         await landingPage.openLanguageList();
@@ -125,7 +125,7 @@ test("verifyingSideMenuCollapsedLangAsInSettingsLingua", async ({ page }, testIn
 
         const sideMenuText = await landingPage.readCollapsedSideMenu();
 
-        checkDetectedLanguage(langText, sideMenuText, languageRows[i]["Expected Language"]);
+        checkDetectedLanguage(langText, sideMenuText, languageRows[i]["Expected Language"], "collapsed side menu");
         checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
 
         await landingPage.openLanguageList();
@@ -152,7 +152,7 @@ test("verifyingSettingOptionsLang", async ({ page }, testInfo) => {
 
         const settingsText = await landingPage.readSettingsMenuText();
 
-        checkDetectedLanguage(langText, settingsText, languageRows[i]["Expected Language"]);
+        checkDetectedLanguage(langText, settingsText, languageRows[i]["Expected Language"], "settings menu");
         checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
 
         await landingPage.openLanguageList();
@@ -179,7 +179,7 @@ test("verifyCountryCodeAsBasedOnRegion", async ({ page }, testInfo) => {
         const expectedCode = countryRows[i]["Country Code"];
         console.log(locationText + "  row " + i + "  detected code: " + detectedCode + "  expected code: " + expectedCode);
 
-        expect.soft(detectedCode.trim().toLowerCase(), "Mismatch in the Actual and Expected data for location=" + locationText)
+        expect.soft(detectedCode.trim().toLowerCase(), 'Country code is wrong after choosing location "' + locationText + '"')
             .toBe(expectedCode.trim().toLowerCase());
 
         await landingPage.openLocationList();
@@ -211,7 +211,7 @@ test("verifyingGlobalFilterLandingPage", async ({ page }, testInfo) => {
         const filterText = await landingPage.getDataFromGlobalFilterPopup();
         await landingPage.dismissGlobalFilterPopup();
 
-        expect.soft(normalizeForCompare(filterText), "Mismatch in the Actual and Expected data for language=" + langText)
+        expect.soft(normalizeForCompare(filterText), 'Search filter text is wrong after switching to "' + langText + '"')
             .toBe(normalizeForCompare(globalFilterRows[i]["Expected Data"]));
     }
 });
@@ -239,7 +239,7 @@ test("verifyingGlobalFilterLandingPageLingua", async ({ page }, testInfo) => {
         const filterText = await landingPage.getDataFromGlobalFilterPopup();
         await landingPage.dismissGlobalFilterPopup();
 
-        checkDetectedLanguage(langText, filterText, languageRows[i]["Expected Language"]);
+        checkDetectedLanguage(langText, filterText, languageRows[i]["Expected Language"], "search filter");
         checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
     }
 });

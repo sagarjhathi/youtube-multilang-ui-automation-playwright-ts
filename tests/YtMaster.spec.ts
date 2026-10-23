@@ -58,7 +58,7 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
         console.log("[" + testName + "] Side menu text read from the page: " + sideMenuItems);
 
         // soft assertion: a mismatch is reported at the end of the test and the loop keeps going
-        expect.soft(withoutYoutubeMusic(sideMenuItems), "Mismatch in the Actual and Expected data for language=" + langText)
+        expect.soft(withoutYoutubeMusic(sideMenuItems), 'Side menu text is wrong after switching to "' + langText + '"')
             .toBe(withoutYoutubeMusic(rows[languageIndex]["Expected Data"]));
 
         await landingPage.clickingSettingEllipsesButton();
@@ -160,13 +160,13 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
             } else {
                 await expect.soft(
                     detectedLanguage.toLowerCase(),
-                    `Detected language mismatch for language=${langText}`
+                    `Language of the side menu text is wrong after switching to "${langText}"`
                 ).toBe(expectedLanguage.toLowerCase());
             }
 
 await expect.soft(
   detectedLanguageAttribute?.toLowerCase(),
-  `Language attribute mismatch for language=${langText}`
+  `<html lang> attribute is wrong after switching to "${langText}"`
 ).toBe(expectedLanguageAttribute.toLowerCase());
 
 			await landingPage.clickingSettingEllipsesButton();
@@ -265,7 +265,7 @@ await expect.soft(
 			//softAssert.assertEquals(actualData.trim(),expectedData.trim(),"Mismatch in the Actual and Expected data for language="+langText);
 
              // soft assertion: a mismatch is reported at the end of the test and the loop keeps going
-        expect.soft(sideMenuItems.trim().toLowerCase(), "Mismatch in the Actual and Expected data for language=" + langText)
+        expect.soft(sideMenuItems.trim().toLowerCase(), 'Collapsed side menu text is wrong after switching to "' + langText + '"')
             .toBe(verifyingSideMenuCollapsedLangAsInSettingsDataReader[languageIndex]["Expected Data"].trim().toLowerCase());
 
 
@@ -395,13 +395,13 @@ await expect.soft(
             } else {
                 await expect.soft(
                     detectedLanguage.toLowerCase(),
-                    `Detected language mismatch for language=${langText}`
+                    `Language of the collapsed side menu text is wrong after switching to "${langText}"`
                 ).toBe(expectedLanguage.toLowerCase());
             }
 
 await expect.soft(
   detectedLanguageAttribute?.toLowerCase(),
-  `Language attribute mismatch for language=${langText}`
+  `<html lang> attribute is wrong after switching to "${langText}"`
 ).toBe(expectedLanguageAttribute.toLowerCase());
 
 
@@ -499,13 +499,13 @@ await expect.soft(
             } else {
                 await expect.soft(
                     detectedLanguage.toLowerCase(),
-                    `Detected language mismatch for language=${langText}`
+                    `Language of the settings menu text is wrong after switching to "${langText}"`
                 ).toBe(expectedLanguage.toLowerCase());
             }
 
 await expect.soft(
   detectedLanguageAttribute?.toLowerCase(),
-  `Language attribute mismatch for language=${langText}`
+  `<html lang> attribute is wrong after switching to "${langText}"`
 ).toBe(expectedLanguageAttribute.toLowerCase());
 
 
@@ -600,7 +600,7 @@ await expect.soft(
 			//softAssert.assertEquals(detectedCountryCode, expectedCountryCode,"Country code mismacth for location="+locationText);
 
 
-             expect.soft(detectedCountryCode.trim().toLowerCase(), "Mismatch in the Actual and Expected data for location=" + locationText)
+             expect.soft(detectedCountryCode.trim().toLowerCase(), 'Country code is wrong after choosing location "' + locationText + '"')
             .toBe(expectedCountryCode.trim().toLowerCase());
 
 
@@ -683,7 +683,7 @@ let verifyingGlobalFilterLandingPageDataReader=readJson("verifyingGlobalFilterLa
 
 
     // soft assertion: a mismatch is reported at the end of the test and the loop keeps going
-        expect.soft(actualValue.trim().toLowerCase(), "Mismatch in the Actual and Expected data for language=" + langText)
+        expect.soft(actualValue.trim().toLowerCase(), 'Search filter text is wrong after switching to "' + langText + '"')
             .toBe(expectedData.trim().toLowerCase());
 
 
@@ -787,13 +787,13 @@ let verifyingGlobalFilterLandingPageDataReader=readJson("verifyingGlobalFilterLa
             } else {
                 await expect.soft(
                     detectedLanguage.toLowerCase(),
-                    `Detected language mismatch for language=${langText}`
+                    `Language of the search filter text is wrong after switching to "${langText}"`
                 ).toBe(expectedLanguage.toLowerCase());
             }
 
 await expect.soft(
   detectedLanguageAttribute?.toLowerCase(),
-  `Language attribute mismatch for language=${langText}`
+  `<html lang> attribute is wrong after switching to "${langText}"`
 ).toBe(expectedLanguageAttribute.toLowerCase());
 
 
