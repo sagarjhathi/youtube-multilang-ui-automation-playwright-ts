@@ -39,7 +39,7 @@ const ci: RunSettings = {
   trace: 'retain-on-failure',                  // use 'off' to keep CI artifacts small
   // blob reports of all the shards are merged into one HTML report after the run
   reporter: [['blob'], ALLURE],
-  video: { mode: 'retain-on-failure', size: { width: 640, height: 360 } },   // small video to keep the published report light
+  video: { mode: 'on-first-retry', size: { width: 640, height: 360 } },   // small video to keep the published report light
 };
 
 const run = isCI ? ci : local;
