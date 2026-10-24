@@ -143,8 +143,8 @@ The settings that differ between a local run and a CI run sit side by side in tw
 | `retries` | 0 | 1 (`YtMasterSafeActions.spec.ts` sets `retries: 1` itself, so it retries once locally too) |
 | `forbidOnly` (fail if `test.only` is left in) | off | on |
 | `globalTimeout` (limit for the whole run) | none | 80 minutes, so the 90-minute job still has time to upload the reports |
-| `trace` | kept on failure | kept on failure (set to `'off'` for smaller artifacts) |
-| `video` | kept on failure | recorded only on a test's first retry, at 640x360 to keep the published report light |
+| `trace` | kept on failure | kept only for the first run of a test, and only if it failed (the retry is not traced; set to `'off'` for smaller artifacts) |
+| `video` | kept on failure | off |
 | Reporters | HTML (never opens by itself) and Allure | blob (merged into one HTML report afterwards) and Allure |
 
 Shared by both: one project per chosen browser (see Browsers below) at 1920x1080, headless, 2 workers (`PW_WORKERS=3` changes it for one run), a 40-minute test timeout, a 30-second action timeout, `slowMo` of 500 ms, screenshots off.
@@ -202,7 +202,7 @@ Every test is a long loop over about 50 languages or locations, and each step re
 - **Quick stop when the environment is broken:** if the network or browser is down, the loop does not spend the test timeout trying every remaining language.
 - **Cheaper than a whole-test retry:** repeating one item takes seconds, repeating the loop takes about half an hour.
 
-The test-level `retries: 1` is still on, and it works together with LoopGuard. LoopGuard covers a failing item inside a loop. The test retry covers a failure outside it (opening the page, the first language list). It is also what makes the CI video appear: a video is recorded only when a test is retried, so first attempts leave no video and a test that needed a retry keeps the video of that retry.
+The test-level `retries: 1` is still on, and it works together with LoopGuard. LoopGuard covers a failing item inside a loop. The test retry covers a failure outside it (opening the page, the first language list). On CI the trace is kept for the first failed run of a test and not for its retry, and no video is recorded, so the artifacts stay small.
 
 ### Language detection
 

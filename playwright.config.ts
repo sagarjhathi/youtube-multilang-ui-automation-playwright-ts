@@ -15,7 +15,7 @@ type RunSettings = {
   forbidOnly: boolean;                         // fail the run if a test.only was left in the code
   retries: number;                             // how many times a failed test is run again
   globalTimeout: number;                       // limit for the whole run in ms, 0 = no limit
-  trace: 'off' | 'on' | 'retain-on-failure';   // when to keep the Playwright trace
+  trace: 'off' | 'on' | 'retain-on-failure' | 'retain-on-first-failure';   // when to keep the Playwright trace
   reporter: ReporterDescription[];
   video: PlaywrightWorkerOptions['video'];     // when to keep a video of the test, can also set the video size
 };
@@ -36,10 +36,10 @@ const ci: RunSettings = {
   // The CI job is stopped after 90 minutes and a stopped job builds no report.
   // Ending the run at 80 minutes ourselves leaves time to upload the results.
   globalTimeout: 80 * 60 * 1000,
-  trace: 'retain-on-failure',                  // use 'off' to keep CI artifacts small
+  trace: 'retain-on-first-failure',            // trace of the first run only, if it failed; the retry is not traced. Use 'off' to keep CI artifacts small
   // blob reports of all the shards are merged into one HTML report after the run
   reporter: [['blob'], ALLURE],
-  video: { mode: 'on-first-retry', size: { width: 640, height: 360 } },   // small video to keep the published report light
+  video: 'off',                                // no video on CI, keeps the artifacts and the published report small
 };
 
 const run = isCI ? ci : local;
