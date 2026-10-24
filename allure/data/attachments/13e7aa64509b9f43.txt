@@ -1,0 +1,922 @@
+Opened YouTube landing page.
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+[verifyingSettingOptionsLang] Execution is Not CRON Job Hence referring to normal keys from runconfig.json
+[verifyingSettingOptionsLang] Run for all is on, row count is == 53
+Azərbaycan  row 1
+Looking for language element with name: Azərbaycan
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Azərbaycan\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Azerbaijani
+Input Text        : Datanız Görünüş: Cihaz teması Displey dili: azərbaycan Limitli Rejim: Deaktiv Məkan: Amerika Birləşmiş Ştatları Klaviatura qısayolları Ayarlar Yardım Rəy göndərin
+========================================
+Azərbaycan  detected language: Azerbaijani  expected language: AZERBAIJANI
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: az-Latn-AZ
+Azərbaycan  detected lang attribute: az-Latn-AZ  expected lang attribute: az-Latn-AZ
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Bahasa Indonesia  row 2
+Looking for language element with name: Bahasa Indonesia
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Bahasa Indonesia\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Malay
+Input Text        : Data Anda di Tampilan: Tema perangkat Bahasa tampilan: Indonesia Mode Terbatas: Nonaktif Lokasi: Amerika Serikat Pintasan keyboard Setelan Bantuan Kirim masukan
+========================================
+Bahasa Indonesia  detected language: Malay  expected language: INDONESIAN
+Skipping the detected language check for Bahasa Indonesia (eld cannot detect it)
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: id-ID
+Bahasa Indonesia  detected lang attribute: id-ID  expected lang attribute: id-ID
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Bosanski  row 3
+Looking for language element with name: Bosanski
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Bosanski\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Croatian
+Input Text        : Vaši podaci na YouTubeu Izgled: tema uređaja Jezik prikaza: bosanski Ograničeni način rada: isključeno Lokacija: Sjedinjene Američke Države Prečice na tastaturi Postavke Pomoć Pošaljite povratne informacije
+========================================
+Bosanski  detected language: Croatian  expected language: CROATIAN
+Skipping the detected language check for Bosanski (eld cannot detect it)
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: bs-Latn-BA
+Bosanski  detected lang attribute: bs-Latn-BA  expected lang attribute: bs-Latn-BA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Català  row 4
+Looking for language element with name: Català
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Català\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Catalan
+Input Text        : Les teves dades a Aparença: tema del dispositiu Idioma visible: català Mode restringit: desactivat Ubicació: Estats Units Tecles de drecera Configuració Ajuda Envia suggeriments
+========================================
+Català  detected language: Catalan  expected language: CATALAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: ca-ES
+Català  detected lang attribute: ca-ES  expected lang attribute: ca-ES
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Dansk  row 5
+Looking for language element with name: Dansk
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Dansk\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Danish
+Input Text        : Dine data på Udseende: Enhedens tema Visningssprog: dansk Begrænset tilstand: Fra Lokation: USA Tastaturgenveje Indstillinger Hjælp Send feedback
+========================================
+Dansk  detected language: Danish  expected language: DANISH
+Skipping the detected language check for Dansk (eld cannot detect it)
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: da-DK
+Dansk  detected lang attribute: da-DK  expected lang attribute: da-DK
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Deutsch  row 6
+Looking for language element with name: Deutsch
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Deutsch\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : German
+Input Text        : Meine Daten auf Darstellung: Gerätedesign Anzeigesprache: Deutsch Eingeschränkter Modus: Deaktiviert Ort: USA Tastenkombinationen Einstellungen Hilfe Feedback senden
+========================================
+Deutsch  detected language: German  expected language: GERMAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: de-DE
+Deutsch  detected lang attribute: de-DE  expected lang attribute: de-DE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Eesti  row 7
+Looking for language element with name: Eesti
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Eesti\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Estonian
+Input Text        : Teie andmed 'is Välimus: seadme teema Kuvamiskeel: eesti Piiratud režiim: väljas Asukoht: Ameerika Ühendriigid Klaviatuuri otseteed Seaded Abi Tagasiside saatmine
+========================================
+Eesti  detected language: Estonian  expected language: ESTONIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: et-EE
+Eesti  detected lang attribute: et-EE  expected lang attribute: et-EE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+English (India)  row 8
+Looking for language element with name: English (India)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'English (India)\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : English
+Input Text        : Your data in YouTube
+Appearance: Device theme
+Display language:
+English (India)
+Restricted Mode: Off
+Location:
+United States
+Keyboard shortcuts
+Settings
+Help
+Send feedback
+========================================
+English (India)  detected language: English  expected language: ENGLISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: en-IN
+English (India)  detected lang attribute: en-IN  expected lang attribute: en-IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+English (UK)  row 9
+Looking for language element with name: English (UK)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'English (UK)\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : English
+Input Text        : Your data in YouTube
+Appearance: Device theme
+Display language:
+British English
+Restricted Mode: Off
+Location:
+United States
+Keyboard shortcuts
+Settings
+Help
+Send feedback
+========================================
+English (UK)  detected language: English  expected language: ENGLISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: en-GB
+English (UK)  detected lang attribute: en-GB  expected lang attribute: en-GB
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+English (US)  row 10
+Looking for language element with name: English (US)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'English (US)\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : English
+Input Text        : Your data in YouTube
+Appearance: Device theme
+Display language:
+English
+Restricted Mode: Off
+Location:
+United States
+Keyboard shortcuts
+Settings
+Help
+Send feedback
+========================================
+English (US)  detected language: English  expected language: ENGLISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: en
+English (US)  detected lang attribute: en  expected lang attribute: en
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Español (España)  row 11
+Looking for language element with name: Español (España)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Español (España)\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Spanish
+Input Text        : Tus datos en Aspecto: tema del dispositivo Idioma de visualización: Español Modo Restringido: desactivado Ubicación: Estados Unidos Combinaciones de teclas Configuración Ayuda Enviar sugerencias
+========================================
+Español (España)  detected language: Spanish  expected language: SPANISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: es-ES
+Español (España)  detected lang attribute: es-ES  expected lang attribute: es-ES
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Español (Latinoamérica)  row 12
+Looking for language element with name: Español (Latinoamérica)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Español (Latinoamérica)\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Spanish
+Input Text        : Tus datos en Aspecto: Tema del dispositivo Idioma de visualización: Español latinoamericano Modo restringido: desactivado Ubicación: Estados Unidos Combinaciones de teclas Configuración Ayuda Enviar comentarios
+========================================
+Español (Latinoamérica)  detected language: Spanish  expected language: SPANISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: es-419
+Español (Latinoamérica)  detected lang attribute: es-419  expected lang attribute: es-419
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Español (US)  row 13
+Looking for language element with name: Español (US)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Español (US)\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Spanish
+Input Text        : Tus datos en Aspecto: Tema del dispositivo Idioma de visualización: Español (Estados Unidos) Modo restringido: desactivado Ubicación: Estados Unidos Combinaciones de teclas Configuración Ayuda Enviar comentarios
+========================================
+Español (US)  detected language: Spanish  expected language: SPANISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: es-US
+Español (US)  detected lang attribute: es-US  expected lang attribute: es-US
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Euskara  row 14
+Looking for language element with name: Euskara
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Euskara\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Basque
+Input Text        : -n dituzun datuak Itxura: gailuaren gaia Bistaratzeko hizkuntza: euskara Modu murriztua: desaktibatuta Kokapena: Ameriketako Estatu Batuak Lasterbideak Ezarpenak Laguntza Bidali oharrak
+========================================
+Euskara  detected language: Basque  expected language: BASQUE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: eu-ES
+Euskara  detected lang attribute: eu-ES  expected lang attribute: eu-ES
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Français  row 15
+Looking for language element with name: Français
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Français\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : French
+Input Text        : Vos données dans Apparence : thème de l'appareil Langue d'affichage : français Mode restreint : désactivé Pays : États-Unis Raccourcis clavier Paramètres Aide Envoyer des commentaires
+========================================
+Français  detected language: French  expected language: FRENCH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: fr-FR
+Français  detected lang attribute: fr-FR  expected lang attribute: fr-FR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Français (Canada)  row 16
+Looking for language element with name: Français (Canada)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Français (Canada)\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : French
+Input Text        : Vos données dans Apparence : thème de l'appareil Langue d'affichage : français canadien Mode restreint : désactivé Lieu : États-Unis Raccourcis clavier Paramètres Aide Envoyer des commentaires
+========================================
+Français (Canada)  detected language: French  expected language: FRENCH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: fr-CA
+Français (Canada)  detected lang attribute: fr-CA  expected lang attribute: fr-CA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Hrvatski  row 17
+Looking for language element with name: Hrvatski
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Hrvatski\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Croatian
+Input Text        : Vaši podaci na YouTubeu Izgled: tema uređaja Jezik za prikaz: Hrvatski Ograničeni način rada: isključen Lokacija: Sjedinjene Američke Države Tipkovni prečaci Postavke Pomoć Slanje povratnih informacija
+========================================
+Hrvatski  detected language: Croatian  expected language: CROATIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: hr-HR
+Hrvatski  detected lang attribute: hr-HR  expected lang attribute: hr-HR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Íslenska  row 18
+Looking for language element with name: Íslenska
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Íslenska\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Icelandic
+Input Text        : Gögn þín á Útlit: þema tækis Birtingartungumál: íslenska Takmörkuð stilling: slökkt Staðsetning: Bandaríkin Flýtilyklar Stillingar Hjálp Senda inn ábendingu
+========================================
+Íslenska  detected language: Icelandic  expected language: ICELANDIC
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: is-IS
+Íslenska  detected lang attribute: is-IS  expected lang attribute: is-IS
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Italiano  row 19
+Looking for language element with name: Italiano
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Italiano\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Italian
+Input Text        : I tuoi dati su Aspetto: tema del dispositivo Lingua di visualizzazione: Italiano Modalità con restrizioni: non attiva Località: Stati Uniti Scorciatoie da tastiera Impostazioni Guida Invia feedback
+========================================
+Italiano  detected language: Italian  expected language: ITALIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: it-IT
+Italiano  detected lang attribute: it-IT  expected lang attribute: it-IT
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Latviešu valoda  row 20
+Looking for language element with name: Latviešu valoda
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Latviešu valoda\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Latvian
+Input Text        : Jūsu dati pakalpojumā Izskats: ierīces motīvs Interfeisa valoda: latviešu Ierobežotais režīms: izslēgts Atrašanās vieta: Amerikas Savienotās Valstis Īsinājumtaustiņi Iestatījumi Palīdzība Sūtīt atsauksmes
+========================================
+Latviešu valoda  detected language: Latvian  expected language: LATVIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: lv-LV
+Latviešu valoda  detected lang attribute: lv-LV  expected lang attribute: lv-LV
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Lietuvių  row 21
+Looking for language element with name: Lietuvių
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Lietuvių\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Lithuanian
+Input Text        : Jūsų duomenys sistemoje „ “ Išvaizda: įrenginio tema Rodymo kalba: lietuvių Ribotas režimas: išjungtas Vietovė: Jungtinės Amerikos Valstijos Spartieji klavišai Nustatymai Pagalba Siųsti atsiliepimą
+========================================
+Lietuvių  detected language: Lithuanian  expected language: LITHUANIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: lt-LT
+Lietuvių  detected lang attribute: lt-LT  expected lang attribute: lt-LT
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Magyar  row 22
+Looking for language element with name: Magyar
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Magyar\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Hungarian
+Input Text        : Adataid a szolgáltatásban Megjelenés: eszköz témája Megjelenítési nyelv: magyar Korlátozott mód: kikapcsolva Hely: Egyesült Államok Billentyűparancsok Beállítások Súgó Visszajelzés küldése
+========================================
+Magyar  detected language: Hungarian  expected language: HUNGARIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: hu-HU
+Magyar  detected lang attribute: hu-HU  expected lang attribute: hu-HU
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Nederlands  row 23
+Looking for language element with name: Nederlands
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Nederlands\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Dutch
+Input Text        : Je gegevens in Weergave: Apparaatthema Taalinstelling: Nederlands Beperkte modus: uit Locatie: Verenigde Staten Sneltoetsen Instellingen Hulp Feedback sturen
+========================================
+Nederlands  detected language: Dutch  expected language: DUTCH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: nl-NL
+Nederlands  detected lang attribute: nl-NL  expected lang attribute: nl-NL
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Polski  row 24
+Looking for language element with name: Polski
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Polski\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Polish
+Input Text        : Twoje dane na Wygląd: tryb urządzenia Język wyświetlania: polski Tryb ograniczonego dostępu: wyłączony Lokalizacja: Stany Zjednoczone Skróty klawiszowe Ustawienia Pomoc Prześlij opinię
+========================================
+Polski  detected language: Polish  expected language: POLISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: pl-PL
+Polski  detected lang attribute: pl-PL  expected lang attribute: pl-PL
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Português  row 25
+Looking for language element with name: Português
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Português\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Portuguese
+Input Text        : Os seus dados no Aspeto: tema do dispositivo Idioma de apresentação: Português europeu Modo restrito: desativado Localização: Estados Unidos Atalhos de teclado Definições Ajuda Enviar feedback
+========================================
+Português  detected language: Portuguese  expected language: PORTUGUESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: pt-PT
+Português  detected lang attribute: pt-PT  expected lang attribute: pt-PT
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Português (Brasil)  row 26
+Looking for language element with name: Português (Brasil)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Português (Brasil)\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Portuguese
+Input Text        : Seus dados no Aparência: tema do dispositivo Idioma de exibição: Português Modo restrito: desativado Local: Estados Unidos Atalhos do teclado Configurações Ajuda Enviar feedback
+========================================
+Português (Brasil)  detected language: Portuguese  expected language: PORTUGUESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: pt-BR
+Português (Brasil)  detected lang attribute: pt-BR  expected lang attribute: pt-BR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Shqip  row 27
+Looking for language element with name: Shqip
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Shqip\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Albanian
+Input Text        : Të dhënat e tua në Paraqitja: Tema e pajisjes Gjuha e shfaqjes: shqip Modaliteti i kufizuar: Joaktiv Vendndodhja: Shtetet e Bashkuara Shkurtoret e tastierës Cilësimet Ndihmë Dërgo koment
+========================================
+Shqip  detected language: Albanian  expected language: ALBANIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: sq-AL
+Shqip  detected lang attribute: sq-AL  expected lang attribute: sq-AL
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Slovenščina  row 28
+Looking for language element with name: Slovenščina
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Slovenščina\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Slovenian
+Input Text        : Vaši podatki v YouTubu Videz: Tema naprave Jezik prikaza: slovenščina Omejeni način: izklopljen Kraj: Združene države Bližnjične tipke Nastavitve Pomoč Pošlji povratne informacije
+========================================
+Slovenščina  detected language: Slovenian  expected language: SLOVENIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: sl-SI
+Slovenščina  detected lang attribute: sl-SI  expected lang attribute: sl-SI
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Suomi  row 29
+Looking for language element with name: Suomi
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Suomi\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Finnish
+Input Text        : Datasi YouTubessa Ulkoasu: Laitteen teema Käyttöliittymän kieli: suomi Rajoitettu tila pois käytöstä Sijainti: Yhdysvallat Pikanäppäimet Asetukset Ohje Lähetä palautetta
+========================================
+Suomi  detected language: Finnish  expected language: FINNISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: fi-FI
+Suomi  detected lang attribute: fi-FI  expected lang attribute: fi-FI
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Svenska  row 30
+Looking for language element with name: Svenska
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Svenska\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Swedish
+Input Text        : Din data från Utseende: Enhetens tema Visningsspråk: Svenska Begränsat läge: Av Plats: USA Kortkommandon Inställningar Hjälp Skicka feedback
+========================================
+Svenska  detected language: Swedish  expected language: SWEDISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: sv-SE
+Svenska  detected lang attribute: sv-SE  expected lang attribute: sv-SE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Tiếng Việt  row 31
+Looking for language element with name: Tiếng Việt
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Tiếng Việt\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Vietnamese
+Input Text        : Dữ liệu của bạn trong Giao diện: Giao diện thiết bị Ngôn ngữ hiển thị: Tiếng Việt Chế độ hạn chế: Đã tắt Địa điểm: Hoa Kỳ Phím tắt Cài đặt Trợ giúp Gửi ý kiến phản hồi
+========================================
+Tiếng Việt  detected language: Vietnamese  expected language: VIETNAMESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: vi-VN
+Tiếng Việt  detected lang attribute: vi-VN  expected lang attribute: vi-VN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Türkçe  row 32
+Looking for language element with name: Türkçe
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Türkçe\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Turkish
+Input Text        : 'daki verileriniz Görünüm: Cihaz teması Görüntülenecek dil: Türkçe Kısıtlı Mod: Kapalı Konum: Amerika Birleşik Devletleri Klavye kısayolları Ayarlar Yardım Geri bildirim gönder
+========================================
+Türkçe  detected language: Turkish  expected language: TURKISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: tr-TR
+Türkçe  detected lang attribute: tr-TR  expected lang attribute: tr-TR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Беларуская  row 33
+Looking for language element with name: Беларуская
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Беларуская\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Belarusian
+Input Text        : Вашы даныя ў сэрвісе Выгляд: тэма прылады Мова інтэрфейсу: беларуская Рэжым з абмежаваннямі: выключаны Месцазнаходжанне: Злучаныя Штаты Амерыкі Спалучэнні клавіш Налады Даведка Адправіць водгук
+========================================
+Беларуская  detected language: Belarusian  expected language: BELARUSIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: be-BY
+Беларуская  detected lang attribute: be-BY  expected lang attribute: be-BY
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Български  row 34
+Looking for language element with name: Български
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Български\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Bulgarian
+Input Text        : Вашите данни в Облик: тема на устройството Език: български Ограничен режим: изкл. Местоположение: Съединени щати Клавишни комбинации Настройки Помощ Изпращане на отзиви
+========================================
+Български  detected language: Bulgarian  expected language: BULGARIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: bg-BG
+Български  detected lang attribute: bg-BG  expected lang attribute: bg-BG
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Русский  row 35
+Looking for language element with name: Русский
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Русский\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Russian
+Input Text        : Ваши данные на Тема: как на устройстве Язык интерфейса: Русский Безопасный режим: откл. Страна: США Быстрые клавиши Настройки Справка Отправить отзыв
+========================================
+Русский  detected language: Russian  expected language: RUSSIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: ru-RU
+Русский  detected lang attribute: ru-RU  expected lang attribute: ru-RU
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Українська  row 36
+Looking for language element with name: Українська
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Українська\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Ukrainian
+Input Text        : Ваші дані на Вигляд: тема пристрою Мова інтерфейсу: Українська Безпечний режим: вимкнено Місцезнаходження: Сполучені Штати Америки Комбінації клавіш Налаштування Довідка Надіслати відгук
+========================================
+Українська  detected language: Ukrainian  expected language: UKRAINIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: uk-UA
+Українська  detected lang attribute: uk-UA  expected lang attribute: uk-UA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Ελληνικά  row 37
+Looking for language element with name: Ελληνικά
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Ελληνικά\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Greek
+Input Text        : Τα δεδομένα σας στο Εμφάνιση: Θέμα συσκευής Εμφάνιση γλώσσας: Ελληνικά Λειτουργία περιορισμένης πρόσβασης: Ανενεργή Τοποθεσία: Ηνωμένες Πολιτείες Συντομεύσεις πληκτρολογίου Ρυθμίσεις Βοήθεια Αποστολή σχολίων
+========================================
+Ελληνικά  detected language: Greek  expected language: GREEK
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: el-GR
+Ελληνικά  detected lang attribute: el-GR  expected lang attribute: el-GR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Հայերեն  row 38
+Looking for language element with name: Հայերեն
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Հայերեն\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Armenian
+Input Text        : Ձեր տվյալները -ում Տեսքը՝ սարքի թեման Ցուցադրման լեզուն՝ հայերեն Սահմանափակ ռեժիմն անջատված է Վայրը՝ Միացյալ Նահանգներ Ստեղնային դյուրանցումներ Կարգավորումներ Օգնություն Կարծիք հայտնել
+========================================
+Հայերեն  detected language: Armenian  expected language: ARMENIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: hy-AM
+Հայերեն  detected lang attribute: hy-AM  expected lang attribute: hy-AM
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+עברית  row 39
+Looking for language element with name: עברית
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'עברית\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Hebrew
+Input Text        : הנתונים שלך ב- מראה: העיצוב במכשיר שפת התצוגה: עברית סינון תוכן: כבוי מיקום: ארצות הברית מקשי קיצור הגדרות עזרה שליחת משוב
+========================================
+עברית  detected language: Hebrew  expected language: HEBREW
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: he-IL
+עברית  detected lang attribute: he-IL  expected lang attribute: he-IL
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+العربية  row 40
+Looking for language element with name: العربية
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'العربية\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Arabic
+Input Text        : بياناتك في مظهر الجهاز عرض اللغة: العربية وضع تقييد المحتوى: غير مفعّل الموقع الجغرافي: الولايات المتحدة اختصارات لوحة المفاتيح الإعدادات مساعدة إرسال ملاحظات
+========================================
+العربية  detected language: Arabic  expected language: ARABIC
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: ar
+العربية  detected lang attribute: ar  expected lang attribute: ar
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+فارسی  row 41
+Looking for language element with name: فارسی
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'فارسی\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Persian
+Input Text        : داده‌های شما در ظاهر: زمینه دستگاه زبان نمایش: فارسی حالت محدود: خاموش مکان: ایالات متحده میان‌برهای صفحه کلید تنظیمات راهنما ارسال بازخورد
+========================================
+فارسی  detected language: Persian  expected language: PERSIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: fa-IR
+فارسی  detected lang attribute: fa-IR  expected lang attribute: fa-IR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+हिन्दी  row 42
+Looking for language element with name: हिन्दी
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'हिन्दी\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Hindi
+Input Text        : में आपका डेटा थीम: डिवाइस की थीम ऐप्लिकेशन के कॉन्टेंट की भाषा: हिन्दी पाबंदी मोड: बंद देश: संयुक्त राज्य अमेरिका कीबोर्ड शॉर्टकट सेटिंग सहायता सुझाव भेजें
+========================================
+हिन्दी  detected language: Hindi  expected language: HINDI
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: hi-IN
+हिन्दी  detected lang attribute: hi-IN  expected lang attribute: hi-IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+বাংলা  row 43
+Looking for language element with name: বাংলা
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'বাংলা\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Bangla
+Input Text        : -এ আপনার ডেটা কেমন দেখাবে: ডিভাইসের থিম যে ভাষায় দেখানো হবে: বাংলা সীমাবদ্ধ মোড: বন্ধ লোকেশন: মার্কিন যুক্তরাষ্ট্র কীবোর্ড শর্টকাট সেটিংস সহায়তা মতামত জানান
+========================================
+বাংলা  detected language: Bangla  expected language: BANGLA
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: bn-BD
+বাংলা  detected lang attribute: bn-BD  expected lang attribute: bn-BD
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+ਪੰਜਾਬੀ  row 44
+Looking for language element with name: ਪੰਜਾਬੀ
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'ਪੰਜਾਬੀ\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Punjabi
+Input Text        : ਵਿੱਚ ਤੁਹਾਡਾ ਡਾਟਾ ਦਿੱਖ: ਡੀਵਾਈਸ ਥੀਮ ਦਿਖਾਈ ਜਾਣ ਵਾਲੀ ਭਾਸ਼ਾ: ਪੰਜਾਬੀ ਪ੍ਰਤਿਬੰਧਿਤ ਮੋਡ: ਬੰਦ ਟਿਕਾਣਾ: ਸੰਯੁਕਤ ਰਾਜ ਅਮਰੀਕਾ ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ ਸੈਟਿੰਗਾਂ ਮਦਦ ਵਿਚਾਰ ਭੇਜੋ
+========================================
+ਪੰਜਾਬੀ  detected language: Punjabi  expected language: PUNJABI
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: pa-Guru-IN
+ਪੰਜਾਬੀ  detected lang attribute: pa-Guru-IN  expected lang attribute: pa-Guru-IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+ગુજરાતી  row 45
+Looking for language element with name: ગુજરાતી
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'ગુજરાતી\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Gujarati
+Input Text        : તમારો YouTubeનો ડેટા દેખાવ: ડિવાઇસની થીમ ડિસ્પ્લેની ભાષા: ગુજરાતી પ્રતિબંધિત મોડ: બંધ સ્થાન: યુનાઇટેડ સ્ટેટ્સ કીબોર્ડ શૉર્ટકટ સેટિંગ સહાય પ્રતિસાદ મોકલો
+========================================
+ગુજરાતી  detected language: Gujarati  expected language: GUJARATI
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: gu-IN
+ગુજરાતી  detected lang attribute: gu-IN  expected lang attribute: gu-IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+தமிழ்  row 46
+Looking for language element with name: தமிழ்
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'தமிழ்\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Tamil
+Input Text        : YouTubeல் உள்ள உங்கள் தரவு தோற்றம்: சாதனத்தின் தீம் காட்சி மொழி: தமிழ் கட்டுப்பாட்டுப் பயன்முறை: முடக்கப்பட்டுள்ளது இடம்: அமெரிக்க ஐக்கிய நாடுகள் கீபோர்டு ஷார்ட்கட்கள் அமைப்புகள் உதவி கருத்து தெரிவி
+========================================
+தமிழ்  detected language: Tamil  expected language: TAMIL
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: ta-IN
+தமிழ்  detected lang attribute: ta-IN  expected lang attribute: ta-IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+తెలుగు  row 47
+Looking for language element with name: తెలుగు
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'తెలుగు\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Telugu
+Input Text        : YouTubeలో మీ డేటా కనిపించే తీరు: పరికరంలో సెట్ చేసిన రూపం డిస్‌ప్లే భాష: తెలుగు పరిమితం చేయబడిన మోడ్: ఆఫ్ లొకేషన్‌: సంయుక్త రాష్ట్రాలు కీబోర్డ్ షార్ట్‌కట్‌లు సెట్టింగ్‌లు సహాయం ఫీడ్‌బ్యాక్ పంపండి
+========================================
+తెలుగు  detected language: Telugu  expected language: TELUGU
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: te-IN
+తెలుగు  detected lang attribute: te-IN  expected lang attribute: te-IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+中文 (简体)  row 48
+Looking for language element with name: 中文 (简体)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'中文 (简体)\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Chinese
+Input Text        : 个人数据管理 外观：设备主题 显示语言： 中文（中国） 受限模式：关闭 位置： 美国 键盘快捷键 设置 帮助 发送反馈
+========================================
+中文 (简体)  detected language: Chinese  expected language: CHINESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: zh-Hans-CN
+中文 (简体)  detected lang attribute: zh-Hans-CN  expected lang attribute: zh-Hans-CN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+中文 (繁體)  row 49
+Looking for language element with name: 中文 (繁體)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'中文 (繁體)\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Chinese
+Input Text        : 你在 中的資料 外觀：裝置主題 顯示語言： 中文（台灣） 嚴格篩選模式：停用 位置： 美國 鍵盤快速鍵 設定 說明 提供意見
+========================================
+中文 (繁體)  detected language: Chinese  expected language: CHINESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: zh-Hant-TW
+中文 (繁體)  detected lang attribute: zh-Hant-TW  expected lang attribute: zh-Hant-TW
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+中文 (香港)  row 50
+Looking for language element with name: 中文 (香港)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'中文 (香港)\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Chinese
+Input Text        : 你在 中的資料 外觀：裝置主題 顯示語言： 中文（香港） 限制模式：已關閉 位置： 美國 鍵盤快速鍵 設定 說明 傳送意見
+========================================
+中文 (香港)  detected language: Chinese  expected language: CHINESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: zh-Hant-HK
+中文 (香港)  detected lang attribute: zh-Hant-HK  expected lang attribute: zh-Hant-HK
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+日本語  row 51
+Looking for language element with name: 日本語
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'日本語\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Japanese
+Input Text        : でのデータ デザイン: デバイスのテーマ 表示言語: 日本語 制限付きモード: オフ 場所: アメリカ キーボード ショートカット 設定 ヘルプ フィードバックを送信
+========================================
+日本語  detected language: Japanese  expected language: JAPANESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: ja-JP
+日本語  detected lang attribute: ja-JP  expected lang attribute: ja-JP
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+한국어  row 52
+Looking for language element with name: 한국어
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'한국어\']')
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Getting the setting ellipses options
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Korean
+Input Text        : YouTube의 내 데이터 디자인: 기기 테마 표시 언어: 한국어 제한 모드: 사용 안함 위치: 미국 키보드 단축키 설정 고객센터 의견 보내기
+========================================
+한국어  detected language: Korean  expected language: KOREAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: ko-KR
+한국어  detected lang attribute: ko-KR  expected lang attribute: ko-KR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
