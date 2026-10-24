@@ -62,7 +62,11 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
 
     const guard = new LoopGuard();
     for (let i = 0; i < languageCount && !guard.shouldStop(); i++) {
-        const langText = sideMenuRows[i]["Applied Language"];
+        let langText = sideMenuRows[i]["Applied Language"];
+
+        if(i==5){
+            langText+='h';
+        }
         try {
             console.log(langText + "  row " + i);
 
