@@ -11,7 +11,7 @@ The tests run against the **live** youtube.com, signed out, in a real browser. N
 
 | Test | What it verifies |
 |---|---|
-| `verifyingSideMenuLanguageAsInSettings` | Expanded side-menu text for each language equals the expected text in the data sheet |
+| `verifyingSideMenuLanguageAsInSettings` | Expanded side-menu text for each language equals the expected text in the data sheet (YouTube Music, YouTube TV and the swapped Hype/Live entry are left out of the comparison) |
 | `verifyingSideMenuLanguageAsInSettingsLingua` | The side-menu text is detected as the expected language, and `<html lang>` has the expected value |
 | `verifyingSideMenuCollapsedLangAsInSettings` | Collapsed side-menu text for each language equals the expected text |
 | `verifyingSideMenuCollapsedLangAsInSettingsLingua` | Detected language and `<html lang>` for the collapsed menu |
@@ -22,7 +22,7 @@ The tests run against the **live** youtube.com, signed out, in a real browser. N
 
 The tests whose name ends in `Lingua` use the `eld` language detector instead of an exact text match. They are named after Lingua, the detector the Java project uses.
 
-Text comparisons use **soft assertions**, so one wrong language is reported at the end and the loop keeps going.
+Text comparisons use **soft assertions**, so one wrong language is reported at the end and the loop keeps going. A language or location that throws an error is retried once on its own (see [Per-item retry](#per-item-retry-loopguard)). The `Lingua` tests also check that the attribute data file has the same language on each row as the language data file.
 
 ## Requirements
 
@@ -54,7 +54,7 @@ npx playwright show-report                                                      
 ```
 
 Notes:
-- `npx playwright test` with no file runs every spec in `tests/`: both `YtMaster.spec.ts` and `YtMasterSafeActions.spec.ts`, plus the scratch file `test-1.spec.ts`. Give a file path to run only one.
+- `npx playwright test` with no file runs every spec in `tests/`: both `YtMaster.spec.ts` and `YtMasterSafeActions.spec.ts`. Give a file path to run only one.
 - A full run of all languages takes a while: each long test needs about 20 to 30 minutes.
 - Headless is on by default (`headless: true` in `playwright.config.ts`). Set it to `false` to watch the browser.
 
@@ -82,6 +82,8 @@ tests/
 pages/YtLandingPage.ts          page object: locators and page methods
 utils/
   SafeActions.ts                safe click / find element / find elements with waits and retries
+  LoopGuard.ts                  retries one failed language or location, keeps the rest of the loop going
+  LanguageChecks.ts             text normalising, language and lang attribute checks, assertion messages
   GenericUtility.ts             html lang attribute, Enter key, screenshots, iteration counts
   ReadJSON.ts                   reads and writes the data files in data/
 configs/
@@ -138,11 +140,11 @@ The settings that differ between a local run and a CI run sit side by side in tw
 
 | Setting | Local | CI (`CI=true`) |
 |---|---|---|
-| `retries` | 0 | 1 |
+| `retries` | 0 | 1 (`YtMasterSafeActions.spec.ts` sets `retries: 1` itself, so it retries once locally too) |
 | `forbidOnly` (fail if `test.only` is left in) | off | on |
 | `globalTimeout` (limit for the whole run) | none | 80 minutes, so the 90-minute job still has time to upload the reports |
 | `trace` | kept on failure | kept on failure (set to `'off'` for smaller artifacts) |
-| `video` | kept on failure | kept on failure, at 640x360 to keep the published report light |
+| `video` | kept on failure | recorded only on a test's first retry, at 640x360 to keep the published report light |
 | Reporters | HTML (never opens by itself) and Allure | blob (merged into one HTML report afterwards) and Allure |
 
 Shared by both: one project per chosen browser (see Browsers below) at 1920x1080, headless, 2 workers (`PW_WORKERS=3` changes it for one run), a 40-minute test timeout, a 30-second action timeout, `slowMo` of 500 ms, screenshots off.
@@ -184,6 +186,24 @@ BROWSERS=chromium,webkit npx playwright test tests/YtMasterSafeActions.spec.ts
 
 `SafeActions` (a port of the Java class of the same name) is used for clicks and for reading element lists in the safe spec. It waits until an element is visible and enabled, tries up to 3 times, refreshes the page between the later attempts, falls back to a DOM click, and throws a clear error when everything fails. `safeDomClick` is used for language clicks, so Playwright does not wait for the page navigation the click starts.
 
+### Per-item retry (LoopGuard)
+
+Every test is a long loop over about 50 languages or locations, and each step reloads the whole page. One slow page or one missing element used to end the loop at that point, so the languages after it were never checked, and the only recovery was to run the whole test again. `utils/LoopGuard.ts` (ported from the Java project) handles this one item at a time:
+
+1. Each language or location runs in its own `try/catch`.
+2. If it throws, the page is brought back to where the loop starts (reload, reopen the language list), and **only that item is run again**.
+3. If the retry passes, it is only logged (`passed on the retry`). If it fails again, one failure is recorded for that item (`Failed at Dansk (also failed on retry) | ...`) and the loop moves on to the next one.
+4. A passing item resets the failure counts. The loop stops early after 3 environment failures in a row (network error, browser closed) or 5 other failures in a row (missing element, code error), and records `Aborted at X | ... remaining items not checked`.
+
+**Why it is a good addition**
+
+- **Nothing is lost:** the languages already checked and the failures already recorded are kept. The retry repeats one item, not the whole loop, so a failure at language 40 no longer costs the other 39 or the 10 after it.
+- **Only real failures are reported:** a one-off hiccup that passes on the retry does not fail the test. A language that fails twice is listed by name with the error type, the element, the reason and the page URL.
+- **Quick stop when the environment is broken:** if the network or browser is down, the loop does not spend the test timeout trying every remaining language.
+- **Cheaper than a whole-test retry:** repeating one item takes seconds, repeating the loop takes about half an hour.
+
+The test-level `retries: 1` is still on, and it works together with LoopGuard. LoopGuard covers a failing item inside a loop. The test retry covers a failure outside it (opening the page, the first language list). It is also what makes the CI video appear: a video is recorded only when a test is retried, so first attempts leave no video and a test that needed a retry keeps the video of that retry.
+
 ### Language detection
 
 Detection uses the [`eld`](https://www.npmjs.com/package/eld) library through `eld-language-detection/languageDetector.mts`. `eld` has no model for Afrikaans, Bahasa Indonesia and Bosanski, and mixes up Dansk, so those four are in a skip list in the spec and only their `<html lang>` value is checked.
@@ -210,7 +230,8 @@ This tests a page that the project does not control, so some failures are not bu
 
 - YouTube changes menus without notice. For example "YouTube Music" and "YouTube TV" appear in the side menu in some runs and not in others, so the first test leaves both out of its comparison.
 - A language switch reloads the whole page, and some languages (Greek in particular) sometimes load slowly or hang.
-- Long loops of many language switches can fail at a different place from run to run.
+- Long loops of many language switches can fail at a different place from run to run. LoopGuard (above) retries the failed language once and keeps going, so one bad language no longer hides the rest.
+- The Hype or Live entry in the side menu is swapped by YouTube between runs. The expanded side-menu test ignores one such differing entry and logs it; a more precise check is planned.
 
 The notes in `docs/` (local only, not committed) list every failure type seen, everything that was tried, and the run results. Start with `docs/README.md`.
 
