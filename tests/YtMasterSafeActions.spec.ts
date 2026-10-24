@@ -75,7 +75,7 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
 
             // soft assertion: a mismatch is reported at the end, the loop keeps going
             expect.soft(actual, 'Side menu text is wrong after switching to "' + langText + '"')
-                .toBe(expected+'h');
+                .toBe(expected);
 
             await landingPage.openLanguageList();
             guard.passed(langText);
