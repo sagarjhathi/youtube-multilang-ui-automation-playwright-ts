@@ -3,7 +3,7 @@ import GenericUtility from "../utils/GenericUtility";
 import YtLandingPage from "../pages/YtLandingPage";
 import { readJson } from "../utils/ReadJSON";
 import { LoopGuard } from "../utils/LoopGuard";
-import { checkAttributeRowIsForLanguage, checkDetectedLanguage, checkLanguageAttribute, normalizeForCompare, alignHypeOrLive } from "../utils/LanguageChecks";
+import { checkAttributeRowIsForLanguage, checkDetectedLanguage, checkLanguageAttribute, normalizeForCompare, alignHypeOrLive, logComparison } from "../utils/LanguageChecks";
 
 // If a test fails, run it once more in a fresh browser (like the TestNG retry in the Java project).
 // On top of that, a failing language / location is retried on its own inside the loop (see LoopGuard).
@@ -74,7 +74,9 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
             await landingPage.expandSideMenuIfCollapsed();
 
             // YouTube shows Hype, Live or neither in one slot, the expected text is matched to what the page shows (see alignHypeOrLive)
-            const { expected, actual } = alignHypeOrLive(hypeLiveRows, langText, await landingPage.readExpandedSideMenu(), sideMenuRows[i]["Expected Data"]);
+            const { expected, actual, slot } = alignHypeOrLive(hypeLiveRows, langText, await landingPage.readExpandedSideMenu(), sideMenuRows[i]["Expected Data"]);
+            logComparison("Side menu", langText, actual, expected, " | slot: " + slot);
+            guard.count("slot " + slot.split(" '")[0]);
 
             // soft assertion: a mismatch is reported at the end, the loop keeps going
             expect.soft(actual, 'Side menu text is wrong after switching to "' + langText + '"')
@@ -88,6 +90,8 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
             }
         }
     }
+
+    guard.logSummary(languageCount);
 });
 
 
@@ -112,7 +116,9 @@ test("verifyingSideMenuLanguageAsInSettingsLingua", async ({ page }, testInfo) =
             const sideMenuText = await landingPage.readExpandedSideMenu();
 
             checkAttributeRowIsForLanguage(langText, attributeRows[i]["Applicable Language"], i);
-            checkDetectedLanguage(langText, sideMenuText, languageRows[i]["Expected Language"], "side menu");
+            if (!checkDetectedLanguage(langText, sideMenuText, languageRows[i]["Expected Language"], "side menu")) {
+                guard.count("detection skipped");
+            }
             checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
 
             await landingPage.openLanguageList();
@@ -123,6 +129,8 @@ test("verifyingSideMenuLanguageAsInSettingsLingua", async ({ page }, testInfo) =
             }
         }
     }
+
+    guard.logSummary(languageCount);
 });
 
 
@@ -149,6 +157,7 @@ test("verifyingSideMenuCollapsedLangAsInSettings", async ({ page }, testInfo) =>
             const actualText = await landingPage.readCollapsedSideMenu();
             const expectedText = collapsedMenuRows[i]["Expected Data"];
 
+            logComparison("Collapsed side menu", langText, normalizeForCompare(actualText), normalizeForCompare(expectedText));
             expect.soft(normalizeForCompare(actualText), 'Collapsed side menu text is wrong after switching to "' + langText + '"')
                 .toBe(normalizeForCompare(expectedText));
 
@@ -160,6 +169,8 @@ test("verifyingSideMenuCollapsedLangAsInSettings", async ({ page }, testInfo) =>
             }
         }
     }
+
+    guard.logSummary(languageCount);
 });
 
 
@@ -184,7 +195,9 @@ test("verifyingSideMenuCollapsedLangAsInSettingsLingua", async ({ page }, testIn
             const sideMenuText = await landingPage.readCollapsedSideMenu();
 
             checkAttributeRowIsForLanguage(langText, attributeRows[i]["Applicable Language"], i);
-            checkDetectedLanguage(langText, sideMenuText, languageRows[i]["Expected Language"], "collapsed side menu");
+            if (!checkDetectedLanguage(langText, sideMenuText, languageRows[i]["Expected Language"], "collapsed side menu")) {
+                guard.count("detection skipped");
+            }
             checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
 
             await landingPage.openLanguageList();
@@ -195,10 +208,12 @@ test("verifyingSideMenuCollapsedLangAsInSettingsLingua", async ({ page }, testIn
             }
         }
     }
+
+    guard.logSummary(languageCount);
 });
 
 
-// ------------------------------------------------------------ settings menu options (starts at row 1, like the Java test)
+// ------------------------------------------------------------ settings menu options
 
 test("verifyingSettingOptionsLang", async ({ page }, testInfo) => {
     const landingPage = new YtLandingPage(page, testInfo);
@@ -210,7 +225,7 @@ test("verifyingSettingOptionsLang", async ({ page }, testInfo) => {
     const languageCount = genericUtility.resolveLanguageIterationCount(languageRows.length);
 
     const guard = new LoopGuard();
-    for (let i = 1; i < languageCount && !guard.shouldStop(); i++) {
+    for (let i = 0; i < languageCount && !guard.shouldStop(); i++) {
         const langText = languageRows[i]["Applicable Language"];
         try {
             console.log(langText + "  row " + i);
@@ -220,7 +235,9 @@ test("verifyingSettingOptionsLang", async ({ page }, testInfo) => {
             const settingsText = await landingPage.readSettingsMenuText();
 
             checkAttributeRowIsForLanguage(langText, attributeRows[i]["Applicable Language"], i);
-            checkDetectedLanguage(langText, settingsText, languageRows[i]["Expected Language"], "settings menu");
+            if (!checkDetectedLanguage(langText, settingsText, languageRows[i]["Expected Language"], "settings menu")) {
+                guard.count("detection skipped");
+            }
             checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
 
             await landingPage.openLanguageList();
@@ -231,10 +248,12 @@ test("verifyingSettingOptionsLang", async ({ page }, testInfo) => {
             }
         }
     }
+
+    guard.logSummary(languageCount);
 });
 
 
-// ------------------------------------------------------------ country code next to the logo (starts at row 1, like the Java test)
+// ------------------------------------------------------------ country code next to the logo
 
 test("verifyCountryCodeAsBasedOnRegion", async ({ page }, testInfo) => {
     const landingPage = new YtLandingPage(page, testInfo);
@@ -247,7 +266,7 @@ test("verifyCountryCodeAsBasedOnRegion", async ({ page }, testInfo) => {
     const locationCount = genericUtility.resolveCountryIterationCount(allLocations.length);
 
     const guard = new LoopGuard();
-    for (let i = 1; i < locationCount && !guard.shouldStop(); i++) {
+    for (let i = 0; i < locationCount && !guard.shouldStop(); i++) {
         let locationText = "location #" + i;     // replaced by the real name once the location is picked
         try {
             locationText = await landingPage.pickLocation(i);
@@ -256,8 +275,15 @@ test("verifyCountryCodeAsBasedOnRegion", async ({ page }, testInfo) => {
             const expectedCode = countryRows[i]["Country Code"];
             console.log(locationText + "  row " + i + "  detected code: " + detectedCode + "  expected code: " + expectedCode);
 
-            expect.soft(detectedCode.trim().toLowerCase(), 'Country code is wrong after choosing location "' + locationText + '"')
-                .toBe(expectedCode.trim().toLowerCase());
+            // only the United States has no code next to the logo, an empty expected code anywhere else is a data mistake
+            if (expectedCode.trim() === "") {
+                expect.soft(countryRows[i]["Country Name"], 'Expected country code is empty for "' + locationText + '", only "United States" has none')
+                    .toBe("United States");
+                guard.count("no code expected");
+            }
+
+            expect.soft(detectedCode.trim(), 'Country code is wrong after choosing location "' + locationText + '"')
+                .toBe(expectedCode.trim());
 
             await landingPage.openLocationList();
             guard.passed(locationText);
@@ -267,10 +293,12 @@ test("verifyCountryCodeAsBasedOnRegion", async ({ page }, testInfo) => {
             }
         }
     }
+
+    guard.logSummary(locationCount);
 });
 
 
-// ------------------------------------------------------------ global filter popup on the search results (starts at row 1, like the Java test)
+// ------------------------------------------------------------ global filter popup on the search results
 
 test("verifyingGlobalFilterLandingPage", async ({ page }, testInfo) => {
     const landingPage = new YtLandingPage(page, testInfo);
@@ -283,7 +311,7 @@ test("verifyingGlobalFilterLandingPage", async ({ page }, testInfo) => {
     const languageCount = genericUtility.resolveLanguageIterationCount(globalFilterRows.length);
 
     const guard = new LoopGuard();
-    for (let i = 1; i < languageCount && !guard.shouldStop(); i++) {
+    for (let i = 0; i < languageCount && !guard.shouldStop(); i++) {
         const langText = globalFilterRows[i]["Applied Language"];
         try {
             console.log(langText + "  row " + i);
@@ -296,6 +324,7 @@ test("verifyingGlobalFilterLandingPage", async ({ page }, testInfo) => {
             const filterText = await landingPage.getDataFromGlobalFilterPopup();
             await landingPage.dismissGlobalFilterPopup();
 
+            logComparison("Search filter", langText, normalizeForCompare(filterText), normalizeForCompare(globalFilterRows[i]["Expected Data"]));
             expect.soft(normalizeForCompare(filterText), 'Search filter text is wrong after switching to "' + langText + '"')
                 .toBe(normalizeForCompare(globalFilterRows[i]["Expected Data"]));
 
@@ -306,6 +335,8 @@ test("verifyingGlobalFilterLandingPage", async ({ page }, testInfo) => {
             }
         }
     }
+
+    guard.logSummary(languageCount);
 });
 
 
@@ -320,7 +351,7 @@ test("verifyingGlobalFilterLandingPageLingua", async ({ page }, testInfo) => {
     const languageCount = genericUtility.resolveLanguageIterationCount(languageRows.length);
 
     const guard = new LoopGuard();
-    for (let i = 1; i < languageCount && !guard.shouldStop(); i++) {
+    for (let i = 0; i < languageCount && !guard.shouldStop(); i++) {
         const langText = languageRows[i]["Applicable Language"];
         try {
             console.log(langText + "  row " + i);
@@ -334,7 +365,9 @@ test("verifyingGlobalFilterLandingPageLingua", async ({ page }, testInfo) => {
             await landingPage.dismissGlobalFilterPopup();
 
             checkAttributeRowIsForLanguage(langText, attributeRows[i]["Applicable Language"], i);
-            checkDetectedLanguage(langText, filterText, languageRows[i]["Expected Language"], "search filter");
+            if (!checkDetectedLanguage(langText, filterText, languageRows[i]["Expected Language"], "search filter")) {
+                guard.count("detection skipped");
+            }
             checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
 
             guard.passed(langText);
@@ -344,4 +377,6 @@ test("verifyingGlobalFilterLandingPageLingua", async ({ page }, testInfo) => {
             }
         }
     }
+
+    guard.logSummary(languageCount);
 });

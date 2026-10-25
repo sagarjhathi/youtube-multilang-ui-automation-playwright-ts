@@ -1,4 +1,4 @@
-import { expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 /** Error messages that mean the browser, network or site is broken, not just one element missing. */
 const ENVIRONMENT_MESSAGES = [
@@ -35,12 +35,20 @@ export class LoopGuard {
     private environmentFailures = 0;
     private otherFailures = 0;
 
+    // for the summary line at the end of the test
+    private passedItems = 0;
+    private passedOnRetry = 0;
+    private failedItems = 0;
+    private counts = new Map<string, number>();
+
     public shouldStop(): boolean {
         return this.stop;
     }
 
     public passed(item: string): void {
+        this.passedItems++;
         if (this.retrying) {
+            this.passedOnRetry++;
             console.log(item + " passed on the retry");
         }
         this.retrying = false;
@@ -66,6 +74,7 @@ export class LoopGuard {
 
         // failed on the retry as well: record it and move on
         this.retrying = false;
+        this.failedItems++;
         this.fail("Failed at " + item + " (also failed on retry) | " + this.describe(error));
         this.countFailure(item, this.isEnvironmentFailure(error));
         return false;
@@ -83,6 +92,30 @@ export class LoopGuard {
                 + ", element/code=" + this.otherFailures + ", remaining items not checked");
             this.stop = true;
         }
+    }
+
+    /** Counts something worth showing in the summary, for example "detection skipped". */
+    public count(label: string): void {
+        this.counts.set(label, (this.counts.get(label) || 0) + 1);
+    }
+
+    /** One line at the end of the test: how many items passed out of how many, what was retried, skipped or adjusted. */
+    public logSummary(totalItems: number): void {
+        const parts = ["passed " + this.passedItems + " of " + totalItems];
+        if (this.passedOnRetry > 0) {
+            parts.push(this.passedOnRetry + " passed on the retry");
+        }
+        if (this.failedItems > 0) {
+            parts.push(this.failedItems + " failed");
+        }
+        if (this.stop) {
+            parts.push("stopped early");
+        }
+        this.counts.forEach((amount, label) => parts.push(label + ": " + amount));
+
+        const summary = parts.join(" | ");
+        console.log("Summary | " + summary);
+        test.info().annotations.push({ type: "summary", description: summary });
     }
 
     /** Soft failure: it is reported at the end of the test and the loop keeps going. */
