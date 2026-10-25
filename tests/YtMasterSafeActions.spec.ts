@@ -3,7 +3,7 @@ import GenericUtility from "../utils/GenericUtility";
 import YtLandingPage from "../pages/YtLandingPage";
 import { readJson } from "../utils/ReadJSON";
 import { LoopGuard } from "../utils/LoopGuard";
-import { checkAttributeRowIsForLanguage, checkDetectedLanguage, checkLanguageAttribute, normalizeForCompare, removeHypeOrLive } from "../utils/LanguageChecks";
+import { checkAttributeRowIsForLanguage, checkDetectedLanguage, checkLanguageAttribute, normalizeForCompare, alignHypeOrLive } from "../utils/LanguageChecks";
 
 // If a test fails, run it once more in a fresh browser (like the TestNG retry in the Java project).
 // On top of that, a failing language / location is retried on its own inside the loop (see LoopGuard).
@@ -18,6 +18,7 @@ const languageRows = readJson("ApplicableLanguageExpectedLanguage.json");
 const attributeRows = readJson("ApplicableLanguageExpectedAttibute.json");
 const globalFilterRows = readJson("verifyingGlobalFilterLandingPage.json");
 const countryRows = readJson("Country_Name_Code.json");
+const hypeLiveRows = readJson("HypeLiveWords.json");
 
 
 // ------------------------------------------------------------ recovery after a failed language / location
@@ -72,8 +73,8 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
             await landingPage.pickLanguage(langText);
             await landingPage.expandSideMenuIfCollapsed();
 
-            // the Hype / Live entry is removed from both sides, YouTube swaps the word between runs
-            const { expected, actual } = removeHypeOrLive(await landingPage.readExpandedSideMenuItems(), sideMenuRows[i]["Expected Data"]);
+            // YouTube shows Hype, Live or neither in one slot, the expected text is matched to what the page shows (see alignHypeOrLive)
+            const { expected, actual } = alignHypeOrLive(hypeLiveRows, langText, await landingPage.readExpandedSideMenu(), sideMenuRows[i]["Expected Data"]);
 
             // soft assertion: a mismatch is reported at the end, the loop keeps going
             expect.soft(actual, 'Side menu text is wrong after switching to "' + langText + '"')

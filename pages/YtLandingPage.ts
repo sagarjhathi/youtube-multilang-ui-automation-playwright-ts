@@ -406,16 +406,6 @@ class YtLandingPage {
         return await this.genericUtility.joinTexts(items);
     }
 
-    /** Text of each item of the expanded side menu, in page order. */
-    public async readExpandedSideMenuItems() :Promise<string[]> {
-        const items = await this.safeActions.safeFindElements(this.sideMenuExpandedList);
-        const texts:string[] = [];
-        for (const item of items) {
-            texts.push(await item.innerText());
-        }
-        return texts;
-    }
-
     /** Text of the collapsed side menu, all the items joined with a space. */
     public async readCollapsedSideMenu() :Promise<string> {
         const items = await this.safeActions.safeFindElements(this.sideMenuCollapsedList);

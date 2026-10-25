@@ -38,40 +38,46 @@ export function removeOptionalEntries(text: string) {
     return normalizeText(text).replace(/\s*YouTube\s+(Music|TV)\b/g, "").replace(/\s+/g, " ").trim();
 }
 
+/** The word as a whole word (not part of a longer word), case insensitive. */
+function wholeWord(word: string) {
+    const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return new RegExp("(?<![\\p{L}\\p{M}\\p{N}])" + escaped + "(?![\\p{L}\\p{M}\\p{N}])", "iu");
+}
+
 /**
- * Removes the Hype/Live entry from both the side menu text and the expected text, so the rest can be compared as is.
- * YouTube shows either word in that slot, it changes between runs and differs per language, so it can't be removed
- * by keyword. It is also not found by position or by a neighbour, which can move. Instead the side menu items are
- * matched against the expected text from the start and from the end, item by item. If exactly one item is left in
- * the middle, that is the Hype/Live slot and it is ignored (and logged). Anything else is left alone, so the
- * comparison fails and shows the full texts.
+ * Makes the expected side menu text match what the page shows in the Hype / Live slot, so the rest is compared as it is.
+ * YouTube shows the Hype entry, the Live entry, or none in that slot, and it changes between runs. The expected data holds
+ * the Hype word. The words of each language come from data/HypeLiveWords.json. Per language:
+ * - the page text equals the expected text: nothing is changed (the page shows Hype)
+ * - the page shows the Live word: the Hype word in the expected text is replaced by the Live word, so the entry must also
+ *   be in the same place
+ * - the page shows neither word: the Hype word is removed from the expected text (the page left the entry out)
+ * Anything else, or a language that is not in the file, is compared as it is and fails with the full texts.
  */
-export function removeHypeOrLive(sideMenuItems: string[], expectedText: string) {
-    const expected = removeOptionalEntries(expectedText);
-    const items = sideMenuItems.map(item => removeOptionalEntries(item)).filter(item => item !== "");
-    const actual = items.join(" ");
-    if (actual === expected) {
+export function alignHypeOrLive(hypeLiveRows: { [column: string]: string }[], langText: string, sideMenuText: string, expectedText: string) {
+    const actual = removeOptionalEntries(sideMenuText);
+    let expected = removeOptionalEntries(expectedText);
+
+    const row = hypeLiveRows.find(candidate => candidate["Applied Language"] === langText);
+    if (!row) {
+        console.log("No Hype/Live words for " + langText + ", the side menu is compared as it is");
+        return { expected, actual };
+    }
+    const hype = normalizeText(row["Hype"]).trim();
+    const live = normalizeText(row["Live"]).trim();
+
+    if (actual === expected || hype === "" || !wholeWord(hype).test(expected)) {
         return { expected, actual };
     }
 
-    let left = expected;
-    let start = 0;
-    while (start < items.length && (left === items[start] || left.startsWith(items[start] + " "))) {
-        left = left.slice(items[start].length).trim();
-        start++;
+    if (live !== "" && wholeWord(live).test(actual) && !wholeWord(hype).test(actual)) {
+        console.log("The page shows Live ('" + live + "'), expected Hype ('" + hype + "') replaced by it");
+        expected = expected.replace(wholeWord(hype), () => live);
+    } else if (!wholeWord(hype).test(actual) && !(live !== "" && wholeWord(live).test(actual))) {
+        console.log("The page shows neither Hype ('" + hype + "') nor Live ('" + live + "'), Hype removed from the expected text");
+        expected = expected.replace(wholeWord(hype), " ").replace(/\s+/g, " ").trim();
     }
-    let end = items.length;
-    while (end > start && (left === items[end - 1] || left.endsWith(" " + items[end - 1]))) {
-        left = left.slice(0, left.length - items[end - 1].length).trim();
-        end--;
-    }
-
-    if (end - start !== 1 || left === "") {
-        return { expected, actual };
-    }
-    console.log("Ignored the Hype/Live entry | page: \"" + items[start] + "\" | expected: \"" + left + "\"");
-    const withoutEntry = [...items.slice(0, start), ...items.slice(end)].join(" ");
-    return { expected: withoutEntry, actual: withoutEntry };
+    return { expected, actual };
 }
 
 /** The attribute file is read by row number, so its row must be for the same language as the language file. */

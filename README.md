@@ -11,7 +11,7 @@ The tests run against the **live** youtube.com, signed out, in a real browser. N
 
 | Test | What it verifies |
 |---|---|
-| `verifyingSideMenuLanguageAsInSettings` | Expanded side-menu text for each language equals the expected text in the data sheet (YouTube Music, YouTube TV and the swapped Hype/Live entry are left out of the comparison) |
+| `verifyingSideMenuLanguageAsInSettings` | Expanded side-menu text for each language equals the expected text in the data sheet (YouTube Music and YouTube TV are left out, and the Hype / Live entry is matched to what the page shows, see Known issues) |
 | `verifyingSideMenuLanguageAsInSettingsLingua` | The side-menu text is detected as the expected language, and `<html lang>` has the expected value |
 | `verifyingSideMenuCollapsedLangAsInSettings` | Collapsed side-menu text for each language equals the expected text |
 | `verifyingSideMenuCollapsedLangAsInSettingsLingua` | Detected language and `<html lang>` for the collapsed menu |
@@ -231,7 +231,7 @@ This tests a page that the project does not control, so some failures are not bu
 - YouTube changes menus without notice. For example "YouTube Music" and "YouTube TV" appear in the side menu in some runs and not in others, so the first test leaves both out of its comparison.
 - A language switch reloads the whole page, and some languages (Greek in particular) sometimes load slowly or hang.
 - Long loops of many language switches can fail at a different place from run to run. LoopGuard (above) retries the failed language once and keeps going, so one bad language no longer hides the rest.
-- The Hype or Live entry in the side menu is swapped by YouTube between runs. The expanded side-menu test ignores one such differing entry and logs it; a more precise check is planned.
+- YouTube shows the Hype entry, the Live entry, or neither in one slot of the side menu, and each is translated differently in every language. The expected data holds the Hype word. `data/HypeLiveWords.json` lists both words for each language, and the expanded side-menu test first compares the texts as they are. If they differ and the page shows the Live word, the Hype word in the expected text is replaced by the Live word (so the entry must also be in the right place). If the page shows neither word, the Hype word is removed from the expected text. Anything else, or a language missing from the file, fails the comparison. The Live words came from one CI run, so correct the file when a language fails on them.
 
 The notes in `docs/` (local only, not committed) list every failure type seen, everything that was tried, and the run results. Start with `docs/README.md`.
 
