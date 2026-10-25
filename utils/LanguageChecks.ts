@@ -46,13 +46,16 @@ function wholeWord(word: string) {
 
 /**
  * Makes the expected side menu text match what the page shows in the Hype / Live slot, so the rest is compared as it is.
- * YouTube shows the Hype entry, the Live entry, or none in that slot, and it changes between runs. The expected data holds
- * the Hype word. The words of each language come from data/HypeLiveWords.json. Per language:
- * - the page text equals the expected text: nothing is changed (the page shows Hype)
- * - the page shows the Live word: the Hype word in the expected text is replaced by the Live word, so the entry must also
- *   be in the same place
- * - the page shows neither word: the Hype word is removed from the expected text (the page left the entry out)
- * Anything else, or a language that is not in the file, is compared as it is and fails with the full texts.
+ * YouTube shows the Hype entry, the Live entry, or none in that slot, and the expected data may hold either one (it holds
+ * the Hype word today, and could hold the Live word after a refresh). The words of each language come from
+ * data/HypeLiveWords.json. Per language, "expected word" is the one of the two found in the expected text and "page word"
+ * is the one found in the page text:
+ * - the texts are equal: nothing is changed
+ * - the page word is the other word: the expected word is replaced by the page word, so the entry must also be in the
+ *   same place
+ * - the page shows neither word: the expected word is removed from the expected text (the page left the entry out)
+ * Anything else (both words on one side, a different entry in the slot, a language that is not in the file) is compared
+ * as it is and fails with the full texts.
  */
 export function alignHypeOrLive(hypeLiveRows: { [column: string]: string }[], langText: string, sideMenuText: string, expectedText: string) {
     const actual = removeOptionalEntries(sideMenuText);
@@ -63,19 +66,24 @@ export function alignHypeOrLive(hypeLiveRows: { [column: string]: string }[], la
         console.log("No Hype/Live words for " + langText + ", the side menu is compared as it is");
         return { expected, actual };
     }
-    const hype = normalizeText(row["Hype"]).trim();
-    const live = normalizeText(row["Live"]).trim();
-
-    if (actual === expected || hype === "" || !wholeWord(hype).test(expected)) {
+    if (actual === expected) {
         return { expected, actual };
     }
 
-    if (live !== "" && wholeWord(live).test(actual) && !wholeWord(hype).test(actual)) {
-        console.log("The page shows Live ('" + live + "'), expected Hype ('" + hype + "') replaced by it");
-        expected = expected.replace(wholeWord(hype), () => live);
-    } else if (!wholeWord(hype).test(actual) && !(live !== "" && wholeWord(live).test(actual))) {
-        console.log("The page shows neither Hype ('" + hype + "') nor Live ('" + live + "'), Hype removed from the expected text");
-        expected = expected.replace(wholeWord(hype), " ").replace(/\s+/g, " ").trim();
+    const words = [normalizeText(row["Hype"]).trim(), normalizeText(row["Live"]).trim()].filter(word => word !== "");
+    const wordsInExpected = words.filter(word => wholeWord(word).test(expected));
+    const wordsInPage = words.filter(word => wholeWord(word).test(actual));
+    if (wordsInExpected.length !== 1 || wordsInPage.length > 1) {
+        return { expected, actual };
+    }
+
+    const expectedWord = wordsInExpected[0];
+    if (wordsInPage.length === 0) {
+        console.log("The page shows neither Hype nor Live, '" + expectedWord + "' removed from the expected text");
+        expected = expected.replace(wholeWord(expectedWord), " ").replace(/\s+/g, " ").trim();
+    } else if (wordsInPage[0] !== expectedWord) {
+        console.log("The page shows '" + wordsInPage[0] + "', expected '" + expectedWord + "' replaced by it");
+        expected = expected.replace(wholeWord(expectedWord), () => wordsInPage[0]);
     }
     return { expected, actual };
 }

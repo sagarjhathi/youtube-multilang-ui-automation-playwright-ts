@@ -15,6 +15,10 @@ class YtLandingPage {
     // after a language is picked the page can take a while to load, wait up to 2 minutes (like Selenium, which waits for the whole page)
     private static LANGUAGE_PAGE_LOAD_TIMEOUT = 120000;
 
+    // a menu is read again until 3 reads in a row match, at most this many extra reads, this many ms apart
+    private static MENU_STABLE_READS = 10;
+    private static MENU_STABLE_WAIT = 500;
+
     private sideMenu: Locator;
 
     public sideMenuExpandedList: Locator;
@@ -400,16 +404,38 @@ class YtLandingPage {
         return locationText;
     }
 
+    /**
+     * Text of a menu, all the items joined with a space. After a language switch the menu can still be filling up
+     * (a read once returned only the first 5 entries), so it is read again until the text is the same on 3 reads in a row (about a second).
+     */
+    private async readStableMenuText(menuItems:Locator) :Promise<string> {
+        let previous = await this.genericUtility.joinTexts(await this.safeActions.safeFindElements(menuItems));
+        let sameReads = 1;
+        for (let attempt = 1; attempt <= YtLandingPage.MENU_STABLE_READS; attempt++) {
+            await this.page.waitForTimeout(YtLandingPage.MENU_STABLE_WAIT);
+            const current = await this.genericUtility.joinTexts(await this.safeActions.safeFindElements(menuItems));
+            if (current === previous) {
+                sameReads++;
+                if (sameReads >= 3) {
+                    return current;
+                }
+            } else {
+                console.log("The menu was still changing (" + previous.length + " then " + current.length + " characters), reading it again");
+                previous = current;
+                sameReads = 1;
+            }
+        }
+        return previous;
+    }
+
     /** Text of the expanded side menu, all the items joined with a space. */
     public async readExpandedSideMenu() :Promise<string> {
-        const items = await this.safeActions.safeFindElements(this.sideMenuExpandedList);
-        return await this.genericUtility.joinTexts(items);
+        return await this.readStableMenuText(this.sideMenuExpandedList);
     }
 
     /** Text of the collapsed side menu, all the items joined with a space. */
     public async readCollapsedSideMenu() :Promise<string> {
-        const items = await this.safeActions.safeFindElements(this.sideMenuCollapsedList);
-        return await this.genericUtility.joinTexts(items);
+        return await this.readStableMenuText(this.sideMenuCollapsedList);
     }
 
     /** Opens the settings menu, reads the text of its options, closes it again. */
