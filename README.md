@@ -209,7 +209,7 @@ Every test is a long loop over about 50 languages or locations, and each step re
 
 1. Each language or location runs in its own `try/catch`.
 2. If it throws, the page is brought back to where the loop starts (reload, reopen the language list), and **only that item is run again**.
-3. If the retry passes, it is only logged (`passed on the retry`). If it fails again, one failure is recorded for that item (`Failed at Dansk (also failed on retry) | ...`) and the loop moves on to the next one.
+3. If the retry passes, it is only logged (`passed on the retry`). The checks that failed in the first attempt are dropped (and counted in the summary), because the retry does them again and its result is the one that counts. A check that fails in an attempt that finishes normally is never dropped. If it fails again, one failure is recorded for that item (`Failed at Dansk (also failed on retry) | ...`) and the loop moves on to the next one.
 4. A passing item resets the failure counts. The loop stops early after 3 environment failures in a row (network error, browser closed) or 5 other failures in a row (missing element, code error), and records `Aborted at X | ... remaining items not checked`.
 
 **Why it is a good addition**
@@ -245,7 +245,7 @@ The expected data was captured from India. GitHub's runners are in the US, so me
 
 This tests a page that the project does not control, so some failures are not bugs in the tests:
 
-- YouTube changes menus without notice. For example "YouTube Music" and "YouTube TV" appear in the side menu in some runs and not in others, so the first test leaves both out of its comparison.
+- YouTube changes menus without notice. For example "YouTube Music" and "YouTube TV" appear in the side menu in some runs and not in others, so the first test leaves both out of its comparison. "YouTube Labs" appeared in the same way and is treated as optional too, until several runs show whether it belongs in the expected data.
 - The side menu can still be filling up right after a language switch (one run read only the first 5 entries). The menu is read again until the text is the same on 3 reads in a row, about a second per read.
 - A language switch reloads the whole page, and some languages (Greek in particular) sometimes load slowly or hang.
 - Long loops of many language switches can fail at a different place from run to run. LoopGuard (above) retries the failed language once and keeps going, so one bad language no longer hides the rest.

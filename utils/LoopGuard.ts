@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { commitPendingChecks, discardPendingChecks, startCollecting, stopCollecting } from "./SoftChecks";
 
 /** Error messages that mean the browser, network or site is broken, not just one element missing. */
 const ENVIRONMENT_MESSAGES = [
@@ -40,6 +41,12 @@ export class LoopGuard {
     private passedOnRetry = 0;
     private failedItems = 0;
     private counts = new Map<string, number>();
+    private itemCounts = new Map<string, number>();     // counted while the item runs, added to counts only when the item finishes
+    private discardedChecks = 0;
+
+    constructor() {
+        startCollecting();      // the failed checks of an item are kept back until the item is finished
+    }
 
     public shouldStop(): boolean {
         return this.stop;
@@ -47,6 +54,9 @@ export class LoopGuard {
 
     public passed(item: string): void {
         this.passedItems++;
+        commitPendingChecks();
+        this.itemCounts.forEach((amount, label) => this.counts.set(label, (this.counts.get(label) || 0) + amount));
+        this.itemCounts.clear();
         if (this.retrying) {
             this.passedOnRetry++;
             console.log(item + " passed on the retry");
@@ -66,13 +76,21 @@ export class LoopGuard {
             console.log("Could not recover the page | " + this.describe(recoveryError));
         }
 
-        // first failure: run the same item once more
+        // first failure: run the same item once more, its checks are done again, so those of this attempt are dropped
         if (!this.retrying) {
+            const dropped = discardPendingChecks();
+            if (dropped > 0) {
+                this.discardedChecks += dropped;
+                console.log(item + " | " + dropped + " failed check(s) of the first attempt dropped, the item is checked again");
+            }
+            this.itemCounts.clear();
             this.retrying = true;
             return true;
         }
 
-        // failed on the retry as well: record it and move on
+        // failed on the retry as well: record it and move on (the checks of this attempt are kept as evidence)
+        commitPendingChecks();
+        this.itemCounts.clear();
         this.retrying = false;
         this.failedItems++;
         this.fail("Failed at " + item + " (also failed on retry) | " + this.describe(error));
@@ -96,17 +114,26 @@ export class LoopGuard {
 
     /** Counts something worth showing in the summary, for example "detection skipped". */
     public count(label: string): void {
-        this.counts.set(label, (this.counts.get(label) || 0) + 1);
+        this.itemCounts.set(label, (this.itemCounts.get(label) || 0) + 1);
     }
 
     /** One line at the end of the test: how many items passed out of how many, what was retried, skipped or adjusted. */
     public logSummary(totalItems: number): void {
-        const parts = ["passed " + this.passedItems + " of " + totalItems];
+        stopCollecting();       // reports anything still waiting
+        // "completed" = the item ran to its end without an error, whether its checks passed is the "checks failed" part
+        const parts = ["completed " + this.passedItems + " of " + totalItems];
+        const failedChecks = test.info().errors.length;
+        if (failedChecks > 0) {
+            parts.push("checks failed: " + failedChecks);
+        }
         if (this.passedOnRetry > 0) {
             parts.push(this.passedOnRetry + " passed on the retry");
         }
+        if (this.discardedChecks > 0) {
+            parts.push("failed checks of first attempts dropped: " + this.discardedChecks);
+        }
         if (this.failedItems > 0) {
-            parts.push(this.failedItems + " failed");
+            parts.push(this.failedItems + " items failed");
         }
         if (this.stop) {
             parts.push("stopped early");

@@ -1,4 +1,4 @@
-import { expect } from "@playwright/test";
+import { softCheck } from "./SoftChecks";
 import { detectLanguage } from "../eld-language-detection/languageDetector.mjs";
 
 /** Languages (as shown in YouTube's language list) that eld cannot detect. Only their html lang attribute is checked. */
@@ -33,9 +33,9 @@ export function normalizeForCompare(text: string | null | undefined) {
     return normalizeText(text).trim();
 }
 
-/** YouTube shows "YouTube Music" and "YouTube TV" in the side menu in some runs and not in others, so both are removed before comparing. */
+/** YouTube shows "YouTube Music", "YouTube TV" and "YouTube Labs" in the side menu in some runs and not in others, so they are removed before comparing. */
 export function removeOptionalEntries(text: string) {
-    return normalizeText(text).replace(/\s*YouTube\s+(Music|TV)\b/g, "").replace(/\s+/g, " ").trim();
+    return normalizeText(text).replace(/\s*YouTube\s+(Music|TV|Labs)\b/g, "").replace(/\s+/g, " ").trim();
 }
 
 /** The word as a whole word (not part of a longer word), case insensitive. */
@@ -94,8 +94,7 @@ export function alignHypeOrLive(hypeLiveRows: { [column: string]: string }[], la
 
 /** The attribute file is read by row number, so its row must be for the same language as the language file. */
 export function checkAttributeRowIsForLanguage(langText: string, attributeRowLanguage: string, row: number) {
-    expect.soft(attributeRowLanguage, "Sheet rows out of sync | attribute row " + row + " is not \"" + langText + "\"")
-        .toBe(langText);
+    softCheck(attributeRowLanguage, "Sheet rows out of sync | attribute row " + row + " is not \"" + langText + "\"", langText);
 }
 
 /** Removes the words YouTube leaves untranslated, so they do not confuse the language detector. English pages keep them. */
@@ -121,8 +120,7 @@ export function checkDetectedLanguage(langText: string, textFromPage: string, ex
         console.log("Skipping the detected language check for " + langText + " (eld cannot detect it)");
         return false;
     }
-    expect.soft(detectedLanguage.toLowerCase(), 'Language of the ' + source + ' text is wrong after switching to "' + langText + '"')
-        .toBe(expectedLanguage.toLowerCase());
+    softCheck(detectedLanguage.toLowerCase(), 'Language of the ' + source + ' text is wrong after switching to "' + langText + '"', expectedLanguage.toLowerCase());
     return true;
 }
 
@@ -135,6 +133,5 @@ export function logComparison(what: string, langText: string, actual: string, ex
 export function checkLanguageAttribute(langText: string, detectedAttribute: string | null, expectedAttribute: string) {
     console.log(langText + "  detected lang attribute: " + detectedAttribute + "  expected lang attribute: " + expectedAttribute);
 
-    expect.soft((detectedAttribute || "").toLowerCase(), '<html lang> attribute is wrong after switching to "' + langText + '"')
-        .toBe(expectedAttribute.toLowerCase());
+    softCheck((detectedAttribute || "").toLowerCase(), '<html lang> attribute is wrong after switching to "' + langText + '"', expectedAttribute.toLowerCase());
 }

@@ -1,9 +1,10 @@
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
 import GenericUtility from "../utils/GenericUtility";
 import YtLandingPage from "../pages/YtLandingPage";
 import { readJson } from "../utils/ReadJSON";
 import { LoopGuard } from "../utils/LoopGuard";
 import { canary, isCanary } from "../utils/Canary";
+import { softCheck } from "../utils/SoftChecks";
 import { checkAttributeRowIsForLanguage, checkDetectedLanguage, checkLanguageAttribute, normalizeForCompare, alignHypeOrLive, logComparison } from "../utils/LanguageChecks";
 
 // If a test fails, run it once more in a fresh browser (like the TestNG retry in the Java project).
@@ -33,7 +34,8 @@ async function reopenLanguageList(landingPage: YtLandingPage) {
 
 async function reopenCollapsedLanguageList(landingPage: YtLandingPage) {
     await landingPage.openingLandingPage();
-    await landingPage.clickLeftMenuButton();
+    // Old code: await landingPage.clickLeftMenuButton(); (blind toggle, no check that the menu collapsed)
+    await landingPage.collapseSideMenuIfExpanded();
     await landingPage.openLanguageList();
 }
 
@@ -82,8 +84,7 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
             guard.count("slot " + slot.split(" '")[0]);
 
             // soft assertion: a mismatch is reported at the end, the loop keeps going
-            expect.soft(actual, 'Side menu text is wrong after switching to "' + langText + '"')
-                .toBe(expected);
+            softCheck(actual, 'Side menu text is wrong after switching to "' + langText + '"', expected);
 
             await landingPage.openLanguageList();
             guard.passed(langText);
@@ -144,7 +145,8 @@ test("verifyingSideMenuCollapsedLangAsInSettings", async ({ page }, testInfo) =>
     const genericUtility = new GenericUtility(page);
 
     await landingPage.openingLandingPage();
-    await landingPage.clickLeftMenuButton();
+    // Old code: await landingPage.clickLeftMenuButton(); (blind toggle, no check that the menu collapsed)
+    await landingPage.collapseSideMenuIfExpanded();
     await landingPage.openLanguageList();
 
     const languageCount = genericUtility.resolveLanguageIterationCount(collapsedMenuRows.length);
@@ -161,8 +163,7 @@ test("verifyingSideMenuCollapsedLangAsInSettings", async ({ page }, testInfo) =>
             const expectedText = canary(collapsedMenuRows[i]["Expected Data"], i, 0);
 
             logComparison("Collapsed side menu", langText, normalizeForCompare(actualText), normalizeForCompare(expectedText));
-            expect.soft(normalizeForCompare(actualText), 'Collapsed side menu text is wrong after switching to "' + langText + '"')
-                .toBe(normalizeForCompare(expectedText));
+            softCheck(normalizeForCompare(actualText), 'Collapsed side menu text is wrong after switching to "' + langText + '"', normalizeForCompare(expectedText));
 
             await landingPage.openLanguageList();
             guard.passed(langText);
@@ -182,7 +183,8 @@ test("verifyingSideMenuCollapsedLangAsInSettingsLingua", async ({ page }, testIn
     const genericUtility = new GenericUtility(page);
 
     await landingPage.openingLandingPage();
-    await landingPage.clickLeftMenuButton();
+    // Old code: await landingPage.clickLeftMenuButton(); (blind toggle, no check that the menu collapsed)
+    await landingPage.collapseSideMenuIfExpanded();
     await landingPage.openLanguageList();
 
     const languageCount = genericUtility.resolveLanguageIterationCount(languageRows.length);
@@ -280,13 +282,11 @@ test("verifyCountryCodeAsBasedOnRegion", async ({ page }, testInfo) => {
 
             // only the United States has no code next to the logo, an empty expected code anywhere else is a data mistake
             if (expectedCode.trim() === "") {
-                expect.soft(countryRows[i]["Country Name"], 'Expected country code is empty for "' + locationText + '", only "United States" has none')
-                    .toBe("United States");
+                softCheck(countryRows[i]["Country Name"], 'Expected country code is empty for "' + locationText + '", only "United States" has none', "United States");
                 guard.count("no code expected");
             }
 
-            expect.soft(detectedCode.trim(), 'Country code is wrong after choosing location "' + locationText + '"')
-                .toBe(expectedCode.trim());
+            softCheck(detectedCode.trim(), 'Country code is wrong after choosing location "' + locationText + '"', expectedCode.trim());
 
             await landingPage.openLocationList();
             guard.passed(locationText);
@@ -329,8 +329,7 @@ test("verifyingGlobalFilterLandingPage", async ({ page }, testInfo) => {
 
             const expectedFilterText = canary(globalFilterRows[i]["Expected Data"], i, 0);
             logComparison("Search filter", langText, normalizeForCompare(filterText), normalizeForCompare(expectedFilterText));
-            expect.soft(normalizeForCompare(filterText), 'Search filter text is wrong after switching to "' + langText + '"')
-                .toBe(normalizeForCompare(expectedFilterText));
+            softCheck(normalizeForCompare(filterText), 'Search filter text is wrong after switching to "' + langText + '"', normalizeForCompare(expectedFilterText));
 
             guard.passed(langText);
         } catch (e) {

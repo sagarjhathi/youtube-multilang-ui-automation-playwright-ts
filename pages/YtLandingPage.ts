@@ -32,6 +32,7 @@ class YtLandingPage {
     public ellipsesYtLandingPageTopLeft: Locator;
 
     public sideMenuCollapsedList: Locator;
+    public settingsMenuRow: Locator;
 
     private countryCodeOnYtLogoLandingPage: Locator;
 
@@ -75,6 +76,8 @@ class YtLandingPage {
         this.languageDropdownUnderSettings = page.locator("(//div[@id='content-icon'])[2]");
         this.languageList = page.locator("//yt-multi-page-menu-section-renderer[@class='style-scope ytd-multi-page-menu-renderer']//ytd-compact-link-renderer").filter({ visible: true });
         this.ellipsesYtLandingPageTopLeft = page.locator("//ytd-topbar-logo-renderer[@id='logo']/preceding-sibling::*[@id='guide-button']");
+        // a row of the open settings menu (language independent), only visible while the menu is open
+        this.settingsMenuRow = page.locator("//ytd-multi-page-menu-renderer//ytd-compact-link-renderer").filter({ visible: true }).first();
         this.sideMenuCollapsedList = page.locator("//ytd-mini-guide-renderer[@class='style-scope ytd-app']//ytd-mini-guide-entry-renderer");
         this.countryCodeOnYtLogoLandingPage = page.locator("(//span[@id='country-code'])[1]");
         this.settingEllipsesOptionsListLandingPage = page.locator("//ytd-multi-page-menu-renderer");
@@ -367,15 +370,47 @@ class YtLandingPage {
     // Steps that use the safe actions (used by YtMasterSafeActions.spec.ts)
     // ------------------------------------------------------------------
 
+    /** True while the settings menu is open (at least one of its rows is visible). */
+    public async isSettingsMenuOpen() :Promise<boolean> {
+        return await this.settingsMenuRow.isVisible();
+    }
+
+    /**
+     * The dropdowns of the settings menu exist only while the menu is open, but the click on the settings button is
+     * sometimes missed (for example right after a page load). Then the dropdown click can never succeed, because its retries
+     * reload the page, which closes the menu again. So: do nothing if the menu is open, give a slow menu 3 seconds to
+     * open (the wait comes first, so a menu that is just opening is not closed by a second click), and only then click again.
+     */
+    public async recoverSettingsMenuIfClosed() :Promise<void> {
+        if (await this.isSettingsMenuOpen()) {
+            return;
+        }
+        try {
+            await this.settingsMenuRow.waitFor({ state: "visible", timeout: 3000 });
+            return;
+        } catch {
+            // still closed, handled below
+        }
+        console.log("Settings menu is not open after the click, clicking the settings button again");
+        await this.safeActions.safeClick(this.settingEllipsesButton);
+        await this.settingsMenuRow.waitFor({ state: "visible", timeout: 5000 }).catch(() => {
+            console.log("Settings menu is still not open after the second click");
+        });
+    }
+
     /** Opens the settings menu, then its language list. */
     public async openLanguageList() :Promise<void> {
         await this.safeActions.safeClick(this.settingEllipsesButton);
+        // Old code: went straight to the dropdown click, without checking that the menu opened
+        await this.recoverSettingsMenuIfClosed();
         await this.safeActions.safeClick(this.languageDropdownUnderSettings);
     }
 
     /** Opens the settings menu, then its location list. */
     public async openLocationList() :Promise<void> {
         await this.safeActions.safeClick(this.settingEllipsesButton);
+        // Old code: went straight to the dropdown click, without checking that the menu opened
+        await this.recoverSettingsMenuIfClosed();
         await this.safeActions.safeClick(this.locationDropdownUnderSettings);
     }
 
@@ -384,9 +419,33 @@ class YtLandingPage {
         await this.safeActions.safeClick(this.settingEllipsesButton);
     }
 
-    /** Clicks the menu button at the top left. */
+    /** Clicks the menu button at the top left. Blind toggle, the collapsed tests use collapseSideMenuIfExpanded() instead. */
     public async clickLeftMenuButton() :Promise<void> {
         await this.safeActions.safeClick(this.ellipsesYtLandingPageTopLeft);
+    }
+
+    /**
+     * Collapses the side menu, and only when it is expanded (its button has aria-pressed="true" while the menu is open, same
+     * signal as expandSideMenuIfCollapsed), so it is safe to repeat and does nothing when the page starts collapsed.
+     * The click is sometimes missed, so the collapsed entries are given 3 seconds to show up; if they do not and the menu
+     * is still expanded, it is clicked once more. A menu that did collapse is never clicked again, that would open it.
+     */
+    public async collapseSideMenuIfExpanded() :Promise<void> {
+        const menuButton:Locator = this.ellipsesYtLandingPageTopLeft.locator("button");
+        if ((await menuButton.getAttribute("aria-pressed")) !== "true") {
+            return;
+        }
+        await this.safeActions.safeClick(this.ellipsesYtLandingPageTopLeft);
+        try {
+            await this.sideMenuCollapsedList.first().waitFor({ state: "visible", timeout: 3000 });
+            return;
+        } catch {
+            // the collapsed entries are not there yet
+        }
+        if ((await menuButton.getAttribute("aria-pressed")) === "true") {
+            console.log("Side menu did not collapse after the click, clicking the menu button again");
+            await this.safeActions.safeClick(this.ellipsesYtLandingPageTopLeft);
+        }
     }
 
     /** Clicks the language in the open list and waits for the page to load in that language. */
@@ -438,12 +497,30 @@ class YtLandingPage {
         return await this.readStableMenuText(this.sideMenuCollapsedList);
     }
 
-    /** Opens the settings menu, reads the text of its options, closes it again. */
+    /**
+     * Opens the settings menu, reads the text of its options, closes it again.
+     * The text is read until it is not empty and the same on 3 reads in a row. An empty text (the menu did not open or is still
+     * opening) is an error, so LoopGuard checks the language again; before it went on to the language detection as "Unknown".
+     */
     public async readSettingsMenuText() :Promise<string> {
         await this.safeActions.safeClick(this.settingEllipsesButton);
-        const settingsText = await this.getsettingEllipsesOptionsListLandingPage();
+        // Old code: read the text right after the click, without checking that the menu opened or that the text was complete
+        await this.recoverSettingsMenuIfClosed();
+        let previous = "";
+        let sameReads = 0;
+        for (let read = 0; read <= YtLandingPage.MENU_STABLE_READS && sameReads < 3; read++) {
+            const current = (await this.getsettingEllipsesOptionsListLandingPage()).trim();
+            sameReads = current !== "" && current === previous ? sameReads + 1 : 1;
+            previous = current;
+            if (sameReads < 3) {
+                await this.page.waitForTimeout(YtLandingPage.MENU_STABLE_WAIT);
+            }
+        }
+        if (previous === "") {
+            throw new Error("Read the settings menu text but it is empty | page=" + this.page.url());
+        }
         await this.safeActions.safeClick(this.settingEllipsesButton);
-        return settingsText;
+        return previous;
     }
 
     /** Opens the global filter popup on the search results page. */
