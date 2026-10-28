@@ -58,6 +58,21 @@ Notes:
 - A full run of all languages takes a while: each long test needs about 20 to 30 minutes.
 - Headless is on by default (`headless: true` in `playwright.config.ts`). Set it to `false` to watch the browser.
 
+### Canary run (do the tests really fail?)
+
+A passing run only proves something if the checks can fail. With `CANARY=true` one value in every test is spoiled on purpose, so **every test has to fail**; a test that still passes is not checking what it says. Locally: `CANARY=true npx playwright test tests/YtMasterSafeActions.spec.ts` (PowerShell: `$env:CANARY = "true"`). On CI: Actions, "Playwright tests", Run workflow, tick **canary**. A canary run publishes its reports to the `canary/` folder of the `gh-pages` branch and leaves the real reports alone, and the whole-test retry is off.
+
+What is spoiled, and the failure each test must show:
+
+| Test | Spoiled on purpose | Expected failure |
+|---|---|---|
+| Side menu, collapsed menu, search filter | the expected text of row 0 | `... text is wrong after switching to "Afrikaans"` |
+| Country code | the code of row 0, and the code of row 1 emptied | code wrong for Algeria; "Expected country code is empty for Argentina, only United States has none"; code wrong for Argentina |
+| The 4 detection tests | expected language of row 1, expected `lang` attribute of row 2, attribute sheet row 3 | language wrong for Azərbaycan; `<html lang>` wrong for Bahasa Indonesia; "Sheet rows out of sync" for Bosanski |
+| Settings options (extra) | row 4 asks for a language that does not exist | "Failed at Canary Language (also failed on retry) | DOM click failed after 3 attempts | element=..." |
+
+Each spoiled value is logged as `CANARY | row N | ... spoiled on purpose`.
+
 ## Reports
 
 Every run writes two reports:
@@ -148,6 +163,8 @@ The settings that differ between a local run and a CI run sit side by side in tw
 | Reporters | HTML (never opens by itself) and Allure | blob (merged into one HTML report afterwards) and Allure |
 
 Shared by both: one project per chosen browser (see Browsers below) at 1920x1080, headless, 2 workers (`PW_WORKERS=3` changes it for one run), a 40-minute test timeout, a 30-second action timeout, `slowMo` of 500 ms, screenshots off.
+
+With `CANARY=true` (the canary run, see Canary run above) `playwright.config.ts` turns the retries and the trace off, because every test is meant to fail.
 
 To try the CI settings on your machine: `CI=true npx playwright test` (PowerShell: `$env:CI = "true"; npx playwright test`). Open the local HTML report with `npm run report`.
 

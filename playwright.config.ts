@@ -1,4 +1,5 @@
 import { defineConfig, devices, ReporterDescription, PlaywrightWorkerOptions } from '@playwright/test';
+import { isCanary } from './utils/Canary';
 
 // GitHub Actions sets CI=true. To try the CI settings on your machine: CI=true npx playwright test
 const isCI = !!process.env.CI;
@@ -43,6 +44,13 @@ const ci: RunSettings = {
 };
 
 const run = isCI ? ci : local;
+
+// Canary run (CANARY=true, see utils/Canary.ts): one value in every test is spoiled on purpose, so every test has to fail.
+// A failure is expected there, so the retries are off (they would only double the time) and no trace is recorded.
+const canary = isCanary();
+if (canary) {
+  console.log('CANARY RUN: every test is expected to FAIL on purpose, retries and traces are off');
+}
 
 
 // ------------------------------------------------------------------
@@ -90,7 +98,7 @@ export default defineConfig({
   fullyParallel: true,
 
   forbidOnly: run.forbidOnly,
-  retries: run.retries,
+  retries: canary ? 0 : run.retries,
   globalTimeout: run.globalTimeout,
   reporter: run.reporter,
 
@@ -101,7 +109,7 @@ export default defineConfig({
   timeout: 40 * 60 * 1000,
 
   use: {
-    trace: run.trace,
+    trace: canary ? 'off' : run.trace,
     screenshot: 'off',
     video: run.video,
 

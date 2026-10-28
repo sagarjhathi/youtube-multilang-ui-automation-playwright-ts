@@ -3,11 +3,13 @@ import GenericUtility from "../utils/GenericUtility";
 import YtLandingPage from "../pages/YtLandingPage";
 import { readJson } from "../utils/ReadJSON";
 import { LoopGuard } from "../utils/LoopGuard";
+import { canary, isCanary } from "../utils/Canary";
 import { checkAttributeRowIsForLanguage, checkDetectedLanguage, checkLanguageAttribute, normalizeForCompare, alignHypeOrLive, logComparison } from "../utils/LanguageChecks";
 
 // If a test fails, run it once more in a fresh browser (like the TestNG retry in the Java project).
 // On top of that, a failing language / location is retried on its own inside the loop (see LoopGuard).
-test.describe.configure({ retries: 1 });
+// (in canary mode every test fails on purpose, so the whole-test retry would only double the time)
+test.describe.configure({ retries: isCanary() ? 0 : 1 });
 
 
 // ------------------------------------------------------------ test data
@@ -74,7 +76,8 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
             await landingPage.expandSideMenuIfCollapsed();
 
             // YouTube shows Hype, Live or neither in one slot, the expected text is matched to what the page shows (see alignHypeOrLive)
-            const { expected, actual, slot } = alignHypeOrLive(hypeLiveRows, langText, await landingPage.readExpandedSideMenu(), sideMenuRows[i]["Expected Data"]);
+            const { expected: realExpected, actual, slot } = alignHypeOrLive(hypeLiveRows, langText, await landingPage.readExpandedSideMenu(), sideMenuRows[i]["Expected Data"]);
+            const expected = canary(realExpected, i, 0);
             logComparison("Side menu", langText, actual, expected, " | slot: " + slot);
             guard.count("slot " + slot.split(" '")[0]);
 
@@ -115,11 +118,11 @@ test("verifyingSideMenuLanguageAsInSettingsLingua", async ({ page }, testInfo) =
 
             const sideMenuText = await landingPage.readExpandedSideMenu();
 
-            checkAttributeRowIsForLanguage(langText, attributeRows[i]["Applicable Language"], i);
-            if (!checkDetectedLanguage(langText, sideMenuText, languageRows[i]["Expected Language"], "side menu")) {
+            checkAttributeRowIsForLanguage(langText, canary(attributeRows[i]["Applicable Language"], i, 3), i);
+            if (!checkDetectedLanguage(langText, sideMenuText, canary(languageRows[i]["Expected Language"], i, 1), "side menu")) {
                 guard.count("detection skipped");
             }
-            checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
+            checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), canary(attributeRows[i]["Expected Attribute"], i, 2));
 
             await landingPage.openLanguageList();
             guard.passed(langText);
@@ -155,7 +158,7 @@ test("verifyingSideMenuCollapsedLangAsInSettings", async ({ page }, testInfo) =>
             await landingPage.pickLanguage(langText);
 
             const actualText = await landingPage.readCollapsedSideMenu();
-            const expectedText = collapsedMenuRows[i]["Expected Data"];
+            const expectedText = canary(collapsedMenuRows[i]["Expected Data"], i, 0);
 
             logComparison("Collapsed side menu", langText, normalizeForCompare(actualText), normalizeForCompare(expectedText));
             expect.soft(normalizeForCompare(actualText), 'Collapsed side menu text is wrong after switching to "' + langText + '"')
@@ -194,11 +197,11 @@ test("verifyingSideMenuCollapsedLangAsInSettingsLingua", async ({ page }, testIn
 
             const sideMenuText = await landingPage.readCollapsedSideMenu();
 
-            checkAttributeRowIsForLanguage(langText, attributeRows[i]["Applicable Language"], i);
-            if (!checkDetectedLanguage(langText, sideMenuText, languageRows[i]["Expected Language"], "collapsed side menu")) {
+            checkAttributeRowIsForLanguage(langText, canary(attributeRows[i]["Applicable Language"], i, 3), i);
+            if (!checkDetectedLanguage(langText, sideMenuText, canary(languageRows[i]["Expected Language"], i, 1), "collapsed side menu")) {
                 guard.count("detection skipped");
             }
-            checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
+            checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), canary(attributeRows[i]["Expected Attribute"], i, 2));
 
             await landingPage.openLanguageList();
             guard.passed(langText);
@@ -226,7 +229,7 @@ test("verifyingSettingOptionsLang", async ({ page }, testInfo) => {
 
     const guard = new LoopGuard();
     for (let i = 0; i < languageCount && !guard.shouldStop(); i++) {
-        const langText = languageRows[i]["Applicable Language"];
+        const langText = canary(languageRows[i]["Applicable Language"], i, 4, "Canary Language");
         try {
             console.log(langText + "  row " + i);
 
@@ -234,11 +237,11 @@ test("verifyingSettingOptionsLang", async ({ page }, testInfo) => {
 
             const settingsText = await landingPage.readSettingsMenuText();
 
-            checkAttributeRowIsForLanguage(langText, attributeRows[i]["Applicable Language"], i);
-            if (!checkDetectedLanguage(langText, settingsText, languageRows[i]["Expected Language"], "settings menu")) {
+            checkAttributeRowIsForLanguage(langText, canary(attributeRows[i]["Applicable Language"], i, 3), i);
+            if (!checkDetectedLanguage(langText, settingsText, canary(languageRows[i]["Expected Language"], i, 1), "settings menu")) {
                 guard.count("detection skipped");
             }
-            checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
+            checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), canary(attributeRows[i]["Expected Attribute"], i, 2));
 
             await landingPage.openLanguageList();
             guard.passed(langText);
@@ -272,7 +275,7 @@ test("verifyCountryCodeAsBasedOnRegion", async ({ page }, testInfo) => {
             locationText = await landingPage.pickLocation(i);
 
             const detectedCode = await landingPage.getCountryCode();
-            const expectedCode = countryRows[i]["Country Code"];
+            const expectedCode = canary(canary(countryRows[i]["Country Code"], i, 0), i, 1, "");
             console.log(locationText + "  row " + i + "  detected code: " + detectedCode + "  expected code: " + expectedCode);
 
             // only the United States has no code next to the logo, an empty expected code anywhere else is a data mistake
@@ -324,9 +327,10 @@ test("verifyingGlobalFilterLandingPage", async ({ page }, testInfo) => {
             const filterText = await landingPage.getDataFromGlobalFilterPopup();
             await landingPage.dismissGlobalFilterPopup();
 
-            logComparison("Search filter", langText, normalizeForCompare(filterText), normalizeForCompare(globalFilterRows[i]["Expected Data"]));
+            const expectedFilterText = canary(globalFilterRows[i]["Expected Data"], i, 0);
+            logComparison("Search filter", langText, normalizeForCompare(filterText), normalizeForCompare(expectedFilterText));
             expect.soft(normalizeForCompare(filterText), 'Search filter text is wrong after switching to "' + langText + '"')
-                .toBe(normalizeForCompare(globalFilterRows[i]["Expected Data"]));
+                .toBe(normalizeForCompare(expectedFilterText));
 
             guard.passed(langText);
         } catch (e) {
@@ -364,11 +368,11 @@ test("verifyingGlobalFilterLandingPageLingua", async ({ page }, testInfo) => {
             const filterText = await landingPage.getDataFromGlobalFilterPopup();
             await landingPage.dismissGlobalFilterPopup();
 
-            checkAttributeRowIsForLanguage(langText, attributeRows[i]["Applicable Language"], i);
-            if (!checkDetectedLanguage(langText, filterText, languageRows[i]["Expected Language"], "search filter")) {
+            checkAttributeRowIsForLanguage(langText, canary(attributeRows[i]["Applicable Language"], i, 3), i);
+            if (!checkDetectedLanguage(langText, filterText, canary(languageRows[i]["Expected Language"], i, 1), "search filter")) {
                 guard.count("detection skipped");
             }
-            checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), attributeRows[i]["Expected Attribute"]);
+            checkLanguageAttribute(langText, await genericUtility.getLangAttribute(), canary(attributeRows[i]["Expected Attribute"], i, 2));
 
             guard.passed(langText);
         } catch (e) {
