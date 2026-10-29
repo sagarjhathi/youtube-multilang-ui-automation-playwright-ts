@@ -15,5 +15,7 @@
   "overideCountriesCountDefaultCI": 110,
   "overideCountriesCountCI": 110,
 
+  "CANARY": false,
+
   "Url": "https://www.youtube.com/"
 }

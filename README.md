@@ -60,7 +60,7 @@ Notes:
 
 ### Canary run (do the tests really fail?)
 
-A passing run only proves something if the checks can fail. With `CANARY=true` one value in every test is spoiled on purpose, so **every test has to fail**; a test that still passes is not checking what it says. Locally: `CANARY=true npx playwright test tests/YtMasterSafeActions.spec.ts` (PowerShell: `$env:CANARY = "true"`). On CI: Actions, "Playwright tests", Run workflow, tick **canary**. A canary run publishes its reports to the `canary/` folder of the `gh-pages` branch and leaves the real reports alone, and the whole-test retry is off.
+A passing run only proves something if the checks can fail. With `CANARY=true` one value in every test is spoiled on purpose, so **every test has to fail**; a test that still passes is not checking what it says. It is off by default. Switch it on in one of three ways: set `"CANARY": true` in `configs/runconfig.json` (this also makes the next push or nightly a canary run, so set it back to `false` afterwards), tick **canary** in Actions, "Playwright tests", Run workflow, or locally `CANARY=true npx playwright test tests/YtMasterSafeActions.spec.ts` (PowerShell: `$env:CANARY = "true"`). The environment variable wins over the file, like every key in `runconfig.json`. A canary run publishes its reports to the `canary/` folder of the `gh-pages` branch and leaves the real reports alone, and the whole-test retry is off.
 
 What is spoiled, and the failure each test must show:
 

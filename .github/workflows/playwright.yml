@@ -163,11 +163,21 @@ jobs:
       # ---- Publish ----
       # Pull requests only build the reports; pushes to main or master and manual runs publish.
 
+      # A canary run is switched on by the "canary" input of a manual run or by "CANARY": true in configs/runconfig.json
+      - name: Is this a canary run?
+        id: canary
+        run: |
+          if [ "${{ inputs.canary }}" = "true" ] || [ "$(node -p "require('./configs/runconfig.json').CANARY === true")" = "true" ]; then
+            echo "on=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "on=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Publish to gh-pages
         if: ${{ github.event_name != 'pull_request' }}
         run: |
           cd site
-          if [ "${{ inputs.canary }}" = "true" ]; then
+          if [ "${{ steps.canary.outputs.on }}" = "true" ]; then
             # Canary run: the reports go to canary/ and the real reports stay as they are.
             rm -rf canary
             mkdir canary
