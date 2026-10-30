@@ -38,58 +38,33 @@ export function removeOptionalEntries(text: string) {
     return normalizeText(text).replace(/\s*YouTube\s+(Music|TV|Labs)\b/g, "").replace(/\s+/g, " ").trim();
 }
 
-/** The word as a whole word (not part of a longer word), case insensitive. */
-function wholeWord(word: string) {
-    const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return new RegExp("(?<![\\p{L}\\p{M}\\p{N}])" + escaped + "(?![\\p{L}\\p{M}\\p{N}])", "iu");
-}
+/** One allowed version of the side menu text, with a short description of the options it was built from (for the log). */
+export type Version = { text: string; description: string };
 
 /**
- * Makes the expected side menu text match what the page shows in the Hype / Live slot, so the rest is compared as it is.
- * YouTube shows the Hype entry, the Live entry, or none in that slot, and the expected data may hold either one (it holds
- * the Hype word today, and could hold the Live word after a refresh). The words of each language come from
- * data/HypeLiveWords.json. Per language, "expected word" is the one of the two found in the expected text and "page word"
- * is the one found in the page text:
- * - the texts are equal: nothing is changed
- * - the page word is the other word: the expected word is replaced by the page word, so the entry must also be in the
- *   same place
- * - the page shows neither word: the expected word is removed from the expected text (the page left the entry out)
- * Anything else (both words on one side, a different entry in the slot, a language that is not in the file) is compared
- * as it is and fails with the full texts.
+ * Every text the side menu is allowed to show.
+ * The base text has {placeholders} where YouTube changes the menu (for example {slot} and {premium}), and "alternatives"
+ * lists the allowed texts of each placeholder ("" means that the entry is missing).
+ * Each placeholder is filled with each of its options in turn: 3 options for {slot} and 2 for {premium} give 6 texts.
+ * Every text is cleaned the same way as the text from the page, so the two can be compared with ===.
  */
-export function alignHypeOrLive(hypeLiveRows: { [column: string]: string }[], langText: string, sideMenuText: string, expectedText: string) {
-    const actual = removeOptionalEntries(sideMenuText);
-    let expected = removeOptionalEntries(expectedText);
-    let slot = "texts equal";      // what happened to the Hype / Live slot, shown in the log
+export function acceptedTexts(base: string, alternatives: { [placeholder: string]: string[] }) {
+    let versions: Version[] = [{ text: base, description: "" }];
 
-    const row = hypeLiveRows.find(candidate => candidate["Applied Language"] === langText);
-    if (!row) {
-        console.log("No Hype/Live words for " + langText + ", the side menu is compared as it is");
-        return { expected, actual, slot: "language not in the word list" };
-    }
-    if (actual === expected) {
-        return { expected, actual, slot };
-    }
-    slot = "not adjusted";
-
-    const words = [normalizeText(row["Hype"]).trim(), normalizeText(row["Live"]).trim()].filter(word => word !== "");
-    const wordsInExpected = words.filter(word => wholeWord(word).test(expected));
-    const wordsInPage = words.filter(word => wholeWord(word).test(actual));
-    if (wordsInExpected.length !== 1 || wordsInPage.length > 1) {
-        return { expected, actual, slot };
+    for (const placeholder of Object.keys(alternatives)) {
+        const filled: Version[] = [];
+        for (const version of versions) {
+            for (const option of alternatives[placeholder]) {
+                filled.push({
+                    text: version.text.replace("{" + placeholder + "}", option),
+                    description: version.description + placeholder + "=" + (option === "" ? "(none)" : option) + " ",
+                });
+            }
+        }
+        versions = filled;
     }
 
-    const expectedWord = wordsInExpected[0];
-    if (wordsInPage.length === 0) {
-        console.log("The page shows neither Hype nor Live, '" + expectedWord + "' removed from the expected text");
-        expected = expected.replace(wholeWord(expectedWord), " ").replace(/\s+/g, " ").trim();
-        slot = "entry missing";
-    } else if (wordsInPage[0] !== expectedWord) {
-        console.log("The page shows '" + wordsInPage[0] + "', expected '" + expectedWord + "' replaced by it");
-        expected = expected.replace(wholeWord(expectedWord), () => wordsInPage[0]);
-        slot = (wordsInPage[0] === normalizeText(row["Live"]).trim() ? "Live" : "Hype") + " '" + wordsInPage[0] + "'";
-    }
-    return { expected, actual, slot };
+    return versions.map(version => ({ text: removeOptionalEntries(version.text), description: version.description.trim() }));
 }
 
 /** The attribute file is read by row number, so its row must be for the same language as the language file. */

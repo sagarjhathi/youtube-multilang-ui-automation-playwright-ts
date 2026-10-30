@@ -5,7 +5,7 @@ import { readJson } from "../utils/ReadJSON";
 import { LoopGuard } from "../utils/LoopGuard";
 import { canary, isCanary } from "../utils/Canary";
 import { softCheck } from "../utils/SoftChecks";
-import { checkAttributeRowIsForLanguage, checkDetectedLanguage, checkLanguageAttribute, normalizeForCompare, alignHypeOrLive, logComparison } from "../utils/LanguageChecks";
+import { checkAttributeRowIsForLanguage, checkDetectedLanguage, checkLanguageAttribute, normalizeForCompare, acceptedTexts, removeOptionalEntries, logComparison } from "../utils/LanguageChecks";
 
 // If a test fails, run it once more in a fresh browser (like the TestNG retry in the Java project).
 // On top of that, a failing language / location is retried on its own inside the loop (see LoopGuard).
@@ -21,7 +21,6 @@ const languageRows = readJson("ApplicableLanguageExpectedLanguage.json");
 const attributeRows = readJson("ApplicableLanguageExpectedAttibute.json");
 const globalFilterRows = readJson("verifyingGlobalFilterLandingPage.json");
 const countryRows = readJson("Country_Name_Code.json");
-const hypeLiveRows = readJson("HypeLiveWords.json");
 
 
 // ------------------------------------------------------------ recovery after a failed language / location
@@ -77,11 +76,14 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
             await landingPage.pickLanguage(langText);
             await landingPage.expandSideMenuIfCollapsed();
 
-            // YouTube shows Hype, Live or neither in one slot, the expected text is matched to what the page shows (see alignHypeOrLive)
-            const { expected: realExpected, actual, slot } = alignHypeOrLive(hypeLiveRows, langText, await landingPage.readExpandedSideMenu(), sideMenuRows[i]["Expected Data"]);
-            const expected = canary(realExpected, i, 0);
-            logComparison("Side menu", langText, actual, expected, " | slot: " + slot);
-            guard.count("slot " + slot.split(" '")[0]);
+            // YouTube changes this menu in known ways (the "Alternatives" of the data file): the page text has to equal one of the allowed versions
+            const row = sideMenuRows[i];
+            const versions = acceptedTexts(canary(row["Expected Data"], i, 0), row["Alternatives"] ?? {});
+            const actual = removeOptionalEntries(await landingPage.readExpandedSideMenu());
+            const matched = versions.find(version => version.text === actual);
+            const expected = matched ? actual : versions[0].text;      // nothing matches: the failure shows the difference to the usual version
+            logComparison("Side menu", langText, actual, expected, " | version: " + (matched ? matched.description : "none of the " + versions.length + " matches"));
+            guard.count(matched ? (matched === versions[0] ? "usual version" : "other version") : "unknown version");
 
             // soft assertion: a mismatch is reported at the end, the loop keeps going
             softCheck(actual, 'Side menu text is wrong after switching to "' + langText + '"', expected);
