@@ -11,7 +11,7 @@ The tests run against the **live** youtube.com, signed out, in a real browser. N
 
 | Test | What it verifies |
 |---|---|
-| `verifyingSideMenuLanguageAsInSettings` | Expanded side-menu text for each language equals the expected text in the data sheet (YouTube Music and YouTube TV are left out, and the Hype / Live entry is matched to what the page shows, see Known issues) |
+| `verifyingSideMenuLanguageAsInSettings` | Expanded side-menu text for each language equals one of the allowed versions of the expected text in the data file (YouTube Music, YouTube TV and YouTube Labs are left out; see "Allowed versions" below) |
 | `verifyingSideMenuLanguageAsInSettingsLingua` | The side-menu text is detected as the expected language, and `<html lang>` has the expected value |
 | `verifyingSideMenuCollapsedLangAsInSettings` | Collapsed side-menu text for each language equals the expected text |
 | `verifyingSideMenuCollapsedLangAsInSettingsLingua` | Detected language and `<html lang>` for the collapsed menu |
@@ -58,6 +58,10 @@ Notes:
 - A full run of all languages takes a while: each long test needs about 20 to 30 minutes.
 - Headless is on by default (`headless: true` in `playwright.config.ts`). Set it to `false` to watch the browser.
 
+### Fallback tests (do the retry mechanisms really work?)
+
+`tests/FallbackMechanisms.spec.ts` makes each safety layer act on purpose, on small fake pages with the same tags as YouTube (no network, no YouTube, about a minute): SafeActions (late element, refresh, DOM-click fallback, the one-line error), LoopGuard (retry, two failures, abort after 5 element or 3 environment failures, reset by a pass, a failing recovery), SoftChecks (a first attempt's failed check is dropped, a finished attempt's is kept), the settings-menu and side-menu recoveries, the stable reads, the allowed side-menu versions (built from the data and checked against the texts seen in CI) and the whole-test retry (W1 shows as flaky on purpose). Run it with `npx playwright test tests/FallbackMechanisms.spec.ts`. CI does not run it. The canary below does the same job for the real tests on YouTube.
+
 ### Canary run (do the tests really fail?)
 
 A passing run only proves something if the checks can fail. With `CANARY=true` one value in every test is spoiled on purpose, so **every test has to fail**; a test that still passes is not checking what it says. It is off by default. Switch it on in one of three ways: set `"CANARY": true` in `configs/runconfig.json` (this also makes the next push or nightly a canary run, so set it back to `false` afterwards), tick **canary** in Actions, "Playwright tests", Run workflow, or locally `CANARY=true npx playwright test tests/YtMasterSafeActions.spec.ts` (PowerShell: `$env:CANARY = "true"`). The environment variable wins over the file, like every key in `runconfig.json`. A canary run publishes its reports to the `canary/` folder of the `gh-pages` branch and leaves the real reports alone, and the whole-test retry is off.
@@ -94,6 +98,7 @@ Every run writes two reports:
 tests/
   YtMaster.spec.ts              original version, plain Playwright clicks and waits
   YtMasterSafeActions.spec.ts   same tests using the SafeActions helper (the maintained one)
+  FallbackMechanisms.spec.ts    fault-injection tests: make every retry / fallback run on purpose on fake pages (offline, about a minute)
 pages/YtLandingPage.ts          page object: locators and page methods
 utils/
   SafeActions.ts                safe click / find element / find elements with waits and retries
@@ -122,6 +127,23 @@ docs/                           working notes (local only, git-ignored)
 | `Country_Name_Code.json` | Expected country code per region |
 | `verifyingGlobalFilterLandingPage.json` | Expected search-filter popup text per language |
 | `LanguagesList.json` | List of languages |
+
+#### Allowed versions of the expanded side menu
+
+`verifyingSideMenuLanguageAsInSettings.json` does not hold one fixed text per language. Each row has a **base text** with `{placeholders}` where YouTube changes the menu, and the allowed texts of each placeholder:
+
+```json
+{
+  "Applied Language": "Afrikaans",
+  "Expected Data": "Tuis Kortvideo's ... Flieks en TV {slot} {premium} YouTube Kids Aangeegeskiedenis",
+  "Alternatives": {
+    "slot":    ["Regstreeks", "Ophef", ""],
+    "premium": ["YouTube Premium", "Probeer Premium vir $0"]
+  }
+}
+```
+
+The test fills each placeholder with each of its options (3 x 2 = 6 texts here; `""` means the entry is missing) and the page text has to equal one of them. The first option of each list is the usual one: a failure is shown against it. The log says which version matched, for example `version: slot=Regstreeks premium=YouTube Premium`. To allow a new form, add its text to the list in the data file (for example a new promo wording to `premium`); no code changes. `YouTube Music`, `YouTube TV` and `YouTube Labs` are removed from both sides before comparing.
 
 The expected text comes from the live site, so it goes out of date when YouTube changes its menus. When a check starts failing on many languages at once with the same small difference, the sheet is probably stale.
 
@@ -249,7 +271,7 @@ This tests a page that the project does not control, so some failures are not bu
 - The side menu can still be filling up right after a language switch (one run read only the first 5 entries). The menu is read again until the text is the same on 3 reads in a row, about a second per read.
 - A language switch reloads the whole page, and some languages (Greek in particular) sometimes load slowly or hang.
 - Long loops of many language switches can fail at a different place from run to run. LoopGuard (above) retries the failed language once and keeps going, so one bad language no longer hides the rest.
-- YouTube shows the Hype entry, the Live entry, or neither in one slot of the side menu, and each is translated differently in every language. The expected data may hold either word. `data/HypeLiveWords.json` lists both words for each language, and the expanded side-menu test first compares the texts as they are. If they differ, it finds which of the two words is in the expected text and which is on the page: if the page shows the other word, the expected word is replaced by it (so the entry must also be in the right place); if the page shows neither, the expected word is removed. Anything else, or a language missing from the file, fails the comparison. The Live words were confirmed by two CI runs (one per project).
+- YouTube changes the expanded side menu in known ways: the Hype / Live slot holds the Live word, the Hype word or nothing, and the "YouTube Premium" entry is sometimes replaced by a localized promo with a price. These are the **allowed versions** of the data file (see "Allowed versions" below). A form that is in none of them fails with the usual Expected / Received diff, and is added to the data once it has been checked on the page. The Live words and promo texts come from CI page text (the Java and TypeScript reports), not from the YouTube site itself, and the promo contains a price that may differ by region.
 
 The notes in `docs/` (local only, not committed) list every failure type seen, everything that was tried, and the run results. Start with `docs/README.md`.
 
