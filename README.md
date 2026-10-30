@@ -185,7 +185,7 @@ The settings that differ between a local run and a CI run sit side by side in tw
 | `video` | kept on failure | off |
 | Reporters | HTML (never opens by itself) and Allure | blob (merged into one HTML report afterwards) and Allure |
 
-Shared by both: one project per chosen browser (see Browsers below) at 1920x1080, headless, 2 workers (`PW_WORKERS=3` changes it for one run), a 40-minute test timeout, a 30-second action timeout, `slowMo` of 500 ms, screenshots off.
+Shared by both: one project per chosen browser (see Browsers below) at 1920x1080, headless, 2 workers (`PW_WORKERS=3` changes it for one run), a 40-minute test timeout, a 30-second action timeout, `slowMo` of 250 ms, screenshots off.
 
 With `CANARY=true` (the canary run, see Canary run above) `playwright.config.ts` turns the retries and the trace off, because every test is meant to fail.
 

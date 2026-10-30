@@ -126,7 +126,7 @@ export default defineConfig({
       viewport: { width: 1920, height: 1080 },
       launchOptions: {
         args: BROWSERS[name].chromiumBased ? CHROMIUM_ARGS : [],
-        slowMo: 500,                           // pause 0.5 s between actions so YouTube has time to finish loading
+        slowMo: 250,                           // pause 0.25 s between actions so YouTube has time to finish loading
       },
     },
   })),

@@ -138,10 +138,6 @@ class YtLandingPage {
         await this.languageList.filter({ hasText: languageName }).first().click();
     }
 
-    async getCountryCodee(): Promise<string> {
-        return (await this.countryCodeOnYtLogoLandingPage.innerText()).trim();
-    }
-
     async openLocationDropdown(): Promise<void> {
         await this.openSettingsMenu();
         await this.locationDropdownUnderSettings.click();
@@ -378,22 +374,24 @@ class YtLandingPage {
     /**
      * The dropdowns of the settings menu exist only while the menu is open, but the click on the settings button is
      * sometimes missed (for example right after a page load). Then the dropdown click can never succeed, because its retries
-     * reload the page, which closes the menu again. So: do nothing if the menu is open, give a slow menu 3 seconds to
-     * open (the wait comes first, so a menu that is just opening is not closed by a second click), and only then click again.
+     * reload the page, which closes the menu again. So: do nothing if the menu is open, wait for its rows to show up (the
+     * wait comes first, so a menu that is just opening is not closed by a second click), and only then click again.
+     * The settings button has no aria-pressed / aria-expanded (checked on the live page), so the visible rows are the only
+     * signal. No number is written here: the wait is Playwright's action timeout from playwright.config.ts (30 s).
      */
     public async recoverSettingsMenuIfClosed() :Promise<void> {
         if (await this.isSettingsMenuOpen()) {
             return;
         }
         try {
-            await this.settingsMenuRow.waitFor({ state: "visible", timeout: 3000 });
+            await this.settingsMenuRow.waitFor({ state: "visible" });
             return;
         } catch {
             // still closed, handled below
         }
         console.log("Settings menu is not open after the click, clicking the settings button again");
         await this.safeActions.safeClick(this.settingEllipsesButton);
-        await this.settingsMenuRow.waitFor({ state: "visible", timeout: 5000 }).catch(() => {
+        await this.settingsMenuRow.waitFor({ state: "visible" }).catch(() => {
             console.log("Settings menu is still not open after the second click");
         });
     }
@@ -464,37 +462,38 @@ class YtLandingPage {
     }
 
     /**
-     * Text of a menu, all the items joined with a space. After a language switch the menu can still be filling up
-     * (a read once returned only the first 5 entries), so it is read again until the text is the same on 3 reads in a row (about a second).
+     * Reads a menu text again and again until it is not empty and the same on 3 reads in a row (about a second).
+     * After a language switch a menu can still be filling up (a read once returned only the first 5 entries) or not be open yet.
+     * Returns the last text read, also when it never became stable (the caller decides if that is an error).
      */
-    private async readStableMenuText(menuItems:Locator) :Promise<string> {
-        let previous = await this.genericUtility.joinTexts(await this.safeActions.safeFindElements(menuItems));
+    private async readUntilStable(read:() => Promise<string>) :Promise<string> {
+        let previous = await read();
         let sameReads = 1;
-        for (let attempt = 1; attempt <= YtLandingPage.MENU_STABLE_READS; attempt++) {
+        for (let attempt = 1; attempt <= YtLandingPage.MENU_STABLE_READS && sameReads < 3; attempt++) {
             await this.page.waitForTimeout(YtLandingPage.MENU_STABLE_WAIT);
-            const current = await this.genericUtility.joinTexts(await this.safeActions.safeFindElements(menuItems));
-            if (current === previous) {
-                sameReads++;
-                if (sameReads >= 3) {
-                    return current;
-                }
-            } else {
+            const current = await read();
+            if (current !== previous) {
                 console.log("The menu was still changing (" + previous.length + " then " + current.length + " characters), reading it again");
-                previous = current;
-                sameReads = 1;
             }
+            sameReads = current !== "" && current === previous ? sameReads + 1 : 1;
+            previous = current;
         }
         return previous;
     }
 
+    /** Text of a side menu, all the items joined with a space. */
+    private async readSideMenuText(menuItems:Locator) :Promise<string> {
+        return await this.readUntilStable(async () => await this.genericUtility.joinTexts(await this.safeActions.safeFindElements(menuItems)));
+    }
+
     /** Text of the expanded side menu, all the items joined with a space. */
     public async readExpandedSideMenu() :Promise<string> {
-        return await this.readStableMenuText(this.sideMenuExpandedList);
+        return await this.readSideMenuText(this.sideMenuExpandedList);
     }
 
     /** Text of the collapsed side menu, all the items joined with a space. */
     public async readCollapsedSideMenu() :Promise<string> {
-        return await this.readStableMenuText(this.sideMenuCollapsedList);
+        return await this.readSideMenuText(this.sideMenuCollapsedList);
     }
 
     /**
@@ -506,21 +505,12 @@ class YtLandingPage {
         await this.safeActions.safeClick(this.settingEllipsesButton);
         // Old code: read the text right after the click, without checking that the menu opened or that the text was complete
         await this.recoverSettingsMenuIfClosed();
-        let previous = "";
-        let sameReads = 0;
-        for (let read = 0; read <= YtLandingPage.MENU_STABLE_READS && sameReads < 3; read++) {
-            const current = (await this.getsettingEllipsesOptionsListLandingPage()).trim();
-            sameReads = current !== "" && current === previous ? sameReads + 1 : 1;
-            previous = current;
-            if (sameReads < 3) {
-                await this.page.waitForTimeout(YtLandingPage.MENU_STABLE_WAIT);
-            }
-        }
-        if (previous === "") {
+        const text = await this.readUntilStable(async () => (await this.getsettingEllipsesOptionsListLandingPage()).trim());
+        if (text === "") {
             throw new Error("Read the settings menu text but it is empty | page=" + this.page.url());
         }
         await this.safeActions.safeClick(this.settingEllipsesButton);
-        return previous;
+        return text;
     }
 
     /** Opens the global filter popup on the search results page. */
