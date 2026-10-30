@@ -16,7 +16,8 @@ The tests run against the **live** youtube.com, signed out, in a real browser. N
 | `verifyingSideMenuCollapsedLangAsInSettings` | Collapsed side-menu text for each language equals the expected text |
 | `verifyingSideMenuCollapsedLangAsInSettingsLingua` | Detected language and `<html lang>` for the collapsed menu |
 | `verifyingSettingOptionsLang` | Detected language of the settings menu, and `<html lang>` |
-| `verifyCountryCodeAsBasedOnRegion` | The country code on the YouTube logo for each region in the location list |
+| `verifyCountryCodeAsBasedOnRegion_FirstHalfOfLocations` | The country code on the YouTube logo for each region in the first half of the location list |
+| `verifyCountryCodeAsBasedOnRegion_SecondHalfOfLocations` | The same for the second half of the list (the two halves run side by side, so the slowest test is about half as long) |
 | `verifyingGlobalFilterLandingPage` | Search-filter popup text on the results page for each language |
 | `verifyingGlobalFilterLandingPageLingua` | Detected language of the filter popup, and `<html lang>` |
 
@@ -71,7 +72,7 @@ What is spoiled, and the failure each test must show:
 | Test | Spoiled on purpose | Expected failure |
 |---|---|---|
 | Side menu, collapsed menu, search filter | the expected text of row 0 | `... text is wrong after switching to "Afrikaans"` |
-| Country code | the code of row 0, and the code of row 1 emptied | code wrong for Algeria; "Expected country code is empty for Argentina, only United States has none"; code wrong for Argentina |
+| Country code (both halves) | in each half: the code of its first location, and the code of its second location emptied | per half: code wrong for the first location; "Expected country code is empty for <second location>, only United States has none"; code wrong for the second location (Algeria and Argentina in the first half) |
 | The 4 detection tests | expected language of row 1, expected `lang` attribute of row 2, attribute sheet row 3 | language wrong for Azərbaycan; `<html lang>` wrong for Bahasa Indonesia; "Sheet rows out of sync" for Bosanski |
 | Settings options (extra) | row 4 asks for a language that does not exist | "Failed at Canary Language (also failed on retry) | DOM click failed after 3 attempts | element=..." |
 
@@ -177,7 +178,7 @@ The settings that differ between a local run and a CI run sit side by side in tw
 
 | Setting | Local | CI (`CI=true`) |
 |---|---|---|
-| `retries` | 0 | 1 (`YtMasterSafeActions.spec.ts` sets `retries: 1` itself, so it retries once locally too) |
+| `retries` | 1 | 1 (0 in a canary run; this config is the one place that sets it) |
 | `forbidOnly` (fail if `test.only` is left in) | off | on |
 | `globalTimeout` (limit for the whole run) | none | 80 minutes, so the 90-minute job still has time to upload the reports |
 | `trace` | kept on failure | kept only for the first run of a test, and only if it failed (the retry is not traced; set to `'off'` for smaller artifacts) |

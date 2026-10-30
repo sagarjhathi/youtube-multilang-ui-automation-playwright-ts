@@ -1,16 +1,17 @@
-import { test } from "@playwright/test";
+import { test, Page, TestInfo } from "@playwright/test";
 import GenericUtility from "../utils/GenericUtility";
 import YtLandingPage from "../pages/YtLandingPage";
 import { readJson } from "../utils/ReadJSON";
 import { LoopGuard } from "../utils/LoopGuard";
-import { canary, isCanary } from "../utils/Canary";
+import { canary } from "../utils/Canary";
 import { softCheck } from "../utils/SoftChecks";
-import { checkAttributeRowIsForLanguage, checkDetectedLanguage, checkLanguageAttribute, normalizeForCompare, acceptedTexts, removeOptionalEntries, logComparison } from "../utils/LanguageChecks";
+import {
+    checkAttributeRowIsForLanguage, checkDetectedLanguage, checkLanguageAttribute, normalizeForCompare,
+    acceptedTexts, removeOptionalEntries, logComparison,
+} from "../utils/LanguageChecks";
 
-// If a test fails, run it once more in a fresh browser (like the TestNG retry in the Java project).
-// On top of that, a failing language / location is retried on its own inside the loop (see LoopGuard).
-// (in canary mode every test fails on purpose, so the whole-test retry would only double the time)
-test.describe.configure({ retries: isCanary() ? 0 : 1 });
+// Retries: a failing language / location is retried on its own inside the loop (see LoopGuard), and a test that still
+// fails is run once more in a fresh browser. The second one is set in playwright.config.ts (off in a canary run).
 
 
 // ------------------------------------------------------------ test data
@@ -61,14 +62,9 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
 
     const languageCount = genericUtility.resolveLanguageIterationCount(sideMenuRows.length);
 
-    // about a minute per language, the default test timeout is too short for a loop
-    test.setTimeout(languageCount * 60000 + 60000);
-
     const guard = new LoopGuard();
     for (let i = 0; i < languageCount && !guard.shouldStop(); i++) {
-        let langText = sideMenuRows[i]["Applied Language"];
-
-       
+        const langText = sideMenuRows[i]["Applied Language"];
         try {
             console.log(langText + "  row " + i);
 
@@ -83,7 +79,13 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
             const matched = versions.find(version => version.text === actual);
             const expected = matched ? actual : versions[0].text;      // nothing matches: the failure shows the difference to the usual version
             logComparison("Side menu", langText, actual, expected, " | version: " + (matched ? matched.description : "none of the " + versions.length + " matches"));
-            guard.count(matched ? (matched === versions[0] ? "usual version" : "other version") : "unknown version");
+            if (!matched) {
+                guard.count("unknown version");
+            } else if (matched === versions[0]) {
+                guard.count("usual version");
+            } else {
+                guard.count("other version");
+            }
 
             // soft assertion: a mismatch is reported at the end, the loop keeps going
             softCheck(actual, 'Side menu text is wrong after switching to "' + langText + '"', expected);
@@ -261,8 +263,11 @@ test("verifyingSettingOptionsLang", async ({ page }, testInfo) => {
 
 
 // ------------------------------------------------------------ country code next to the logo
+// 111 locations in one test took about 12 minutes, so the list is split in two tests that run side by side.
+// The index i is the position in the location list and the row in Country_Name_Code.json, so the two tests
+// only differ in where the loop starts and ends.
 
-test("verifyCountryCodeAsBasedOnRegion", async ({ page }, testInfo) => {
+async function checkCountryCodes(page: Page, testInfo: TestInfo, half: "first" | "second") {
     const landingPage = new YtLandingPage(page, testInfo);
     const genericUtility = new GenericUtility(page);
 
@@ -272,14 +277,20 @@ test("verifyCountryCodeAsBasedOnRegion", async ({ page }, testInfo) => {
     const allLocations = await landingPage.getLocationList();
     const locationCount = genericUtility.resolveCountryIterationCount(allLocations.length);
 
+    const middle = Math.ceil(locationCount / 2);
+    const [start, end] = half === "first" ? [0, middle] : [middle, locationCount];
+    console.log("Country codes, " + half + " half: locations " + start + " to " + (end - 1) + " of " + locationCount);
+
     const guard = new LoopGuard();
-    for (let i = 0; i < locationCount && !guard.shouldStop(); i++) {
+    for (let i = start; i < end && !guard.shouldStop(); i++) {
         let locationText = "location #" + i;     // replaced by the real name once the location is picked
         try {
             locationText = await landingPage.pickLocation(i);
 
             const detectedCode = await landingPage.getCountryCode();
-            const expectedCode = canary(canary(countryRows[i]["Country Code"], i, 0), i, 1, "");
+            const position = i - start;          // 0 for the first location of this test: the canary spoils the first two of each half
+            let expectedCode = canary(countryRows[i]["Country Code"], position, 0);
+            expectedCode = canary(expectedCode, position, 1, "");
             console.log(locationText + "  row " + i + "  detected code: " + detectedCode + "  expected code: " + expectedCode);
 
             // only the United States has no code next to the logo, an empty expected code anywhere else is a data mistake
@@ -299,7 +310,15 @@ test("verifyCountryCodeAsBasedOnRegion", async ({ page }, testInfo) => {
         }
     }
 
-    guard.logSummary(locationCount);
+    guard.logSummary(end - start);
+}
+
+test("verifyCountryCodeAsBasedOnRegion_FirstHalfOfLocations", async ({ page }, testInfo) => {
+    await checkCountryCodes(page, testInfo, "first");
+});
+
+test("verifyCountryCodeAsBasedOnRegion_SecondHalfOfLocations", async ({ page }, testInfo) => {
+    await checkCountryCodes(page, testInfo, "second");
 });
 
 

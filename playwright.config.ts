@@ -23,7 +23,7 @@ type RunSettings = {
 
 const local: RunSettings = {
   forbidOnly: false,
-  retries: 0,
+  retries: 1,                                  // a failed test runs once more in a fresh browser (same as CI; a failing item inside a loop is retried by LoopGuard first)
   globalTimeout: 0,
   trace: 'retain-on-failure',
   // open: 'never' keeps the terminal free after a failure. Open the report yourself with: npm run report
