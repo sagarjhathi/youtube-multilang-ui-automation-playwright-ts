@@ -1,9 +1,6 @@
 import { softCheck } from "./SoftChecks";
 import { detectLanguage } from "../eld-language-detection/languageDetector.mjs";
 
-/** Languages (as shown in YouTube's language list) that eld cannot detect. Only their html lang attribute is checked. */
-export const LANGUAGES_NOT_SUPPORTED_BY_ELD = ["Afrikaans", "Bahasa Indonesia", "Bosanski", "Dansk"];
-
 /** Words YouTube leaves in English in the menu of every language. They are removed before the language is detected. */
 const UNTRANSLATED_ENGLISH_WORDS = ["YouTube", "Shorts", "Music", "Premium", "Kids", "Studio", "TV"];
 
@@ -67,11 +64,6 @@ export function acceptedTexts(base: string, alternatives: { [placeholder: string
     return versions.map(version => ({ text: removeOptionalEntries(version.text), description: version.description.trim() }));
 }
 
-/** The attribute file is read by row number, so its row must be for the same language as the language file. */
-export function checkAttributeRowIsForLanguage(langText: string, attributeRowLanguage: string, row: number) {
-    softCheck(attributeRowLanguage, "Sheet rows out of sync | attribute row " + row + " is not \"" + langText + "\"", langText);
-}
-
 /** Removes the words YouTube leaves untranslated, so they do not confuse the language detector. English pages keep them. */
 export function removeEnglishWordsForNonEnglish(text: string, langText: string) {
     if (langText.trim().toLowerCase().startsWith("english")) {
@@ -86,12 +78,12 @@ export function removeEnglishWordsForNonEnglish(text: string, langText: string) 
 }
 
 
-/** Finds the language of the text from the page ("source" names the part of the page, used in the error message) and checks it, unless eld cannot detect that language. */
-export function checkDetectedLanguage(langText: string, textFromPage: string, expectedLanguage: string, source: string): boolean {
+/** Finds the language of the text from the page ("source" names the part of the page, used in the error message) and checks it, unless detection is skipped for that language (eld cannot detect it). */
+export function checkDetectedLanguage(langText: string, textFromPage: string, expectedLanguage: string, source: string, detectionSkipped: boolean): boolean {
     const detectedLanguage = detectLanguage(removeEnglishWordsForNonEnglish(textFromPage, langText));
     console.log(langText + "  detected language: " + detectedLanguage + "  expected language: " + expectedLanguage);
 
-    if (LANGUAGES_NOT_SUPPORTED_BY_ELD.includes(langText)) {
+    if (detectionSkipped) {
         console.log("Skipping the detected language check for " + langText + " (eld cannot detect it)");
         return false;
     }

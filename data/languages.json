@@ -1,0 +1,320 @@
+[
+  {
+    "Language": "Afrikaans",
+    "Expected Language": "AFRIKAANS",
+    "Expected Attribute": "af-ZA",
+    "Detection Skipped": true
+  },
+  {
+    "Language": "Azərbaycan",
+    "Expected Language": "AZERBAIJANI",
+    "Expected Attribute": "az-Latn-AZ",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Bahasa Indonesia",
+    "Expected Language": "INDONESIAN",
+    "Expected Attribute": "id-ID",
+    "Detection Skipped": true
+  },
+  {
+    "Language": "Bosanski",
+    "Expected Language": "CROATIAN",
+    "Expected Attribute": "bs-Latn-BA",
+    "Detection Skipped": true
+  },
+  {
+    "Language": "Català",
+    "Expected Language": "CATALAN",
+    "Expected Attribute": "ca-ES",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Dansk",
+    "Expected Language": "DANISH",
+    "Expected Attribute": "da-DK",
+    "Detection Skipped": true
+  },
+  {
+    "Language": "Deutsch",
+    "Expected Language": "GERMAN",
+    "Expected Attribute": "de-DE",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Eesti",
+    "Expected Language": "ESTONIAN",
+    "Expected Attribute": "et-EE",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "English (India)",
+    "Expected Language": "ENGLISH",
+    "Expected Attribute": "en-IN",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "English (UK)",
+    "Expected Language": "ENGLISH",
+    "Expected Attribute": "en-GB",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "English (US)",
+    "Expected Language": "ENGLISH",
+    "Expected Attribute": "en",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Español (España)",
+    "Expected Language": "SPANISH",
+    "Expected Attribute": "es-ES",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Español (Latinoamérica)",
+    "Expected Language": "SPANISH",
+    "Expected Attribute": "es-419",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Español (US)",
+    "Expected Language": "SPANISH",
+    "Expected Attribute": "es-US",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Euskara",
+    "Expected Language": "BASQUE",
+    "Expected Attribute": "eu-ES",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Français",
+    "Expected Language": "FRENCH",
+    "Expected Attribute": "fr-FR",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Français (Canada)",
+    "Expected Language": "FRENCH",
+    "Expected Attribute": "fr-CA",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Hrvatski",
+    "Expected Language": "CROATIAN",
+    "Expected Attribute": "hr-HR",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Íslenska",
+    "Expected Language": "ICELANDIC",
+    "Expected Attribute": "is-IS",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Italiano",
+    "Expected Language": "ITALIAN",
+    "Expected Attribute": "it-IT",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Latviešu valoda",
+    "Expected Language": "LATVIAN",
+    "Expected Attribute": "lv-LV",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Lietuvių",
+    "Expected Language": "LITHUANIAN",
+    "Expected Attribute": "lt-LT",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Magyar",
+    "Expected Language": "HUNGARIAN",
+    "Expected Attribute": "hu-HU",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Nederlands",
+    "Expected Language": "DUTCH",
+    "Expected Attribute": "nl-NL",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Polski",
+    "Expected Language": "POLISH",
+    "Expected Attribute": "pl-PL",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Português",
+    "Expected Language": "PORTUGUESE",
+    "Expected Attribute": "pt-PT",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Português (Brasil)",
+    "Expected Language": "PORTUGUESE",
+    "Expected Attribute": "pt-BR",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Shqip",
+    "Expected Language": "ALBANIAN",
+    "Expected Attribute": "sq-AL",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Slovenščina",
+    "Expected Language": "SLOVENIAN",
+    "Expected Attribute": "sl-SI",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Suomi",
+    "Expected Language": "FINNISH",
+    "Expected Attribute": "fi-FI",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Svenska",
+    "Expected Language": "SWEDISH",
+    "Expected Attribute": "sv-SE",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Tiếng Việt",
+    "Expected Language": "VIETNAMESE",
+    "Expected Attribute": "vi-VN",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Türkçe",
+    "Expected Language": "TURKISH",
+    "Expected Attribute": "tr-TR",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Беларуская",
+    "Expected Language": "BELARUSIAN",
+    "Expected Attribute": "be-BY",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Български",
+    "Expected Language": "BULGARIAN",
+    "Expected Attribute": "bg-BG",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Русский",
+    "Expected Language": "RUSSIAN",
+    "Expected Attribute": "ru-RU",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Українська",
+    "Expected Language": "UKRAINIAN",
+    "Expected Attribute": "uk-UA",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Ελληνικά",
+    "Expected Language": "GREEK",
+    "Expected Attribute": "el-GR",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "Հայերեն",
+    "Expected Language": "ARMENIAN",
+    "Expected Attribute": "hy-AM",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "עברית",
+    "Expected Language": "HEBREW",
+    "Expected Attribute": "he-IL",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "العربية",
+    "Expected Language": "ARABIC",
+    "Expected Attribute": "ar",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "فارسی",
+    "Expected Language": "PERSIAN",
+    "Expected Attribute": "fa-IR",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "हिन्दी",
+    "Expected Language": "HINDI",
+    "Expected Attribute": "hi-IN",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "বাংলা",
+    "Expected Language": "BANGLA",
+    "Expected Attribute": "bn-BD",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "ਪੰਜਾਬੀ",
+    "Expected Language": "PUNJABI",
+    "Expected Attribute": "pa-Guru-IN",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "ગુજરાતી",
+    "Expected Language": "GUJARATI",
+    "Expected Attribute": "gu-IN",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "தமிழ்",
+    "Expected Language": "TAMIL",
+    "Expected Attribute": "ta-IN",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "తెలుగు",
+    "Expected Language": "TELUGU",
+    "Expected Attribute": "te-IN",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "中文 (简体)",
+    "Expected Language": "CHINESE",
+    "Expected Attribute": "zh-Hans-CN",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "中文 (繁體)",
+    "Expected Language": "CHINESE",
+    "Expected Attribute": "zh-Hant-TW",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "中文 (香港)",
+    "Expected Language": "CHINESE",
+    "Expected Attribute": "zh-Hant-HK",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "日本語",
+    "Expected Language": "JAPANESE",
+    "Expected Attribute": "ja-JP",
+    "Detection Skipped": false
+  },
+  {
+    "Language": "한국어",
+    "Expected Language": "KOREAN",
+    "Expected Attribute": "ko-KR",
+    "Detection Skipped": false
+  }
+]

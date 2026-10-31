@@ -3,7 +3,7 @@ import SafeActions from "../utils/SafeActions";
 import { LoopGuard } from "../utils/LoopGuard";
 import { softCheck, stopCollecting } from "../utils/SoftChecks";
 import { acceptedTexts, removeOptionalEntries } from "../utils/LanguageChecks";
-import { readJson } from "../utils/ReadJSON";
+import { readJson, readJsonByName } from "../utils/ReadJSON";
 import YtLandingPage from "../pages/YtLandingPage";
 
 /**
@@ -513,4 +513,58 @@ test("H6 data check: every language has its placeholders once, no empty group, n
 test("W1 whole-test retry: a test that fails on its first run is run again from the start (shows as flaky)", async ({}, testInfo) => {
     console.log("WHOLE-TEST RETRY | attempt number " + testInfo.retry + (testInfo.retry === 0 ? " (fails on purpose)" : " (the retry)"));
     expect(testInfo.retry, "fails on purpose on the first run, the retry has to pass").toBeGreaterThan(0);
+});
+
+
+// ================================================================ D: the data files (the expected data is looked up by language name)
+
+const TEXT_FILES = [
+    "verifyingSideMenuLanguageAsInSettings.json",
+    "verifyingSideMenuCollapsedLangAsInSettings.json",
+    "verifyingGlobalFilterLandingPage.json",
+];
+
+test("D1 every language of languages.json has exactly one row in every expected-text file, with nothing extra", async () => {
+    const languages = readJson("languages.json");
+    const names: string[] = languages.map((row: { [column: string]: string }) => row["Language"]);
+    expect(names.length).toBe(53);
+    expect(new Set(names).size, "languages.json has a language twice").toBe(names.length);
+
+    for (const fileName of TEXT_FILES) {
+        const rows = readJsonByName(fileName, "Applied Language");       // throws if a language is in the file twice
+        for (const name of names) {
+            expect(() => rows.get(name), name + " in " + fileName).not.toThrow();
+        }
+        expect(readJson(fileName).length, fileName + " has a language that is not in languages.json").toBe(names.length);
+    }
+});
+
+test("D2 languages.json: every row is complete and the detection skip list is the 4 known languages", async () => {
+    const languages = readJson("languages.json");
+    for (const row of languages) {
+        expect(Object.keys(row).sort(), row["Language"]).toEqual(["Detection Skipped", "Expected Attribute", "Expected Language", "Language"]);
+        expect(row["Expected Language"].trim(), row["Language"] + " has no expected language").not.toBe("");
+        expect(row["Expected Attribute"].trim(), row["Language"] + " has no expected lang attribute").not.toBe("");
+        expect(typeof row["Detection Skipped"], row["Language"]).toBe("boolean");
+    }
+    expect(languages.filter((row: { [column: string]: unknown }) => row["Detection Skipped"]).map((row: { [column: string]: unknown }) => row["Language"]))
+        .toEqual(["Afrikaans", "Bahasa Indonesia", "Bosanski", "Dansk"]);
+});
+
+test("D3 a name that has no row, or two rows, stops with an error that names the file", async () => {
+    expect(() => readJsonByName("languages.json", "Language").get("Klingon")).toThrow("No row for Klingon in languages.json");
+    // "Expected Language" is not a name column (several languages share a value), so indexing by it finds a duplicate
+    expect(() => readJsonByName("languages.json", "Expected Language")).toThrow(/Two rows for .* in languages.json/);
+});
+
+test("D4 Country_Name_Code.json: every location name once, a code for all but the United States", async () => {
+    const rows = readJson("Country_Name_Code.json");
+    expect(rows.length).toBe(111);
+    readJsonByName("Country_Name_Code.json", "Country Name");         // throws if a location is in the file twice
+    for (const row of rows) {
+        expect(row["Country Name"].trim(), "a location name is empty").not.toBe("");
+        if (row["Country Name"] !== "United States") {
+            expect(row["Country Code"].trim(), row["Country Name"] + " has no code").not.toBe("");
+        }
+    }
 });
