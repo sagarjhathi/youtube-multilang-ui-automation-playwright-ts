@@ -21,7 +21,7 @@
     "Language": "Bosanski",
     "Expected Language": "CROATIAN",
     "Expected Attribute": "bs-Latn-BA",
-    "Detection Skipped": true
+    "Detection Skipped": false
   },
   {
     "Language": "Català",
@@ -33,7 +33,7 @@
     "Language": "Dansk",
     "Expected Language": "DANISH",
     "Expected Attribute": "da-DK",
-    "Detection Skipped": true
+    "Detection Skipped": false
   },
   {
     "Language": "Deutsch",

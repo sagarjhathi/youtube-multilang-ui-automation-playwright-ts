@@ -246,7 +246,7 @@ The test-level `retries: 1` is still on, and it works together with LoopGuard. L
 
 ### Language detection
 
-Detection uses the [`eld`](https://www.npmjs.com/package/eld) library through `eld-language-detection/languageDetector.mts`. `eld` has no model for Afrikaans, Bahasa Indonesia and Bosanski, and mixes up Dansk, so those four have `Detection Skipped: true` in `languages.json` and only their `<html lang>` value is checked.
+Detection uses the [`eld`](https://www.npmjs.com/package/eld) library through `eld-language-detection/languageDetector.mts`. `eld` has no model for Afrikaans and Bahasa Indonesia (it answers Dutch for Afrikaans and English or Malay for Bahasa Indonesia), so those two have `Detection Skipped: true` in `languages.json` and only their `<html lang>` value is checked. Bosanski (Croatian) and Dansk (Danish) were skipped too until run #65; they matched in every test of runs #58 and #65 and are checked again.
 
 ## CI (GitHub Actions)
 

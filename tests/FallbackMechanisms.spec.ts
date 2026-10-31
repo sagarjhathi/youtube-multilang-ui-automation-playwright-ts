@@ -539,7 +539,7 @@ test("D1 every language of languages.json has exactly one row in every expected-
     }
 });
 
-test("D2 languages.json: every row is complete and the detection skip list is the 4 known languages", async () => {
+test("D2 languages.json: every row is complete and the detection skip list is the 2 known languages", async () => {
     const languages = readJson("languages.json");
     for (const row of languages) {
         expect(Object.keys(row).sort(), row["Language"]).toEqual(["Detection Skipped", "Expected Attribute", "Expected Language", "Language"]);
@@ -548,7 +548,7 @@ test("D2 languages.json: every row is complete and the detection skip list is th
         expect(typeof row["Detection Skipped"], row["Language"]).toBe("boolean");
     }
     expect(languages.filter((row: { [column: string]: unknown }) => row["Detection Skipped"]).map((row: { [column: string]: unknown }) => row["Language"]))
-        .toEqual(["Afrikaans", "Bahasa Indonesia", "Bosanski", "Dansk"]);
+        .toEqual(["Afrikaans", "Bahasa Indonesia"]);
 });
 
 test("D3 a name that has no row, or two rows, stops with an error that names the file", async () => {
