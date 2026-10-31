@@ -23,7 +23,7 @@ The tests run against the **live** youtube.com, signed out, in a real browser. N
 
 The tests whose name ends in `Lingua` use the `eld` language detector instead of an exact text match. They are named after Lingua, the detector the Java project uses.
 
-Text comparisons use **soft assertions**, so one wrong language is reported at the end and the loop keeps going. A language or location that throws an error is retried once on its own (see [Per-item retry](#per-item-retry-loopguard)). The `Lingua` tests also check that the attribute data file has the same language on each row as the language data file.
+Text comparisons use **soft assertions**, so one wrong language is reported at the end and the loop keeps going. A language or location that throws an error is retried once on its own (see [Per-item retry](#per-item-retry-loopguard)). The language list is `languages.json`; the expected texts of a language in the other data files are looked up by its name, not by its row.
 
 ## Requirements
 
@@ -73,7 +73,7 @@ What is spoiled, and the failure each test must show:
 |---|---|---|
 | Side menu, collapsed menu, search filter | the expected text of row 0 | `... text is wrong after switching to "Afrikaans"` |
 | Country code (both halves) | in each half: the code of its first location, and the code of its second location emptied | per half: code wrong for the first location; "Expected country code is empty for <second location>, only United States has none"; code wrong for the second location (Algeria and Argentina in the first half) |
-| The 4 detection tests | expected language of row 1, expected `lang` attribute of row 2, attribute sheet row 3 | language wrong for Azərbaycan; `<html lang>` wrong for Bahasa Indonesia; "Sheet rows out of sync" for Bosanski |
+| The 4 detection tests | expected language of row 1, expected `lang` attribute of row 2 | language wrong for Azərbaycan; `<html lang>` wrong for Bahasa Indonesia |
 | Settings options (extra) | row 4 asks for a language that does not exist | "Failed at Canary Language (also failed on retry) | DOM click failed after 3 attempts | element=..." |
 
 Each spoiled value is logged as `CANARY | row N | ... spoiled on purpose`.
@@ -123,11 +123,11 @@ docs/                           working notes (local only, git-ignored)
 |---|---|
 | `verifyingSideMenuLanguageAsInSettings.json` | Expected expanded side-menu text per language |
 | `verifyingSideMenuCollapsedLangAsInSettings.json` | Expected collapsed side-menu text per language |
-| `ApplicableLanguageExpectedLanguage.json` | Expected detected language per language |
-| `ApplicableLanguageExpectedAttibute.json` | Expected `<html lang>` value per language (the file name keeps its original spelling) |
-| `Country_Name_Code.json` | Expected country code per region |
+| `languages.json` | **The list of languages the tests go through**, one row each: `Language`, `Expected Language` (what eld has to detect), `Expected Attribute` (the `<html lang>` value), `Detection Skipped` (true for the 4 languages eld cannot detect) |
+| `Country_Name_Code.json` | Expected country code per region, found by the location's name (a location that is new on the page stops with "No row for X in Country_Name_Code.json") |
 | `verifyingGlobalFilterLandingPage.json` | Expected search-filter popup text per language |
-| `LanguagesList.json` | List of languages |
+
+The expected texts are looked up by language name (`readJsonByName` in `utils/ReadJSON.ts`), so the order of their rows does not matter; a missing or doubled language stops with an error that names the file. `ApplicableLanguageExpectedLanguage.json` and `ApplicableLanguageExpectedAttibute.json` are now read only by the old `tests/YtMaster.spec.ts`.
 
 #### Allowed versions of the expanded side menu
 
@@ -246,7 +246,7 @@ The test-level `retries: 1` is still on, and it works together with LoopGuard. L
 
 ### Language detection
 
-Detection uses the [`eld`](https://www.npmjs.com/package/eld) library through `eld-language-detection/languageDetector.mts`. `eld` has no model for Afrikaans, Bahasa Indonesia and Bosanski, and mixes up Dansk, so those four are in a skip list in the spec and only their `<html lang>` value is checked.
+Detection uses the [`eld`](https://www.npmjs.com/package/eld) library through `eld-language-detection/languageDetector.mts`. `eld` has no model for Afrikaans and Bahasa Indonesia (it answers Dutch for Afrikaans and English or Malay for Bahasa Indonesia), so those two have `Detection Skipped: true` in `languages.json` and only their `<html lang>` value is checked. Bosanski (Croatian) and Dansk (Danish) were skipped too until run #65; they matched in every test of runs #58 and #65 and are checked again.
 
 ## CI (GitHub Actions)
 
