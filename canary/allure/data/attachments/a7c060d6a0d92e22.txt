@@ -1,0 +1,459 @@
+Opened YouTube landing page.
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+[verifyCountryCodeAsBasedOnRegion_FirstHalfOfLocations] Execution is Not CRON Job Hence referring to normal keys from runconfig.json
+[verifyCountryCodeAsBasedOnRegion_FirstHalfOfLocations] Run for all is on, row count is == 111
+Country codes, first half: locations 0 to 55 of 111
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().first()
+Retrieving country code from YouTube logo...
+Detected country code: DZ
+CANARY | row 0 | 'DZ' spoiled on purpose to 'DZ CANARY', this check has to fail
+Algeria  row 0  detected code: DZ  expected code: DZ CANARY
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(1)
+Retrieving country code from YouTube logo...
+Detected country code: AR
+CANARY | row 1 | 'AR' spoiled on purpose to '', this check has to fail
+Argentina  row 1  detected code: AR  expected code: 
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(2)
+Retrieving country code from YouTube logo...
+Detected country code: AM
+Armenia  row 2  detected code: AM  expected code: AM
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(3)
+Retrieving country code from YouTube logo...
+Detected country code: AU
+Australia  row 3  detected code: AU  expected code: AU
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(4)
+Retrieving country code from YouTube logo...
+Detected country code: AT
+Austria  row 4  detected code: AT  expected code: AT
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(5)
+Retrieving country code from YouTube logo...
+Detected country code: AZ
+Azerbaijan  row 5  detected code: AZ  expected code: AZ
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(6)
+Retrieving country code from YouTube logo...
+Detected country code: BH
+Bahrain  row 6  detected code: BH  expected code: BH
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(7)
+Retrieving country code from YouTube logo...
+Detected country code: BD
+Bangladesh  row 7  detected code: BD  expected code: BD
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(8)
+Retrieving country code from YouTube logo...
+Detected country code: BY
+Belarus  row 8  detected code: BY  expected code: BY
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(9)
+Retrieving country code from YouTube logo...
+Detected country code: BE
+Belgium  row 9  detected code: BE  expected code: BE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(10)
+Retrieving country code from YouTube logo...
+Detected country code: BO
+Bolivia  row 10  detected code: BO  expected code: BO
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(11)
+Retrieving country code from YouTube logo...
+Detected country code: BA
+Bosnia and Herzegovina  row 11  detected code: BA  expected code: BA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(12)
+Retrieving country code from YouTube logo...
+Detected country code: BR
+Brazil  row 12  detected code: BR  expected code: BR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(13)
+Retrieving country code from YouTube logo...
+Detected country code: BG
+Bulgaria  row 13  detected code: BG  expected code: BG
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(14)
+Retrieving country code from YouTube logo...
+Detected country code: KH
+Cambodia  row 14  detected code: KH  expected code: KH
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(15)
+Retrieving country code from YouTube logo...
+Detected country code: CA
+Canada  row 15  detected code: CA  expected code: CA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(16)
+Retrieving country code from YouTube logo...
+Detected country code: CL
+Chile  row 16  detected code: CL  expected code: CL
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(17)
+Retrieving country code from YouTube logo...
+Detected country code: CO
+Colombia  row 17  detected code: CO  expected code: CO
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(18)
+Retrieving country code from YouTube logo...
+Detected country code: CR
+Costa Rica  row 18  detected code: CR  expected code: CR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(19)
+Retrieving country code from YouTube logo...
+Detected country code: HR
+Croatia  row 19  detected code: HR  expected code: HR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(20)
+Retrieving country code from YouTube logo...
+Detected country code: CY
+Cyprus  row 20  detected code: CY  expected code: CY
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(21)
+Retrieving country code from YouTube logo...
+Detected country code: CZ
+Czechia  row 21  detected code: CZ  expected code: CZ
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(22)
+Retrieving country code from YouTube logo...
+Detected country code: DK
+Denmark  row 22  detected code: DK  expected code: DK
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(23)
+Retrieving country code from YouTube logo...
+Detected country code: DO
+Dominican Republic  row 23  detected code: DO  expected code: DO
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(24)
+Retrieving country code from YouTube logo...
+Detected country code: EC
+Ecuador  row 24  detected code: EC  expected code: EC
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(25)
+Retrieving country code from YouTube logo...
+Detected country code: EG
+Egypt  row 25  detected code: EG  expected code: EG
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(26)
+Retrieving country code from YouTube logo...
+Detected country code: SV
+El Salvador  row 26  detected code: SV  expected code: SV
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(27)
+Retrieving country code from YouTube logo...
+Detected country code: EE
+Estonia  row 27  detected code: EE  expected code: EE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(28)
+Retrieving country code from YouTube logo...
+Detected country code: FI
+Finland  row 28  detected code: FI  expected code: FI
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(29)
+Retrieving country code from YouTube logo...
+Detected country code: FR
+France  row 29  detected code: FR  expected code: FR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(30)
+Retrieving country code from YouTube logo...
+Detected country code: GE
+Georgia  row 30  detected code: GE  expected code: GE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(31)
+Retrieving country code from YouTube logo...
+Detected country code: DE
+Germany  row 31  detected code: DE  expected code: DE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(32)
+Retrieving country code from YouTube logo...
+Detected country code: GH
+Ghana  row 32  detected code: GH  expected code: GH
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(33)
+Retrieving country code from YouTube logo...
+Detected country code: GR
+Greece  row 33  detected code: GR  expected code: GR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(34)
+Retrieving country code from YouTube logo...
+Detected country code: GT
+Guatemala  row 34  detected code: GT  expected code: GT
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(35)
+Retrieving country code from YouTube logo...
+Detected country code: HN
+Honduras  row 35  detected code: HN  expected code: HN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(36)
+Retrieving country code from YouTube logo...
+Detected country code: HK
+Hong Kong  row 36  detected code: HK  expected code: HK
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(37)
+Retrieving country code from YouTube logo...
+Detected country code: HU
+Hungary  row 37  detected code: HU  expected code: HU
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(38)
+Retrieving country code from YouTube logo...
+Detected country code: IS
+Iceland  row 38  detected code: IS  expected code: IS
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(39)
+Retrieving country code from YouTube logo...
+Detected country code: IN
+India  row 39  detected code: IN  expected code: IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(40)
+Retrieving country code from YouTube logo...
+Detected country code: ID
+Indonesia  row 40  detected code: ID  expected code: ID
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(41)
+Retrieving country code from YouTube logo...
+Detected country code: IQ
+Iraq  row 41  detected code: IQ  expected code: IQ
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(42)
+Retrieving country code from YouTube logo...
+Detected country code: IE
+Ireland  row 42  detected code: IE  expected code: IE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(43)
+Retrieving country code from YouTube logo...
+Detected country code: IL
+Israel  row 43  detected code: IL  expected code: IL
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(44)
+Retrieving country code from YouTube logo...
+Detected country code: IT
+Italy  row 44  detected code: IT  expected code: IT
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(45)
+Retrieving country code from YouTube logo...
+Detected country code: JM
+Jamaica  row 45  detected code: JM  expected code: JM
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(46)
+Retrieving country code from YouTube logo...
+Detected country code: JP
+Japan  row 46  detected code: JP  expected code: JP
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(47)
+Retrieving country code from YouTube logo...
+Detected country code: JO
+Jordan  row 47  detected code: JO  expected code: JO
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(48)
+Retrieving country code from YouTube logo...
+Detected country code: KZ
+Kazakhstan  row 48  detected code: KZ  expected code: KZ
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(49)
+Retrieving country code from YouTube logo...
+Detected country code: KE
+Kenya  row 49  detected code: KE  expected code: KE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(50)
+Retrieving country code from YouTube logo...
+Detected country code: KW
+Kuwait  row 50  detected code: KW  expected code: KW
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(51)
+Retrieving country code from YouTube logo...
+Detected country code: LA
+Laos  row 51  detected code: LA  expected code: LA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(52)
+Retrieving country code from YouTube logo...
+Detected country code: LV
+Latvia  row 52  detected code: LV  expected code: LV
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(53)
+Retrieving country code from YouTube logo...
+Detected country code: LB
+Lebanon  row 53  detected code: LB  expected code: LB
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(54)
+Retrieving country code from YouTube logo...
+Detected country code: LY
+Libya  row 54  detected code: LY  expected code: LY
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetching the location list ...
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(55)
+Retrieving country code from YouTube logo...
+Detected country code: LI
+Liechtenstein  row 55  detected code: LI  expected code: LI
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Summary | completed 56 of 56 | checks failed: 3 | no code expected: 1

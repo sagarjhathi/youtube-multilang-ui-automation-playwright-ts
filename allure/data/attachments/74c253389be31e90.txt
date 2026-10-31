@@ -1,0 +1,911 @@
+Opened YouTube landing page.
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+[verifyingSideMenuLanguageAsInSettingsLingua] Execution is Not CRON Job Hence referring to normal keys from runconfig.json
+[verifyingSideMenuLanguageAsInSettingsLingua] Run for all is on, row count is == 53
+Afrikaans  row 0
+Looking for language element with name: Afrikaans
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Afrikaans\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Dutch
+Input Text        : Tuis Kortvideo's Intekeninge Myne Geskiedenis Musiek Flieks en Regstreeks Probeer vir $0 Labs Aangeegeskiedenis
+========================================
+Afrikaans  detected language: Dutch  expected language: AFRIKAANS
+Skipping the detected language check for Afrikaans (eld cannot detect it)
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: af-ZA
+Afrikaans  detected lang attribute: af-ZA  expected lang attribute: af-ZA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Azərbaycan  row 1
+Looking for language element with name: Azərbaycan
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Azərbaycan\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Azerbaijani
+Input Text        : Ev Abunəliklər Siz Tarixçə Musiqi Film və Canlı 0$-a sınayın Labs Xəbər tarixçəsi
+========================================
+Azərbaycan  detected language: Azerbaijani  expected language: AZERBAIJANI
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: az-Latn-AZ
+Azərbaycan  detected lang attribute: az-Latn-AZ  expected lang attribute: az-Latn-AZ
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Bahasa Indonesia  row 2
+Looking for language element with name: Bahasa Indonesia
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Bahasa Indonesia\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : English
+Input Text        : Beranda Subscription Anda Histori Musik Film & Live Coba $0 Labs Histori laporan
+========================================
+Bahasa Indonesia  detected language: English  expected language: INDONESIAN
+Skipping the detected language check for Bahasa Indonesia (eld cannot detect it)
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: id-ID
+Bahasa Indonesia  detected lang attribute: id-ID  expected lang attribute: id-ID
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Bosanski  row 3
+Looking for language element with name: Bosanski
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Bosanski\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Croatian
+Input Text        : Početna stranica Pretplate Vi Hi‪storija Muzika Filmovi i Uživo Isprobajte za 0 USD Labs Historija prijava
+========================================
+Bosanski  detected language: Croatian  expected language: CROATIAN
+Skipping the detected language check for Bosanski (eld cannot detect it)
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: bs-Latn-BA
+Bosanski  detected lang attribute: bs-Latn-BA  expected lang attribute: bs-Latn-BA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Català  row 4
+Looking for language element with name: Català
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Català\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Catalan
+Input Text        : Inici Subscripcions Tu Historial Música Pel·lícules i televisió En directe Prova per 0 € Labs Historial d'informes
+========================================
+Català  detected language: Catalan  expected language: CATALAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: ca-ES
+Català  detected lang attribute: ca-ES  expected lang attribute: ca-ES
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Dansk  row 5
+Looking for language element with name: Dansk
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Dansk\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Danish
+Input Text        : Start Abonnementer Dig Historik Musik Film og Live for 0 USD Labs Rapporteringshistorik
+========================================
+Dansk  detected language: Danish  expected language: DANISH
+Skipping the detected language check for Dansk (eld cannot detect it)
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: da-DK
+Dansk  detected lang attribute: da-DK  expected lang attribute: da-DK
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Deutsch  row 6
+Looking for language element with name: Deutsch
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Deutsch\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : German
+Input Text        : Startseite Abos Mein Verlauf Musik Filme & Shows Live kostenlos ausprobieren Labs Meldeverlauf
+========================================
+Deutsch  detected language: German  expected language: GERMAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: de-DE
+Deutsch  detected lang attribute: de-DE  expected lang attribute: de-DE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Eesti  row 7
+Looking for language element with name: Eesti
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Eesti\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Estonian
+Input Text        : Avaleht Tellimused Teie Ajalugu Muusika Filmid ja telesarjad Otse 0 dollariga Labs Teavituste ajalugu
+========================================
+Eesti  detected language: Estonian  expected language: ESTONIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: et-EE
+Eesti  detected lang attribute: et-EE  expected lang attribute: et-EE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+English (India)  row 8
+Looking for language element with name: English (India)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'English (India)\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : English
+Input Text        : Home Shorts Subscriptions You History Music Movies & TV Live Try Premium for $0 YouTube TV YouTube Music YouTube Kids YouTube Labs Report history
+========================================
+English (India)  detected language: English  expected language: ENGLISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: en-IN
+English (India)  detected lang attribute: en-IN  expected lang attribute: en-IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+English (UK)  row 9
+Looking for language element with name: English (UK)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'English (UK)\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : English
+Input Text        : Home Shorts Subscriptions You History Music Movies & TV Live Try Premium for $0 YouTube TV YouTube Music YouTube Kids YouTube Labs Report history
+========================================
+English (UK)  detected language: English  expected language: ENGLISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: en-GB
+English (UK)  detected lang attribute: en-GB  expected lang attribute: en-GB
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+English (US)  row 10
+Looking for language element with name: English (US)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'English (US)\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : English
+Input Text        : Home Shorts Subscriptions You History Music Movies & TV Live Try Premium for $0 YouTube TV YouTube Music YouTube Kids YouTube Labs Report history
+========================================
+English (US)  detected language: English  expected language: ENGLISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: en
+English (US)  detected lang attribute: en  expected lang attribute: en
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Español (España)  row 11
+Looking for language element with name: Español (España)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Español (España)\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Spanish
+Input Text        : Inicio Suscripciones Tú Historial Música Películas y series En directo Probar sin coste Labs Historial de denuncias
+========================================
+Español (España)  detected language: Spanish  expected language: SPANISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: es-ES
+Español (España)  detected lang attribute: es-ES  expected lang attribute: es-ES
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Español (Latinoamérica)  row 12
+Looking for language element with name: Español (Latinoamérica)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Español (Latinoamérica)\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Spanish
+Input Text        : Principal Suscripciones Tú Historial Música Películas y En vivo por USD 0 Labs Historial de denuncias
+========================================
+Español (Latinoamérica)  detected language: Spanish  expected language: SPANISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: es-419
+Español (Latinoamérica)  detected lang attribute: es-419  expected lang attribute: es-419
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Español (US)  row 13
+Looking for language element with name: Español (US)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Español (US)\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Spanish
+Input Text        : Principal Suscripciones Tú Historial Música Películas y En vivo por USD 0 Labs Historial de denuncias
+========================================
+Español (US)  detected language: Spanish  expected language: SPANISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: es-US
+Español (US)  detected lang attribute: es-US  expected lang attribute: es-US
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Euskara  row 14
+Looking for language element with name: Euskara
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Euskara\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Basque
+Input Text        : Orri nagusia Harpidetzak Zu Historia Musika Filmak eta saioak Zuzenean Probatu 0 dolarrean Labs Salaketa-historia
+========================================
+Euskara  detected language: Basque  expected language: BASQUE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: eu-ES
+Euskara  detected lang attribute: eu-ES  expected lang attribute: eu-ES
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Français  row 15
+Looking for language element with name: Français
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Français\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : French
+Input Text        : Accueil Abonnements Vous Historique Musique Films et séries Direct Essayez pour 0 $ Labs Signalements
+========================================
+Français  detected language: French  expected language: FRENCH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: fr-FR
+Français  detected lang attribute: fr-FR  expected lang attribute: fr-FR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Français (Canada)  row 16
+Looking for language element with name: Français (Canada)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Français (Canada)\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : French
+Input Text        : Accueil Abonnements Vous Historique Musique Films et émissions de télévision Jeux vidéo Essayez pour 0 USD Labs Historique des rapports
+========================================
+Français (Canada)  detected language: French  expected language: FRENCH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: fr-CA
+Français (Canada)  detected lang attribute: fr-CA  expected lang attribute: fr-CA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Hrvatski  row 17
+Looking for language element with name: Hrvatski
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Hrvatski\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Croatian
+Input Text        : Početna Pretplate Moje Povijest Glazba Filmovi i televizija Uživo Isprobajte za 0 USD Labs Povijest prijava
+========================================
+Hrvatski  detected language: Croatian  expected language: CROATIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: hr-HR
+Hrvatski  detected lang attribute: hr-HR  expected lang attribute: hr-HR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Íslenska  row 18
+Looking for language element with name: Íslenska
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Íslenska\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Icelandic
+Input Text        : Heim Áskriftir Þú Ferill Tónlist Kvikmyndir og sjónvarpsefni Í beinni Prófaðu á 0 USD Labs Tilkynningaferill
+========================================
+Íslenska  detected language: Icelandic  expected language: ICELANDIC
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: is-IS
+Íslenska  detected lang attribute: is-IS  expected lang attribute: is-IS
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Italiano  row 19
+Looking for language element with name: Italiano
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Italiano\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Italian
+Input Text        : Home Iscrizioni Tu Cronologia Musica Film e Live Prova a 0 $ Labs Segnalazioni
+========================================
+Italiano  detected language: Italian  expected language: ITALIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: it-IT
+Italiano  detected lang attribute: it-IT  expected lang attribute: it-IT
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Latviešu valoda  row 20
+Looking for language element with name: Latviešu valoda
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Latviešu valoda\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Latvian
+Input Text        : Sākums Abonementi Jūs Vēsture Mūzika Filmas un pārraides Tiešraide Izmēģiniet par 0 USD Labs Ziņošanas vēsture
+========================================
+Latviešu valoda  detected language: Latvian  expected language: LATVIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: lv-LV
+Latviešu valoda  detected lang attribute: lv-LV  expected lang attribute: lv-LV
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Lietuvių  row 21
+Looking for language element with name: Lietuvių
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Lietuvių\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Lithuanian
+Input Text        : Pagrindinis Prenumeratos Jūs Istorija Muzika Filmai ir Tiesiogiai Išbandykite „ “ už 0 USD Labs Pranešimų istorija
+========================================
+Lietuvių  detected language: Lithuanian  expected language: LITHUANIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: lt-LT
+Lietuvių  detected lang attribute: lt-LT  expected lang attribute: lt-LT
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Magyar  row 22
+Looking for language element with name: Magyar
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Magyar\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Hungarian
+Input Text        : Kezdőlap Feliratkozások Te Előzmények Zene Film és tévé Élő Díjmentes Labs Bejelentési előzmények
+========================================
+Magyar  detected language: Hungarian  expected language: HUNGARIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: hu-HU
+Magyar  detected lang attribute: hu-HU  expected lang attribute: hu-HU
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Nederlands  row 23
+Looking for language element with name: Nederlands
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Nederlands\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Dutch
+Input Text        : Home Abonnementen Jij Geschiedenis Muziek Films en Live Probeer voor $ 0 Labs Rapportagegeschiedenis
+========================================
+Nederlands  detected language: Dutch  expected language: DUTCH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: nl-NL
+Nederlands  detected lang attribute: nl-NL  expected lang attribute: nl-NL
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Polski  row 24
+Looking for language element with name: Polski
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Polski\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Polish
+Input Text        : Główna Subskrypcje Ty Historia Muzyka Filmy i Na żywo bez opłat Labs Historia zgłoszeń
+========================================
+Polski  detected language: Polish  expected language: POLISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: pl-PL
+Polski  detected lang attribute: pl-PL  expected lang attribute: pl-PL
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Português  row 25
+Looking for language element with name: Português
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Português\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Portuguese
+Input Text        : Início Subscrições Eu Histórico Música Filmes e Em direto Experimente o por 0 € Labs Histórico de denúncias
+========================================
+Português  detected language: Portuguese  expected language: PORTUGUESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: pt-PT
+Português  detected lang attribute: pt-PT  expected lang attribute: pt-PT
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Português (Brasil)  row 26
+Looking for language element with name: Português (Brasil)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Português (Brasil)\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Portuguese
+Input Text        : Início Inscrições Você Histórico Música Filmes e Ao vivo Teste o por US$ 0 Labs Histórico de denúncias
+========================================
+Português (Brasil)  detected language: Portuguese  expected language: PORTUGUESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: pt-BR
+Português (Brasil)  detected lang attribute: pt-BR  expected lang attribute: pt-BR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Shqip  row 27
+Looking for language element with name: Shqip
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Shqip\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Albanian
+Input Text        : Faqja e parë Abonimet Ti Historiku Muzikë Filmat dhe televizioni Drejtpërdrejt Provo : 0 USD Labs Historiku i raportimeve
+========================================
+Shqip  detected language: Albanian  expected language: ALBANIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: sq-AL
+Shqip  detected lang attribute: sq-AL  expected lang attribute: sq-AL
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Slovenščina  row 28
+Looking for language element with name: Slovenščina
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Slovenščina\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Slovenian
+Input Text        : Domača stran Kratki videoposnetki Naročnine Vi Zgodovina Glasba Filmi in V živo za 0 USD Labs Zgodovina poročil
+========================================
+Slovenščina  detected language: Slovenian  expected language: SLOVENIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: sl-SI
+Slovenščina  detected lang attribute: sl-SI  expected lang attribute: sl-SI
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Suomi  row 29
+Looking for language element with name: Suomi
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Suomi\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Finnish
+Input Text        : Koti Tilaukset Sinä Historia Musiikki Elokuvat ja Livetapahtumat Kokeile maksutta Labs Ilmoitushistoria
+========================================
+Suomi  detected language: Finnish  expected language: FINNISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: fi-FI
+Suomi  detected lang attribute: fi-FI  expected lang attribute: fi-FI
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Svenska  row 30
+Looking for language element with name: Svenska
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Svenska\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Swedish
+Input Text        : Hem Prenumerationer Ditt Historik Musik Filmer och Live Få för 0 USD Labs Rapporthistorik
+========================================
+Svenska  detected language: Swedish  expected language: SWEDISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: sv-SE
+Svenska  detected lang attribute: sv-SE  expected lang attribute: sv-SE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Tiếng Việt  row 31
+Looking for language element with name: Tiếng Việt
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Tiếng Việt\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Vietnamese
+Input Text        : Trang chủ Kênh đăng ký Bạn Video đã xem Âm nhạc Phim và truyền hình Trực tiếp Thử miễn phí Labs Nhật ký báo cáo
+========================================
+Tiếng Việt  detected language: Vietnamese  expected language: VIETNAMESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: vi-VN
+Tiếng Việt  detected lang attribute: vi-VN  expected lang attribute: vi-VN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Türkçe  row 32
+Looking for language element with name: Türkçe
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Türkçe\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Turkish
+Input Text        : Ana Sayfa Abonelikler Siz Geçmiş Müzik Filmler ve Canlı Ücretsiz Labs İçerik bildirme geçmişi
+========================================
+Türkçe  detected language: Turkish  expected language: TURKISH
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: tr-TR
+Türkçe  detected lang attribute: tr-TR  expected lang attribute: tr-TR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Беларуская  row 33
+Looking for language element with name: Беларуская
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Беларуская\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Belarusian
+Input Text        : Галоўная старонка Падпіскі Вы Гісторыя Музыка Фільмы і тэлеперадачы У жывым эфіры Паспрабаваць бясплатна Labs Гісторыя скаргаў
+========================================
+Беларуская  detected language: Belarusian  expected language: BELARUSIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: be-BY
+Беларуская  detected lang attribute: be-BY  expected lang attribute: be-BY
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Български  row 34
+Looking for language element with name: Български
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Български\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Bulgarian
+Input Text        : Начало Абонаменти Вие История Музика Филми и телевизионни предавания На живо за 0,00 EUR Labs Подадени сигнали
+========================================
+Български  detected language: Bulgarian  expected language: BULGARIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: bg-BG
+Български  detected lang attribute: bg-BG  expected lang attribute: bg-BG
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Русский  row 35
+Looking for language element with name: Русский
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Русский\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Russian
+Input Text        : Главная Подписки Вы История Музыка Фильмы и сериалы Трансляции бесплатно Детям Labs Жалобы
+========================================
+Русский  detected language: Russian  expected language: RUSSIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: ru-RU
+Русский  detected lang attribute: ru-RU  expected lang attribute: ru-RU
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Українська  row 36
+Looking for language element with name: Українська
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Українська\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Ukrainian
+Input Text        : Головна Підписки Ви Історія Музика Фільми й серіали Прямі трансляції безкоштовно Labs Історія скарг
+========================================
+Українська  detected language: Ukrainian  expected language: UKRAINIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: uk-UA
+Українська  detected lang attribute: uk-UA  expected lang attribute: uk-UA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Ελληνικά  row 37
+Looking for language element with name: Ελληνικά
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Ελληνικά\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Greek
+Input Text        : Αρχική Εγγραφές Εσείς Ιστορικό Μουσική Ταινίες και τηλεοπτικές εκπομπές Live Δοκιμάστε το με 0 $ Labs Ιστορικό αναφορών
+========================================
+Ελληνικά  detected language: Greek  expected language: GREEK
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: el-GR
+Ελληνικά  detected lang attribute: el-GR  expected lang attribute: el-GR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Հայերեն  row 38
+Looking for language element with name: Հայերեն
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'Հայերեն\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Armenian
+Input Text        : Սկիզբ Հետևում եմ Դուք Պատմություն Երաժշտություն Ֆիլմեր և սերիալներ Ուղիղ հեռարձակում Փորձեք -ը անվճար Labs Բողոքների պատմություն
+========================================
+Հայերեն  detected language: Armenian  expected language: ARMENIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: hy-AM
+Հայերեն  detected lang attribute: hy-AM  expected lang attribute: hy-AM
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+עברית  row 39
+Looking for language element with name: עברית
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'עברית\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Hebrew
+Input Text        : דף הבית מינויים הדף שלי היסטוריה מוזיקה סרטים ותוכניות טלוויזיה בשידור חי מינוי ב-0$ Labs היסטוריית הדיווחים
+========================================
+עברית  detected language: Hebrew  expected language: HEBREW
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: he-IL
+עברית  detected lang attribute: he-IL  expected lang attribute: he-IL
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+العربية  row 40
+Looking for language element with name: العربية
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'العربية\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Arabic
+Input Text        : الصفحة الرئيسية الاشتراكات أنت السجلّ موسيقى أفلام وبرامج تلفزيونية بث مباشر ‫ مجانًا Labs سجلّ الإبلاغ عن المحتوى
+========================================
+العربية  detected language: Arabic  expected language: ARABIC
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: ar
+العربية  detected lang attribute: ar  expected lang attribute: ar
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+فارسی  row 41
+Looking for language element with name: فارسی
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'فارسی\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Persian
+Input Text        : صفحه اصلی کوته‌ویدیوها اشتراک‌ها شما سابقه موسیقی فیلم و تلویزیون زنده ‫ با ۰ دلار Labs سابقه گزارش
+========================================
+فارسی  detected language: Persian  expected language: PERSIAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: fa-IR
+فارسی  detected lang attribute: fa-IR  expected lang attribute: fa-IR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+हिन्दी  row 42
+Looking for language element with name: हिन्दी
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'हिन्दी\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Hindi
+Input Text        : होम पेज सदस्यता आप देखे गए वीडियो संगीत फ़िल्में और टीवी शो लाइव बिना किसी शुल्क के आज़माएं Labs शिकायतों का डेटा
+========================================
+हिन्दी  detected language: Hindi  expected language: HINDI
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: hi-IN
+हिन्दी  detected lang attribute: hi-IN  expected lang attribute: hi-IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+বাংলা  row 43
+Looking for language element with name: বাংলা
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'বাংলা\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Bangla
+Input Text        : হোম সাবস্ক্রিপশন আপনি ইতিহাস মিউজিক সিনেমা ও টিভি লাইভ $০ দিয়ে ব্যবহার করে দেখুন Labs অভিযোগ জানানোর ইতিহাস
+========================================
+বাংলা  detected language: Bangla  expected language: BANGLA
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: bn-BD
+বাংলা  detected lang attribute: bn-BD  expected lang attribute: bn-BD
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+ਪੰਜਾਬੀ  row 44
+Looking for language element with name: ਪੰਜਾਬੀ
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'ਪੰਜਾਬੀ\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Punjabi
+Input Text        : ਹੋਮ ਸਬਸਕ੍ਰਿਪਸ਼ਨਾਂ ਤੁਸੀਂ ਇਤਿਹਾਸ ਸੰਗੀਤ ਫ਼ਿਲਮਾਂ ਅਤੇ ਟੀਵੀ ਲਾਈਵ $0 ਵਿੱਚ ਅਜ਼ਮਾਓ Labs ਰਿਪੋਰਟ ਸੰਬੰਧੀ ਇਤਿਹਾਸ
+========================================
+ਪੰਜਾਬੀ  detected language: Punjabi  expected language: PUNJABI
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: pa-Guru-IN
+ਪੰਜਾਬੀ  detected lang attribute: pa-Guru-IN  expected lang attribute: pa-Guru-IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+ગુજરાતી  row 45
+Looking for language element with name: ગુજરાતી
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'ગુજરાતી\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Gujarati
+Input Text        : હોમ સબ્સ્ક્રિપ્શન તમે ઇતિહાસ સંગીત મૂવી અને ટીવી લાઇવ $0માં અજમાવો Labs રિપોર્ટનો ઇતિહાસ
+========================================
+ગુજરાતી  detected language: Gujarati  expected language: GUJARATI
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: gu-IN
+ગુજરાતી  detected lang attribute: gu-IN  expected lang attribute: gu-IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+தமிழ்  row 46
+Looking for language element with name: தமிழ்
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'தமிழ்\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Tamil
+Input Text        : முகப்பு சந்தாக்கள் நீங்கள் இதுவரை பார்த்தவை இசை திரைப்படங்கள் & டிவி நிகழ்ச்சிகள் நேரலை $0க்கு பயன்படுத்திப் பார்க்கலாம் Labs புகார் வரலாறு
+========================================
+தமிழ்  detected language: Tamil  expected language: TAMIL
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: ta-IN
+தமிழ்  detected lang attribute: ta-IN  expected lang attribute: ta-IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+తెలుగు  row 47
+Looking for language element with name: తెలుగు
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'తెలుగు\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Telugu
+Input Text        : మొదటి ట్యాబ్ సబ్‌స్క్రిప్షన్‌లు ఖాతా హిస్టరీ మ్యూజిక్ సినిమాలు & టీవీ లైవ్ $0కి ట్రై చేయండి Labs రిపోర్టుల హిస్టరీ
+========================================
+తెలుగు  detected language: Telugu  expected language: TELUGU
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: te-IN
+తెలుగు  detected lang attribute: te-IN  expected lang attribute: te-IN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+中文 (简体)  row 48
+Looking for language element with name: 中文 (简体)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'中文 (简体)\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Chinese
+Input Text        : 首页 订阅 我 历史记录 音乐 影视 直播 免费试用 Labs 举报记录
+========================================
+中文 (简体)  detected language: Chinese  expected language: CHINESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: zh-Hans-CN
+中文 (简体)  detected lang attribute: zh-Hans-CN  expected lang attribute: zh-Hans-CN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+中文 (繁體)  row 49
+Looking for language element with name: 中文 (繁體)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'中文 (繁體)\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Chinese
+Input Text        : 首頁 訂閱內容 個人中心 觀看記錄 音樂 電影與電視節目 直播 免付費試用 Labs 檢舉記錄
+========================================
+中文 (繁體)  detected language: Chinese  expected language: CHINESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: zh-Hant-TW
+中文 (繁體)  detected lang attribute: zh-Hant-TW  expected lang attribute: zh-Hant-TW
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+中文 (香港)  row 50
+Looking for language element with name: 中文 (香港)
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'中文 (香港)\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Chinese
+Input Text        : 主頁 訂閱項目 個人中心 記錄 音樂 電影和電視節目 直播 免費試用 Labs 舉報記錄
+========================================
+中文 (香港)  detected language: Chinese  expected language: CHINESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: zh-Hant-HK
+中文 (香港)  detected lang attribute: zh-Hant-HK  expected lang attribute: zh-Hant-HK
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+日本語  row 51
+Looking for language element with name: 日本語
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'日本語\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Japanese
+Input Text        : ホーム ショート 登録チャンネル マイページ 履歴 音楽 映画とテレビ番組 ライブ を無料体験 Labs 報告履歴
+========================================
+日本語  detected language: Japanese  expected language: JAPANESE
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: ja-JP
+日本語  detected lang attribute: ja-JP  expected lang attribute: ja-JP
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+한국어  row 52
+Looking for language element with name: 한국어
+Trying to DOM click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//yt-formatted-string[@id=\'label\' and text()=\'한국어\']')
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+
+========== LANGUAGE DETECTION ==========
+Detected Language : Korean
+Input Text        : 홈 구독 내 페이지 기록 음악 영화 및 라이브 Premium을 무료로 체험하세요 Labs 신고 기록
+========================================
+한국어  detected language: Korean  expected language: KOREAN
+getLangAttribute() - locating <html> and reading lang property
+Language attribute read: ko-KR
+한국어  detected lang attribute: ko-KR  expected lang attribute: ko-KR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[2]')
+Summary | completed 53 of 53 | detection skipped: 4

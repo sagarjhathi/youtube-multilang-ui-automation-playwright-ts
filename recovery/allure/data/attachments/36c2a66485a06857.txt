@@ -1,0 +1,84 @@
+Opened YouTube landing page.
+[R8 element missing: 5 items in a row fail on the retry -> the loop stops and the rest is not tried] Execution is Not CRON Job Hence referring to normal keys from runconfig.json
+[R8 element missing: 5 items in a row fail on the retry -> the loop stops and the rest is not tried] Run for all is on, row count is == 53
+Afrikaans  row 0
+Trying to click element: locator('#this-element-does-not-exist')
+Click failed (attempt 1): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Click failed (attempt 2): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Attempt 2 failed, refreshing the page to recover, url: https://www.youtube.com/
+Click failed (attempt 3): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Afrikaans failed | Click failed after 3 attempts | element=locator('#this-element-does-not-exist') | reason=TimeoutError: locator.waitFor: Timeout 1000ms exceeded. | page=https://www.youtube.com/
+Opened YouTube landing page.
+Afrikaans  row 0
+Trying to click element: locator('#this-element-does-not-exist')
+Click failed (attempt 1): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Click failed (attempt 2): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Attempt 2 failed, refreshing the page to recover, url: https://www.youtube.com/
+Click failed (attempt 3): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Afrikaans failed | Click failed after 3 attempts | element=locator('#this-element-does-not-exist') | reason=TimeoutError: locator.waitFor: Timeout 1000ms exceeded. | page=https://www.youtube.com/
+Opened YouTube landing page.
+Azərbaycan  row 1
+Trying to click element: locator('#this-element-does-not-exist')
+Click failed (attempt 1): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Click failed (attempt 2): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Attempt 2 failed, refreshing the page to recover, url: https://www.youtube.com/
+Click failed (attempt 3): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Azərbaycan failed | Click failed after 3 attempts | element=locator('#this-element-does-not-exist') | reason=TimeoutError: locator.waitFor: Timeout 1000ms exceeded. | page=https://www.youtube.com/
+Opened YouTube landing page.
+Azərbaycan  row 1
+Trying to click element: locator('#this-element-does-not-exist')
+Click failed (attempt 1): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Click failed (attempt 2): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Attempt 2 failed, refreshing the page to recover, url: https://www.youtube.com/
+Click failed (attempt 3): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Azərbaycan failed | Click failed after 3 attempts | element=locator('#this-element-does-not-exist') | reason=TimeoutError: locator.waitFor: Timeout 1000ms exceeded. | page=https://www.youtube.com/
+Opened YouTube landing page.
+Bahasa Indonesia  row 2
+Trying to click element: locator('#this-element-does-not-exist')
+Click failed (attempt 1): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Click failed (attempt 2): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Attempt 2 failed, refreshing the page to recover, url: https://www.youtube.com/
+Click failed (attempt 3): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Bahasa Indonesia failed | Click failed after 3 attempts | element=locator('#this-element-does-not-exist') | reason=TimeoutError: locator.waitFor: Timeout 1000ms exceeded. | page=https://www.youtube.com/
+Opened YouTube landing page.
+Bahasa Indonesia  row 2
+Trying to click element: locator('#this-element-does-not-exist')
+Click failed (attempt 1): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Click failed (attempt 2): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Attempt 2 failed, refreshing the page to recover, url: https://www.youtube.com/
+Click failed (attempt 3): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Bahasa Indonesia failed | Click failed after 3 attempts | element=locator('#this-element-does-not-exist') | reason=TimeoutError: locator.waitFor: Timeout 1000ms exceeded. | page=https://www.youtube.com/
+Opened YouTube landing page.
+Bosanski  row 3
+Trying to click element: locator('#this-element-does-not-exist')
+Click failed (attempt 1): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Click failed (attempt 2): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Attempt 2 failed, refreshing the page to recover, url: https://www.youtube.com/
+Click failed (attempt 3): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Bosanski failed | Click failed after 3 attempts | element=locator('#this-element-does-not-exist') | reason=TimeoutError: locator.waitFor: Timeout 1000ms exceeded. | page=https://www.youtube.com/
+Opened YouTube landing page.
+Bosanski  row 3
+Trying to click element: locator('#this-element-does-not-exist')
+Click failed (attempt 1): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Click failed (attempt 2): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Attempt 2 failed, refreshing the page to recover, url: https://www.youtube.com/
+Click failed (attempt 3): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Bosanski failed | Click failed after 3 attempts | element=locator('#this-element-does-not-exist') | reason=TimeoutError: locator.waitFor: Timeout 1000ms exceeded. | page=https://www.youtube.com/
+Opened YouTube landing page.
+Català  row 4
+Trying to click element: locator('#this-element-does-not-exist')
+Click failed (attempt 1): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Click failed (attempt 2): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Attempt 2 failed, refreshing the page to recover, url: https://www.youtube.com/
+Click failed (attempt 3): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Català failed | Click failed after 3 attempts | element=locator('#this-element-does-not-exist') | reason=TimeoutError: locator.waitFor: Timeout 1000ms exceeded. | page=https://www.youtube.com/
+Opened YouTube landing page.
+Català  row 4
+Trying to click element: locator('#this-element-does-not-exist')
+Click failed (attempt 1): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Click failed (attempt 2): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Attempt 2 failed, refreshing the page to recover, url: https://www.youtube.com/
+Click failed (attempt 3): locator('#this-element-does-not-exist') -> TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Català failed | Click failed after 3 attempts | element=locator('#this-element-does-not-exist') | reason=TimeoutError: locator.waitFor: Timeout 1000ms exceeded. | page=https://www.youtube.com/
+Opened YouTube landing page.
+Summary | completed 0 of 53 | checks failed: 6 | 5 items failed | stopped early
