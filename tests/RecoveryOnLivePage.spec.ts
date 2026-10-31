@@ -222,6 +222,8 @@ test("R6 language that cannot be picked: SafeActions refreshes, LoopGuard retrie
             }
             document.querySelectorAll("yt-formatted-string#label").forEach(label => {
                 if (label.textContent?.trim() === target) {
+                    // hide the text itself (the test waits for it to be visible) and, when there is one, its row
+                    (label as HTMLElement).style.setProperty("display", "none");
                     (label.closest("ytd-compact-link-renderer") as HTMLElement | null)?.style.setProperty("display", "none");
                 }
             });
