@@ -1,19 +1,15 @@
 {
   "runForAllLanguages": true,
-  "overideLanguageCountDefault": 50,
-  "overideLanguageCount": 50,
+  "languageCount": 50,
 
   "runForAllLanguagesCI": true,
-  "overideLanguageCountDefaultCI": 2,
-  "overideLanguageCountCI": 2,
+  "languageCountCI": 2,
 
-  "runForAllCountries": true,
-  "overideCountriesCountDefault": 110,
-  "overideCountriesCount": 2,
+  "runForAllLocations": true,
+  "locationCount": 2,
 
-  "runForAllCountriesCI": true,
-  "overideCountriesCountDefaultCI": 110,
-  "overideCountriesCountCI": 110,
+  "runForAllLocationsCI": true,
+  "locationCountCI": 110,
 
   "CANARY": false,
 

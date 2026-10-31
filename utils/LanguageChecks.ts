@@ -12,7 +12,7 @@ const UNTRANSLATED_ENGLISH_WORDS = ["YouTube", "Shorts", "Music", "Premium", "Ki
  * - the Turkish and Azeri dotted capital I becomes a plain I, because the page shows it as I
  * - the accent (tonos) the page adds on capital Greek letters is removed, the data file has none
  */
-export function normalizeText(text: string | null | undefined) {
+function normalizeText(text: string | null | undefined) {
     if (!text) {
         return "";
     }
@@ -45,7 +45,7 @@ export type Version = { text: string; description: string };
  * Each placeholder is filled with each of its options in turn: 3 options for {slot} and 2 for {premium} give 6 texts.
  * Every text is cleaned the same way as the text from the page, so the two can be compared with ===.
  */
-export function acceptedTexts(base: string, alternatives: { [placeholder: string]: string[] }) {
+export function allowedVersions(base: string, alternatives: { [placeholder: string]: string[] }) {
     let versions: Version[] = [{ text: base, description: "" }];
 
     for (const placeholder of Object.keys(alternatives)) {
@@ -65,8 +65,8 @@ export function acceptedTexts(base: string, alternatives: { [placeholder: string
 }
 
 /** Removes the words YouTube leaves untranslated, so they do not confuse the language detector. English pages keep them. */
-export function removeEnglishWordsForNonEnglish(text: string, langText: string) {
-    if (langText.trim().toLowerCase().startsWith("english")) {
+export function removeEnglishWordsForNonEnglish(text: string, language: string) {
+    if (language.trim().toLowerCase().startsWith("english")) {
         return text;
     }
     let result = text;
@@ -78,27 +78,26 @@ export function removeEnglishWordsForNonEnglish(text: string, langText: string) 
 }
 
 
-/** Finds the language of the text from the page ("source" names the part of the page, used in the error message) and checks it, unless detection is skipped for that language (eld cannot detect it). */
-export function checkDetectedLanguage(langText: string, textFromPage: string, expectedLanguage: string, source: string, detectionSkipped: boolean): boolean {
-    const detectedLanguage = detectLanguage(removeEnglishWordsForNonEnglish(textFromPage, langText));
-    console.log(langText + "  detected language: " + detectedLanguage + "  expected language: " + expectedLanguage);
+/** Finds the language of the text from the page ("source" names the part of the page, used in the error message) and checks it, unless detection is skipped for that language (eld cannot detect it). The detected language is logged in both cases. */
+export function checkDetectedLanguage(language: string, textFromPage: string, expectedLanguage: string, source: string, detectionSkipped: boolean): void {
+    const detectedLanguage = detectLanguage(removeEnglishWordsForNonEnglish(textFromPage, language));
+    console.log(language + "  detected language: " + detectedLanguage + "  expected language: " + expectedLanguage);
 
     if (detectionSkipped) {
-        console.log("Skipping the detected language check for " + langText + " (eld cannot detect it)");
-        return false;
+        console.log("Skipping the detected language check for " + language + " (eld cannot detect it)");
+        return;
     }
-    softCheck(detectedLanguage.toLowerCase(), 'Language of the ' + source + ' text is wrong after switching to "' + langText + '"', expectedLanguage.toLowerCase());
-    return true;
+    softCheck(detectedLanguage.toLowerCase(), expectedLanguage.toLowerCase(), 'Language of the ' + source + ' text is wrong after switching to "' + language + '"');
 }
 
 /** One log line for a text comparison, so the report shows what was compared and whether it matched. */
-export function logComparison(what: string, langText: string, actual: string, expected: string, extra: string = "") {
-    console.log(what + " | " + langText + " | " + (actual === expected ? "match" : "MISMATCH") + " | " + actual.length + " chars" + extra);
+export function logComparison(what: string, language: string, actual: string, expected: string, extra: string = "") {
+    console.log(what + " | " + language + " | " + (actual === expected ? "match" : "MISMATCH") + " | " + actual.length + " chars" + extra);
 }
 
 /** Checks the lang attribute of the <html> tag. */
-export function checkLanguageAttribute(langText: string, detectedAttribute: string | null, expectedAttribute: string) {
-    console.log(langText + "  detected lang attribute: " + detectedAttribute + "  expected lang attribute: " + expectedAttribute);
+export function checkLanguageAttribute(language: string, detectedAttribute: string | null, expectedAttribute: string) {
+    console.log(language + "  detected lang attribute: " + detectedAttribute + "  expected lang attribute: " + expectedAttribute);
 
-    softCheck((detectedAttribute || "").toLowerCase(), '<html lang> attribute is wrong after switching to "' + langText + '"', expectedAttribute.toLowerCase());
+    softCheck((detectedAttribute || "").toLowerCase(), expectedAttribute.toLowerCase(), '<html lang> attribute is wrong after switching to "' + language + '"');
 }

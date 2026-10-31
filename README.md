@@ -11,17 +11,17 @@ The tests run against the **live** youtube.com, signed out, in a real browser. N
 
 | Test | What it verifies |
 |---|---|
-| `verifyingSideMenuLanguageAsInSettings` | Expanded side-menu text for each language equals one of the allowed versions of the expected text in the data file (YouTube Music, YouTube TV and YouTube Labs are left out; see "Allowed versions" below) |
-| `verifyingSideMenuLanguageAsInSettingsLingua` | The side-menu text is detected as the expected language, and `<html lang>` has the expected value |
-| `verifyingSideMenuCollapsedLangAsInSettings` | Collapsed side-menu text for each language equals the expected text |
-| `verifyingSideMenuCollapsedLangAsInSettingsLingua` | Detected language and `<html lang>` for the collapsed menu |
-| `verifyingSettingOptionsLang` | Detected language of the settings menu, and `<html lang>` |
-| `verifyingCountryCodeOnLogo_Algeria_to_Liechtenstein` | The country code on the YouTube logo for each region in the first half of the location list, from Algeria to Liechtenstein (the test is named after the first and last country of its half, taken from `Country_Name_Code.json`) |
+| `verifyingSideMenuText_Expanded` | Expanded side-menu text for each language equals one of the allowed versions of the expected text in the data file (YouTube Music, YouTube TV and YouTube Labs are left out; see "Allowed versions" below) |
+| `verifyingSideMenuLanguage_Expanded` | The side-menu text is detected as the expected language, and `<html lang>` has the expected value |
+| `verifyingSideMenuText_Collapsed` | Collapsed side-menu text for each language equals the expected text |
+| `verifyingSideMenuLanguage_Collapsed` | Detected language and `<html lang>` for the collapsed menu |
+| `verifyingSettingsMenuLanguage` | Detected language of the settings menu, and `<html lang>` |
+| `verifyingCountryCodeOnLogo_Algeria_to_Liechtenstein` | The country code on the YouTube logo for each region in the first half of the location list, from Algeria to Liechtenstein (the test is named after the first and last country of its half, taken from `countryCodes.json`) |
 | `verifyingCountryCodeOnLogo_Lithuania_to_Zimbabwe` | The same for the second half, from Lithuania to Zimbabwe (the two halves run side by side, so the slowest test is about half as long) |
-| `verifyingGlobalFilterLandingPage` | Search-filter popup text on the results page for each language |
-| `verifyingGlobalFilterLandingPageLingua` | Detected language of the filter popup, and `<html lang>` |
+| `verifyingSearchFilterText` | Search-filter popup text on the results page for each language |
+| `verifyingSearchFilterLanguage` | Detected language of the filter popup, and `<html lang>` |
 
-The tests whose name ends in `Lingua` use the `eld` language detector instead of an exact text match. They are named after Lingua, the detector the Java project uses.
+The tests named `…Language…` use the `eld` language detector instead of an exact text match; the tests named `…Text…` compare the text exactly.
 
 Text comparisons use **soft assertions**, so one wrong language is reported at the end and the loop keeps going. A language or location that throws an error is retried once on its own (see [Per-item retry](#per-item-retry-loopguard)). The language list is `languages.json`; the expected texts of a language in the other data files are looked up by its name, not by its row.
 
@@ -48,14 +48,14 @@ npx playwright test tests/YtMasterSafeActions.spec.ts
 Useful variants:
 
 ```
-npx playwright test tests/YtMasterSafeActions.spec.ts -g "verifyingGlobalFilterLandingPage$"   # one test by name
+npx playwright test tests/YtMasterSafeActions.spec.ts -g "verifyingSearchFilterText$"   # one test by name
 npx playwright test --last-failed                                                              # only what failed last time
 npx playwright test --workers=1                                                                # one test at a time
 npx playwright show-report                                                                     # open the HTML report
 ```
 
 Notes:
-- `npx playwright test` with no file runs every spec in `tests/`: both `YtMaster.spec.ts` and `YtMasterSafeActions.spec.ts`. Give a file path to run only one.
+- `npx playwright test` with no file runs every spec in `tests/`: the 9 tests of `YtMasterSafeActions.spec.ts` and the offline `FallbackMechanisms.spec.ts`. Give a file path to run only one.
 - A full run of all languages takes a while: each long test needs about 20 to 30 minutes.
 - Headless is on by default (`headless: true` in `playwright.config.ts`). Set it to `false` to watch the browser.
 
@@ -97,7 +97,6 @@ Every run writes two reports:
 
 ```
 tests/
-  YtMaster.spec.ts              original version, plain Playwright clicks and waits
   YtMasterSafeActions.spec.ts   same tests using the SafeActions helper (the maintained one)
   FallbackMechanisms.spec.ts    fault-injection tests: make every retry / fallback run on purpose on fake pages (offline, about a minute)
 pages/YtLandingPage.ts          page object: locators and page methods
@@ -121,22 +120,22 @@ docs/                           working notes (local only, git-ignored)
 
 | File | Used for |
 |---|---|
-| `verifyingSideMenuLanguageAsInSettings.json` | Expected expanded side-menu text per language |
-| `verifyingSideMenuCollapsedLangAsInSettings.json` | Expected collapsed side-menu text per language |
+| `expectedSideMenuExpanded.json` | Expected expanded side-menu text per language |
+| `expectedSideMenuCollapsed.json` | Expected collapsed side-menu text per language |
 | `languages.json` | **The list of languages the tests go through**, one row each: `Language`, `Expected Language` (what eld has to detect), `Expected Attribute` (the `<html lang>` value), `Detection Skipped` (true for the 4 languages eld cannot detect) |
-| `Country_Name_Code.json` | Expected country code per region, found by the location's name (a location that is new on the page stops with "No row for X in Country_Name_Code.json") |
-| `verifyingGlobalFilterLandingPage.json` | Expected search-filter popup text per language |
+| `countryCodes.json` | Expected country code per region, found by the location's name (a location that is new on the page stops with "No row for X in countryCodes.json") |
+| `expectedSearchFilter.json` | Expected search-filter popup text per language |
 
-The expected texts are looked up by language name (`readJsonByName` in `utils/ReadJSON.ts`), so the order of their rows does not matter; a missing or doubled language stops with an error that names the file. `ApplicableLanguageExpectedLanguage.json` and `ApplicableLanguageExpectedAttibute.json` are now read only by the old `tests/YtMaster.spec.ts`.
+The expected texts are looked up by language name (`readJsonByName` in `utils/ReadJSON.ts`), so the order of their rows does not matter; a missing or doubled language stops with an error that names the file.
 
 #### Allowed versions of the expanded side menu
 
-`verifyingSideMenuLanguageAsInSettings.json` does not hold one fixed text per language. Each row has a **base text** with `{placeholders}` where YouTube changes the menu, and the allowed texts of each placeholder:
+`expectedSideMenuExpanded.json` does not hold one fixed text per language. Each row has a **base text** with `{placeholders}` where YouTube changes the menu, and the allowed texts of each placeholder:
 
 ```json
 {
-  "Applied Language": "Afrikaans",
-  "Expected Data": "Tuis Kortvideo's ... Flieks en TV {slot} {premium} YouTube Kids Aangeegeskiedenis",
+  "Language": "Afrikaans",
+  "Expected Text": "Tuis Kortvideo's ... Flieks en TV {slot} {premium} YouTube Kids Aangeegeskiedenis",
   "Alternatives": {
     "slot":    ["Regstreeks", "Ophef", ""],
     "premium": ["YouTube Premium", "Probeer Premium vir $0"]
@@ -154,9 +153,9 @@ The expected text comes from the live site, so it goes out of date when YouTube 
 
 | Key | Meaning |
 |---|---|
-| `runForAllLanguages` | `true` runs every language row; `false` runs only `overideLanguageCount` rows |
-| `overideLanguageCount` | How many languages to run when `runForAllLanguages` is `false` |
-| `runForAllCountries`, `overideCountriesCount` | The same two settings for the country test |
+| `runForAllLanguages` | `true` runs every language row; `false` runs only `languageCount` rows |
+| `languageCount` | How many languages to run when `runForAllLanguages` is `false` |
+| `runForAllLocations`, `locationCount` | The same two settings for the country (location) tests |
 | `Url` | Start page |
 | keys ending in `CI` | The same settings for scheduled runs (see below) |
 
@@ -164,10 +163,10 @@ Every key can be overridden with an environment variable of the same name, and t
 
 ```
 # PowerShell
-$env:runForAllLanguages = "false"; $env:overideLanguageCount = "10"; npx playwright test tests/YtMasterSafeActions.spec.ts
+$env:runForAllLanguages = "false"; $env:languageCount = "10"; npx playwright test tests/YtMasterSafeActions.spec.ts
 
 # Git Bash / Linux / macOS
-runForAllLanguages=false overideLanguageCount=10 npx playwright test tests/YtMasterSafeActions.spec.ts
+runForAllLanguages=false languageCount=10 npx playwright test tests/YtMasterSafeActions.spec.ts
 ```
 
 Setting `IS_CRON=true` makes the tests read the `...CI` keys instead.

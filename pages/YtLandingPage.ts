@@ -1,15 +1,11 @@
-import test, { expect, Locator, Page, TestInfo } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import SafeActions from "../utils/SafeActions";
 import GenericUtility from "../utils/GenericUtility";
 
 class YtLandingPage {
 
     private page: Page;
-
-    private testInfo: TestInfo;
-
     private safeActions: SafeActions;
-
     private genericUtility: GenericUtility;
 
     // after a language is picked the page can take a while to load, wait up to 2 minutes (like Selenium, which waits for the whole page)
@@ -19,367 +15,97 @@ class YtLandingPage {
     private static MENU_STABLE_READS = 10;
     private static MENU_STABLE_WAIT = 500;
 
-    private sideMenu: Locator;
+    // top bar
+    public settingsButton: Locator;               // the Settings button at the top right
+    public sideMenuButton: Locator;               // the hamburger button at the top left (opens and closes the side menu)
+    public searchBox: Locator;
+    private countryCodeLabel: Locator;            // the country code next to the YouTube logo
 
-    public sideMenuExpandedList: Locator;
+    // side menu
+    public expandedSideMenuEntries: Locator;
+    public collapsedSideMenuEntries: Locator;
 
-    public settingEllipsesButton: Locator;
+    // settings menu (the popup of the Settings button)
+    private settingsMenu: Locator;                // the whole popup
+    public settingsMenuRow: Locator;              // one row of it, visible only while the menu is open
+    public languageRow: Locator;                  // the "Language" row of the settings menu
+    public locationRow: Locator;                  // the "Location" row of the settings menu
+    public locationRows: Locator;                 // the rows of the open location list
 
-    public languageDropdownUnderSettings: Locator;
+    // search filter popup on the search results page
+    public searchFilterButton: Locator;
+    private searchFilterPopup: Locator;
+    public searchFilterCloseButton: Locator;
 
-    private languageList: Locator;
-
-    public ellipsesYtLandingPageTopLeft: Locator;
-
-    public sideMenuCollapsedList: Locator;
-    public settingsMenuRow: Locator;
-
-    private countryCodeOnYtLogoLandingPage: Locator;
-
-    private settingEllipsesOptionsListLandingPage: Locator;
-
-    
-    private languageListUpdated: Locator;
-
-    public searchInputLandinfPage: Locator;
-
-    //Cannot use this directly as this banner wouldnt show if yt does not have a search histroy so to show these recommendation banner
-    private horizontalScrollBarLandingPage: Locator;
-
-    public locationDropdownUnderSettings: Locator;
-
-    public locationList: Locator;
-
-    public globalFilterButton: Locator;
-
-    private globalFilterData: Locator;
-
-    public closeButtonGlobalFilterPopup: Locator;
-
-    public spinnerUnderSetting:Locator;
-
-    private centerTitle: Locator;
-
-    constructor(page: Page, testInfo: TestInfo) {
+    constructor(page: Page) {
         this.page = page;
-        this.testInfo = testInfo;
         this.safeActions = new SafeActions(page);
         this.genericUtility = new GenericUtility(page);
 
-        this.sideMenu = page.locator("//div[@class='style-scope ytd-mini-guide-renderer']");
-        this.sideMenuExpandedList = page.locator("//ytd-guide-entry-renderer[@class='style-scope ytd-guide-section-renderer']").filter({ visible: true });
-     //   this.settingEllipsesButton = page.locator("//ytd-topbar-menu-button-renderer[@class='style-scope ytd-masthead style-default']");
-     
-        // the host element, same locator as the Java project (the inner <a> is not always in the page)
-        this.settingEllipsesButton = page.locator("//ytd-topbar-menu-button-renderer[@class='style-scope ytd-masthead style-default']").first();
+        this.settingsButton = page.locator("//ytd-topbar-menu-button-renderer[@class='style-scope ytd-masthead style-default']").first();     // the host element, same locator as the Java project (the inner <a> is not always in the page)
+        this.sideMenuButton = page.locator("//ytd-topbar-logo-renderer[@id='logo']/preceding-sibling::*[@id='guide-button']");
+        this.searchBox = page.locator("//input[@class='ytSearchboxComponentInput yt-searchbox-input title']");
+        this.countryCodeLabel = page.locator("(//span[@id='country-code'])[1]");
 
-        this.languageDropdownUnderSettings = page.locator("(//div[@id='content-icon'])[2]");
-        this.languageList = page.locator("//yt-multi-page-menu-section-renderer[@class='style-scope ytd-multi-page-menu-renderer']//ytd-compact-link-renderer").filter({ visible: true });
-        this.ellipsesYtLandingPageTopLeft = page.locator("//ytd-topbar-logo-renderer[@id='logo']/preceding-sibling::*[@id='guide-button']");
-        // a row of the open settings menu (language independent), only visible while the menu is open
-        this.settingsMenuRow = page.locator("//ytd-multi-page-menu-renderer//ytd-compact-link-renderer").filter({ visible: true }).first();
-        this.sideMenuCollapsedList = page.locator("//ytd-mini-guide-renderer[@class='style-scope ytd-app']//ytd-mini-guide-entry-renderer");
-        this.countryCodeOnYtLogoLandingPage = page.locator("(//span[@id='country-code'])[1]");
-        this.settingEllipsesOptionsListLandingPage = page.locator("//ytd-multi-page-menu-renderer");
-        this.languageListUpdated = page.locator("//ytd-multi-page-menu-renderer[@slot='dropdown-content']");
-        this.searchInputLandinfPage = page.locator("//input[@class='ytSearchboxComponentInput yt-searchbox-input title']");
-        this.horizontalScrollBarLandingPage = page.locator("//div[@id='scroll-container']");
-        this.locationDropdownUnderSettings = page.locator("(//div[@id='content-icon'])[4]");
-        this.locationList = page.locator("//yt-multi-page-menu-section-renderer[@class='style-scope ytd-multi-page-menu-renderer']//ytd-compact-link-renderer").filter({ visible: true });
-        this.globalFilterButton = page.locator("//div[@id='filter-button']");
-        this.globalFilterData = page.locator("//ytd-search-filter-options-dialog-renderer[@class='style-scope ytd-popup-container']");
-        this.closeButtonGlobalFilterPopup = page.locator("//yt-icon[@icon='close']");
-        this.spinnerUnderSetting=page.locator("(//div[@id='spinner']//div[@id='spinnerContainer'])[1]");
-        this.centerTitle = page.locator("//h2[@id='title-container']");
+        this.expandedSideMenuEntries = page.locator("//ytd-guide-entry-renderer[@class='style-scope ytd-guide-section-renderer']").filter({ visible: true });
+        this.collapsedSideMenuEntries = page.locator("//ytd-mini-guide-renderer[@class='style-scope ytd-app']//ytd-mini-guide-entry-renderer");
 
+        this.settingsMenu = page.locator("//ytd-multi-page-menu-renderer");
+        this.settingsMenuRow = page.locator("//ytd-multi-page-menu-renderer//ytd-compact-link-renderer").filter({ visible: true }).first();     // language independent
+        this.languageRow = page.locator("(//div[@id='content-icon'])[2]");
+        this.locationRow = page.locator("(//div[@id='content-icon'])[4]");
+        this.locationRows = page.locator("//yt-multi-page-menu-section-renderer[@class='style-scope ytd-multi-page-menu-renderer']//ytd-compact-link-renderer").filter({ visible: true });
+
+        this.searchFilterButton = page.locator("//div[@id='filter-button']");
+        this.searchFilterPopup = page.locator("//ytd-search-filter-options-dialog-renderer[@class='style-scope ytd-popup-container']");
+        this.searchFilterCloseButton = page.locator("//yt-icon[@icon='close']");
     }
 
-    async open(): Promise<void> {
+    // ------------------------------------------------------------------
+    // Opening the page and the lists
+    // ------------------------------------------------------------------
+
+    /** Waits until the page has finished loading and the top bar is usable. Pass a timeout (ms) to wait longer than the defaults. */
+    public async waitForPageToLoad(timeoutMs?: number): Promise<void> {
+        await this.page.waitForLoadState("load", { timeout: timeoutMs });
+        await this.searchBox.waitFor({ timeout: timeoutMs });
+        await this.settingsButton.waitFor({ timeout: timeoutMs });
+    }
+
+    public async openLandingPage(): Promise<void> {
         await this.page.goto("https://www.youtube.com/");
+        await this.waitForPageToLoad();
+        console.log("Opened YouTube landing page.");
     }
 
-    /** Text of every entry in the collapsed (mini) side menu. */
-    async getCollapsedSideMenuTexts(): Promise<string[]> {
-        await this.sideMenuCollapsedList.first().waitFor();
-        return (await this.sideMenuCollapsedList.allInnerTexts()).map(t => t.trim());
+    /** Opens the settings menu, then its language list. */
+    public async openLanguageList(): Promise<void> {
+        await this.safeActions.safeClick(this.settingsButton);
+        await this.recoverSettingsMenuIfClosed();
+        await this.safeActions.safeClick(this.languageRow);
     }
 
-    /** Opens the hamburger menu so the expanded side menu is visible. */
-    async expandSideMenu(): Promise<void> {
-        await this.ellipsesYtLandingPageTopLeft.click();
-        await this.sideMenuExpandedList.first().waitFor();
+    /** Opens the settings menu, then its location list. */
+    public async openLocationList(): Promise<void> {
+        await this.safeActions.safeClick(this.settingsButton);
+        await this.recoverSettingsMenuIfClosed();
+        await this.safeActions.safeClick(this.locationRow);
     }
-
-    /** Text of every entry in the expanded side menu. */
-    async getExpandedSideMenuTexts(): Promise<string[]> {
-        await this.sideMenuExpandedList.first().waitFor();
-        return (await this.sideMenuExpandedList.allInnerTexts()).map(t => t.trim());
-    }
-
-    async openSettingsMenu(): Promise<void> {
-        await this.settingEllipsesButton.click();
-        await this.settingEllipsesOptionsListLandingPage.first().waitFor();
-    }
-
-    async openLanguageDropdown(): Promise<void> {
-        await this.openSettingsMenu();
-        await this.languageDropdownUnderSettings.click();
-        await this.languageListUpdated.waitFor();
-    }
-
-    /** Text of every language offered in the language dropdown. */
-    async getLanguageOptions(): Promise<string[]> {
-        await this.languageList.first().waitFor();
-        return (await this.languageList.allInnerTexts()).map(t => t.trim());
-    }
-
-    /** Picks a language from the open dropdown by its visible name, e.g. "Deutsch". */
-    async selectLanguage(languageName: string): Promise<void> {
-        await this.languageList.filter({ hasText: languageName }).first().click();
-    }
-
-    async openLocationDropdown(): Promise<void> {
-        await this.openSettingsMenu();
-        await this.locationDropdownUnderSettings.click();
-        await this.locationList.first().waitFor();
-    }
-
-    async searchFor(text: string): Promise<void> {
-        await this.searchInputLandinfPage.fill(text);
-        await this.searchInputLandinfPage.press("Enter");
-    }
-
-    async openGlobalFilter(): Promise<void> {
-        await this.globalFilterButton.click();
-        await this.globalFilterData.waitFor();
-    }
-
-    async closeGlobalFilter(): Promise<void> {
-        await this.closeButtonGlobalFilterPopup.click();
-    }
-
-
-
-
-
-
-
-
-     public getLanguageElementByName(name:string):Locator {
-		let languageLocator:Locator=this.page.locator("//yt-multi-page-menu-section-renderer[@class='style-scope ytd-multi-page-menu-renderer']//yt-formatted-string[@id='label' and text()='" + name + "']");
-		console.log("Looking for language element with name: " + name);
-		
-		return languageLocator;
-	}
-	
-	
-
-		
-
-	public async  clickingUnderSearchInput() :Promise<void>{
-		console.log("Clicking into the search bar...");
-	
-        await this.searchInputLandinfPage.click();
-	}
-
-	public async givingInputUnderSearchBar(input :string):Promise<void> {
-		console.log("Giving input into the search bar with input as = "+input);
-        await this.searchInputLandinfPage.click();
-        await this.searchInputLandinfPage.fill(input);
-        
-	}
-
-
-	public async clickingGlobalFilterButton():Promise<void> {
-		console.log("Clicking on global filter button in landing page..");
-        await this.globalFilterButton.click();
-	}
-
-
-	public async clickingLocationDropdownUnderSettings() :Promise<void>{
-		console.log("Clicking on location dropdown under settings..");
-        await this.locationDropdownUnderSettings.click();
-
-
-	}
-
-
-
-
-
-	public async closeGlobalFilterPopup():Promise<void> {
-		console.log("Closing the global filter pop-up in landing page..");
-        await this.closeButtonGlobalFilterPopup.click();
-	}
-
-
-	public async getLocationList():Promise<Locator[] >{
-		console.log("Fetching the location list ...");
-		await this.locationList.first().waitFor();
-		const allLocations:Locator[] = await this.locationList.all();
-		const cleanedList:Locator[] = [];
-
-		for (const location of allLocations) {
-			const text = (await location.innerText()).trim();
-			if (text !== "") {
-				cleanedList.push(location);
-			}
-		}
-
-		console.log("Fetched the location list, count = " + cleanedList.length);
-		return cleanedList;
-
-	}
-
-
-	/** Waits until the page has finished loading and the top bar is usable. Pass a timeout (ms) to wait longer than the defaults. */
-	public async waitForPageToLoad(timeoutMs?:number) :Promise<void>{
-		await this.page.waitForLoadState("load", { timeout: timeoutMs });
-		await this.searchInputLandinfPage.waitFor({ timeout: timeoutMs });
-		await this.settingEllipsesButton.waitFor({ timeout: timeoutMs });
-	}
-
-	public async openingLandingPage():Promise<void> {
-
-		// String url=ConfigManager.get("Url");
-		// driver.get(url);
-       await this.page.goto('https://www.youtube.com/');
-		await this.waitForPageToLoad();
-		console.log("Opened YouTube landing page.");
-	}
-
-
-	/** Clicks a language in the open list with a DOM click, so the click does not wait for the page navigation it starts. */
-	public async clickingLanguageByName(name:string) :Promise<void> {
-		const language:Locator = this.getLanguageElementByName(name);
-		await language.waitFor({ state: "visible" });
-		await language.evaluate(element => (element as HTMLElement).click());
-	}
-
-	public async clickingSettingEllipsesButton() :Promise<void> {
-		console.log("Clicking settings ellipses button...");
-		// the click waits up to the 20s action timeout; if the button is still not usable, refresh the page and try again, 2 refreshes at most
-		for (let attempt = 1; attempt <= 3; attempt++) {
-			try {
-				await this.settingEllipsesButton.click();
-				return;
-			} catch (e) {
-				if (attempt === 3) throw e;
-				console.log("Settings ellipses button not clickable, refreshing the page, refresh " + attempt + " of 2");
-				await this.page.reload({ waitUntil: "domcontentloaded" });
-				await this.waitForPageToLoad();
-			}
-		}
-
-	}
-
-	public async clickingLanguageDropdownButton() :Promise<void> {
-		console.log("Clicking language dropdown...");
-        await this.languageDropdownUnderSettings.click();
-	}
-
-	public async gettingLanguageList():Promise<Locator[]> {
-		console.log("Fetching available language list...");
-		
-        await this.languageList.first().waitFor();
-        const languageList:Locator[]= await (this.languageList.all());
-        const cleanedLanguageList:Locator[]=[];
-
-        for(const language of languageList){
-            let text:string= (await language.innerText()).trim();
-            if(text!==""){
-              cleanedLanguageList.push(language);
-            }
-        }
-
-        return cleanedLanguageList;
-
-	}
-
-
-	public async getsettingEllipsesOptionsListLandingPage():Promise<string> {
-		console.log("Getting the setting ellipses options");
-        const settingEllipsesoptionsListLandingPage:string=(await this.settingEllipsesOptionsListLandingPage.innerText()).trim();
-		return settingEllipsesoptionsListLandingPage;
-	}
-
-
-	public async gettingSideMenuExpandedList() :Promise<Locator[]>{
-		console.log("Fetching the side menu in expanded view");
-        await this.sideMenuExpandedList.first().waitFor();
-        const sideMenuList:Locator[]=await this.sideMenuExpandedList.all();
-		return sideMenuList;
-	}
-
-
-	public async gettingSideMenuCollapsedList() :Promise<Locator[]>{
-		console.log("Fetching the side menu in collapsed view");
-        await this.sideMenuCollapsedList.first().waitFor();
-        const sideMenuList= await this.sideMenuCollapsedList.all();
-		return sideMenuList;
-	}
-
-
-	/** Clicks the hamburger only when the side menu is collapsed (its button has aria-pressed="true" while the menu is open), so an open menu is never closed. */
-	public async expandSideMenuIfCollapsed() :Promise<void>{
-		const menuButton:Locator = this.ellipsesYtLandingPageTopLeft.locator("button");
-		for (let attempt = 1; attempt <= 2; attempt++) {
-			if ((await menuButton.getAttribute("aria-pressed")) === "true") {
-				return;
-			}
-			console.log("Side menu is collapsed, expanding it, attempt " + attempt);
-			await this.ellipsesYtLandingPageTopLeft.click();
-			await this.sideMenuExpandedList.first().waitFor({ timeout: 5000 }).catch(() => {});
-		}
-	}
-
-	public async clickingLeftEllipses() :Promise<void>{
-		console.log("Clicking left ellipses in the landing page");
-        await this.ellipsesYtLandingPageTopLeft.click();
-	}
-
-
-
-
-
-
-	public async getDataFromGlobalFilterPopup() :Promise<string>{
-		console.log("Fetching the data from the global filter in landing page");
-        const globalFilterData:string =(await this.globalFilterData.innerText()).trim();
-		return globalFilterData;
-	}
-
-
-
-
-
-	public async getCountryCode() :Promise<string>{
-		console.log("Retrieving country code from YouTube logo...");
-        const countryCode=(await this.countryCodeOnYtLogoLandingPage.innerText()).trim();
-		console.log("Detected country code: " + countryCode);
-		return countryCode;
-	}
-
-
-
-    // ------------------------------------------------------------------
-    // Steps that use the safe actions (used by YtMasterSafeActions.spec.ts)
-    // ------------------------------------------------------------------
 
     /** True while the settings menu is open (at least one of its rows is visible). */
-    public async isSettingsMenuOpen() :Promise<boolean> {
+    public async isSettingsMenuOpen(): Promise<boolean> {
         return await this.settingsMenuRow.isVisible();
     }
 
     /**
-     * The dropdowns of the settings menu exist only while the menu is open, but the click on the settings button is
-     * sometimes missed (for example right after a page load). Then the dropdown click can never succeed, because its retries
-     * reload the page, which closes the menu again. So: do nothing if the menu is open, wait for its rows to show up (the
-     * wait comes first, so a menu that is just opening is not closed by a second click), and only then click again.
+     * The rows of the settings menu exist only while the menu is open, but the click on the settings button is
+     * sometimes missed (for example right after a page load). Then the click on the language or location row can never succeed,
+     * because its retries reload the page, which closes the menu again. So: do nothing if the menu is open, wait for its rows to
+     * show up (the wait comes first, so a menu that is just opening is not closed by a second click), and only then click again.
      * The settings button has no aria-pressed / aria-expanded (checked on the live page), so the visible rows are the only
      * signal. No number is written here: the wait is Playwright's action timeout from playwright.config.ts (30 s).
      */
-    public async recoverSettingsMenuIfClosed() :Promise<void> {
+    public async recoverSettingsMenuIfClosed(): Promise<void> {
         if (await this.isSettingsMenuOpen()) {
             return;
         }
@@ -390,36 +116,27 @@ class YtLandingPage {
             // still closed, handled below
         }
         console.log("Settings menu is not open after the click, clicking the settings button again");
-        await this.safeActions.safeClick(this.settingEllipsesButton);
+        await this.safeActions.safeClick(this.settingsButton);
         await this.settingsMenuRow.waitFor({ state: "visible" }).catch(() => {
             console.log("Settings menu is still not open after the second click");
         });
     }
 
-    /** Opens the settings menu, then its language list. */
-    public async openLanguageList() :Promise<void> {
-        await this.safeActions.safeClick(this.settingEllipsesButton);
-        // Old code: went straight to the dropdown click, without checking that the menu opened
-        await this.recoverSettingsMenuIfClosed();
-        await this.safeActions.safeClick(this.languageDropdownUnderSettings);
-    }
+    // ------------------------------------------------------------------
+    // Side menu
+    // ------------------------------------------------------------------
 
-    /** Opens the settings menu, then its location list. */
-    public async openLocationList() :Promise<void> {
-        await this.safeActions.safeClick(this.settingEllipsesButton);
-        // Old code: went straight to the dropdown click, without checking that the menu opened
-        await this.recoverSettingsMenuIfClosed();
-        await this.safeActions.safeClick(this.locationDropdownUnderSettings);
-    }
-
-    /** Opens the settings menu if it is closed, closes it if it is open. */
-    public async toggleSettingsMenu() :Promise<void> {
-        await this.safeActions.safeClick(this.settingEllipsesButton);
-    }
-
-    /** Clicks the menu button at the top left. Blind toggle, the collapsed tests use collapseSideMenuIfExpanded() instead. */
-    public async clickLeftMenuButton() :Promise<void> {
-        await this.safeActions.safeClick(this.ellipsesYtLandingPageTopLeft);
+    /** Clicks the hamburger only when the side menu is collapsed (its button has aria-pressed="true" while the menu is open), so an open menu is never closed. */
+    public async expandSideMenuIfCollapsed(): Promise<void> {
+        const menuButton: Locator = this.sideMenuButton.locator("button");
+        for (let attempt = 1; attempt <= 2; attempt++) {
+            if ((await menuButton.getAttribute("aria-pressed")) === "true") {
+                return;
+            }
+            console.log("Side menu is collapsed, expanding it, attempt " + attempt);
+            await this.sideMenuButton.click();
+            await this.expandedSideMenuEntries.first().waitFor({ timeout: 5000 }).catch(() => {});
+        }
     }
 
     /**
@@ -428,45 +145,73 @@ class YtLandingPage {
      * The click is sometimes missed, so the collapsed entries are given 3 seconds to show up; if they do not and the menu
      * is still expanded, it is clicked once more. A menu that did collapse is never clicked again, that would open it.
      */
-    public async collapseSideMenuIfExpanded() :Promise<void> {
-        const menuButton:Locator = this.ellipsesYtLandingPageTopLeft.locator("button");
+    public async collapseSideMenuIfExpanded(): Promise<void> {
+        const menuButton: Locator = this.sideMenuButton.locator("button");
         if ((await menuButton.getAttribute("aria-pressed")) !== "true") {
             return;
         }
-        await this.safeActions.safeClick(this.ellipsesYtLandingPageTopLeft);
+        await this.safeActions.safeClick(this.sideMenuButton);
         try {
-            await this.sideMenuCollapsedList.first().waitFor({ state: "visible", timeout: 3000 });
+            await this.collapsedSideMenuEntries.first().waitFor({ state: "visible", timeout: 3000 });
             return;
         } catch {
             // the collapsed entries are not there yet
         }
         if ((await menuButton.getAttribute("aria-pressed")) === "true") {
             console.log("Side menu did not collapse after the click, clicking the menu button again");
-            await this.safeActions.safeClick(this.ellipsesYtLandingPageTopLeft);
+            await this.safeActions.safeClick(this.sideMenuButton);
         }
     }
 
+    // ------------------------------------------------------------------
+    // Picking a language or a location
+    // ------------------------------------------------------------------
+
+    /** The text of a language in the open list, as a locator. */
+    public languageByName(name: string): Locator {
+        return this.page.locator("//yt-multi-page-menu-section-renderer[@class='style-scope ytd-multi-page-menu-renderer']//yt-formatted-string[@id='label' and text()='" + name + "']");
+    }
+
     /** Clicks the language in the open list and waits for the page to load in that language. */
-    public async pickLanguage(name:string) :Promise<void> {
-        await this.safeActions.safeDomClick(this.getLanguageElementByName(name));
+    public async pickLanguage(name: string): Promise<void> {
+        console.log("Picking the language " + name);
+        await this.safeActions.safeDomClick(this.languageByName(name));
         await this.waitForPageToLoad(YtLandingPage.LANGUAGE_PAGE_LOAD_TIMEOUT);
     }
 
+    /** All rows of the open location list that have a text. */
+    public async getLocationRows(): Promise<Locator[]> {
+        await this.locationRows.first().waitFor();
+        const allRows: Locator[] = await this.locationRows.all();
+        const rowsWithText: Locator[] = [];
+        for (const row of allRows) {
+            if ((await row.innerText()).trim() !== "") {
+                rowsWithText.push(row);
+            }
+        }
+        console.log("Fetched the location list, count = " + rowsWithText.length);
+        return rowsWithText;
+    }
+
     /** Clicks the location at this position in the open list, waits for the page to load, and returns the name of the location. */
-    public async pickLocation(index:number) :Promise<string> {
-        const locations = await this.getLocationList();
-        const locationText = await locations[index].innerText();
+    public async pickLocation(index: number): Promise<string> {
+        const locations = await this.getLocationRows();
+        const locationName = await locations[index].innerText();
         await this.safeActions.safeClick(locations[index]);
         await this.waitForPageToLoad();
-        return locationText;
+        return locationName;
     }
+
+    // ------------------------------------------------------------------
+    // Reading the page
+    // ------------------------------------------------------------------
 
     /**
      * Reads a menu text again and again until it is not empty and the same on 3 reads in a row (about a second).
      * After a language switch a menu can still be filling up (a read once returned only the first 5 entries) or not be open yet.
      * Returns the last text read, also when it never became stable (the caller decides if that is an error).
      */
-    private async readUntilStable(read:() => Promise<string>) :Promise<string> {
+    private async readUntilStable(read: () => Promise<string>): Promise<string> {
         let previous = await read();
         let sameReads = 1;
         for (let attempt = 1; attempt <= YtLandingPage.MENU_STABLE_READS && sameReads < 3; attempt++) {
@@ -482,18 +227,24 @@ class YtLandingPage {
     }
 
     /** Text of a side menu, all the items joined with a space. */
-    private async readSideMenuText(menuItems:Locator) :Promise<string> {
+    private async readSideMenuText(menuItems: Locator): Promise<string> {
         return await this.readUntilStable(async () => await this.genericUtility.joinTexts(await this.safeActions.safeFindElements(menuItems)));
     }
 
     /** Text of the expanded side menu, all the items joined with a space. */
-    public async readExpandedSideMenu() :Promise<string> {
-        return await this.readSideMenuText(this.sideMenuExpandedList);
+    public async readExpandedSideMenu(): Promise<string> {
+        return await this.readSideMenuText(this.expandedSideMenuEntries);
     }
 
     /** Text of the collapsed side menu, all the items joined with a space. */
-    public async readCollapsedSideMenu() :Promise<string> {
-        return await this.readSideMenuText(this.sideMenuCollapsedList);
+    public async readCollapsedSideMenu(): Promise<string> {
+        return await this.readSideMenuText(this.collapsedSideMenuEntries);
+    }
+
+    /** The text of the open settings menu, read once. */
+    private async readSettingsMenuOnce(): Promise<string> {
+        console.log("Reading the settings menu");
+        return (await this.settingsMenu.innerText()).trim();
     }
 
     /**
@@ -501,16 +252,46 @@ class YtLandingPage {
      * The text is read until it is not empty and the same on 3 reads in a row. An empty text (the menu did not open or is still
      * opening) is an error, so LoopGuard checks the language again; before it went on to the language detection as "Unknown".
      */
-    public async readSettingsMenuText() :Promise<string> {
-        await this.safeActions.safeClick(this.settingEllipsesButton);
-        // Old code: read the text right after the click, without checking that the menu opened or that the text was complete
+    public async readSettingsMenuText(): Promise<string> {
+        await this.safeActions.safeClick(this.settingsButton);
         await this.recoverSettingsMenuIfClosed();
-        const text = await this.readUntilStable(async () => (await this.getsettingEllipsesOptionsListLandingPage()).trim());
+        const text = await this.readUntilStable(() => this.readSettingsMenuOnce());
         if (text === "") {
             throw new Error("Read the settings menu text but it is empty | page=" + this.page.url());
         }
-        await this.safeActions.safeClick(this.settingEllipsesButton);
+        await this.safeActions.safeClick(this.settingsButton);
         return text;
+    }
+
+    /** The code written next to the YouTube logo. */
+    public async readCountryCode(): Promise<string> {
+        const countryCode = (await this.countryCodeLabel.innerText()).trim();
+        console.log("Detected country code: " + countryCode);
+        return countryCode;
+    }
+
+    // ------------------------------------------------------------------
+    // Search box and search filter popup (search results page)
+    // ------------------------------------------------------------------
+
+    public async typeInSearchBox(text: string): Promise<void> {
+        console.log("Typing into the search box: " + text);
+        await this.searchBox.click();
+        await this.searchBox.fill(text);
+    }
+
+    /** Opens the search filter popup on the search results page. */
+    public async openSearchFilter(): Promise<void> {
+        await this.safeActions.safeClick(this.searchFilterButton);
+    }
+
+    public async readSearchFilterText(): Promise<string> {
+        return (await this.searchFilterPopup.innerText()).trim();
+    }
+
+    /** Closes the search filter popup. */
+    public async closeSearchFilter(): Promise<void> {
+        await this.safeActions.safeClick(this.searchFilterCloseButton);
     }
 
     // ------------------------------------------------------------------
@@ -519,40 +300,30 @@ class YtLandingPage {
     // ------------------------------------------------------------------
 
     /** Page reloaded, language list open (the loops of the expanded side menu and the settings menu). */
-    public async reopenLanguageList() :Promise<void> {
-        await this.openingLandingPage();
+    public async reopenLanguageList(): Promise<void> {
+        await this.openLandingPage();
         await this.openLanguageList();
     }
 
     /** Page reloaded, side menu collapsed, language list open (the loops of the collapsed side menu). */
-    public async reopenCollapsedLanguageList() :Promise<void> {
-        await this.openingLandingPage();
-        // Old code: await this.clickLeftMenuButton(); (blind toggle, no check that the menu collapsed)
+    public async reopenCollapsedLanguageList(): Promise<void> {
+        await this.openLandingPage();
         await this.collapseSideMenuIfExpanded();
         await this.openLanguageList();
     }
 
     /** Page reloaded, location list open (the country code loops). */
-    public async reopenLocationList() :Promise<void> {
-        await this.openingLandingPage();
+    public async reopenLocationList(): Promise<void> {
+        await this.openLandingPage();
         await this.openLocationList();
     }
 
     /** Page reloaded, search for "youtube" done (the search filter loops). */
-    public async reopenSearchResults() :Promise<void> {
-        await this.openingLandingPage();
-        await this.givingInputUnderSearchBar("youtube");
-        await this.genericUtility.clickEnter(this.searchInputLandinfPage);
-    }
-
-    /** Opens the global filter popup on the search results page. */
-    public async openGlobalFilterPopup() :Promise<void> {
-        await this.safeActions.safeClick(this.globalFilterButton);
-    }
-
-    /** Closes the global filter popup. */
-    public async dismissGlobalFilterPopup() :Promise<void> {
-        await this.safeActions.safeClick(this.closeButtonGlobalFilterPopup);
+    public async reopenSearchResults(): Promise<void> {
+        await this.openLandingPage();
+        await this.typeInSearchBox("youtube");
+        await this.genericUtility.clickEnter(this.searchBox);
     }
 }
+
 export default YtLandingPage;

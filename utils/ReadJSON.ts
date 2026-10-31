@@ -4,16 +4,12 @@ export function readJson(fileName: string) {
   return JSON.parse(fs.readFileSync('data/' + fileName, 'utf-8'));
 }
 
-export function writeJson(fileName: string, data: unknown) {
-  fs.writeFileSync('data/' + fileName, JSON.stringify(data, null, 2), 'utf-8');
-}
-
 /**
- * Reads a data file once and indexes its rows by a name column (for example the language), so a test finds the expected
+ * Reads a data file once and indexes its rows by a name column ("Language" unless another column is given), so a test finds the expected
  * data of a language by its name and not by its position in the file. Two rows with the same name stop the test at once;
  * get() of a name that has no row throws an error that names the file.
  */
-export function readJsonByName(fileName: string, key: string) {
+export function readJsonByName(fileName: string, key: string = "Language") {
   const byName = new Map<string, any>();
   for (const row of readJson(fileName)) {
     if (byName.has(row[key])) {

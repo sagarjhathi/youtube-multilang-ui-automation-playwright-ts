@@ -1,7 +1,7 @@
 [
   {
-    "Applied Language": "Afrikaans",
-    "Expected Data": "Tuis Kortvideo's Intekeninge Myne Geskiedenis Musiek Flieks en TV {slot} {premium} YouTube Kids Aangeegeskiedenis",
+    "Language": "Afrikaans",
+    "Expected Text": "Tuis Kortvideo's Intekeninge Myne Geskiedenis Musiek Flieks en TV {slot} {premium} YouTube Kids Aangeegeskiedenis",
     "Alternatives": {
       "slot": [
         "Regstreeks",
@@ -15,8 +15,8 @@
     }
   },
   {
-    "Applied Language": "Azərbaycan",
-    "Expected Data": "Ev Shorts Abunəliklər Siz Tarixçə Musiqi Film və TV {slot} {premium} YouTube Kids Xəbər tarixçəsi",
+    "Language": "Azərbaycan",
+    "Expected Text": "Ev Shorts Abunəliklər Siz Tarixçə Musiqi Film və TV {slot} {premium} YouTube Kids Xəbər tarixçəsi",
     "Alternatives": {
       "slot": [
         "Canlı",
@@ -30,8 +30,8 @@
     }
   },
   {
-    "Applied Language": "Bahasa Indonesia",
-    "Expected Data": "Beranda Shorts Subscription Anda Histori Musik Film & TV {slot} {premium} YouTube Kids Histori laporan",
+    "Language": "Bahasa Indonesia",
+    "Expected Text": "Beranda Shorts Subscription Anda Histori Musik Film & TV {slot} {premium} YouTube Kids Histori laporan",
     "Alternatives": {
       "slot": [
         "Live",
@@ -45,8 +45,8 @@
     }
   },
   {
-    "Applied Language": "Bosanski",
-    "Expected Data": "Početna stranica Shorts Pretplate Vi Historija Muzika Filmovi i TV {slot} {premium} YouTube Kids Historija prijava",
+    "Language": "Bosanski",
+    "Expected Text": "Početna stranica Shorts Pretplate Vi Historija Muzika Filmovi i TV {slot} {premium} YouTube Kids Historija prijava",
     "Alternatives": {
       "slot": [
         "Uživo",
@@ -60,8 +60,8 @@
     }
   },
   {
-    "Applied Language": "Català",
-    "Expected Data": "Inici Shorts Subscripcions Tu Historial Música Pel·lícules i televisió {slot} {premium} YouTube Kids Historial d'informes",
+    "Language": "Català",
+    "Expected Text": "Inici Shorts Subscripcions Tu Historial Música Pel·lícules i televisió {slot} {premium} YouTube Kids Historial d'informes",
     "Alternatives": {
       "slot": [
         "En directe",
@@ -75,8 +75,8 @@
     }
   },
   {
-    "Applied Language": "Dansk",
-    "Expected Data": "Start Shorts Abonnementer Dig Historik Musik Film og tv {slot} {premium} YouTube Kids Rapporteringshistorik",
+    "Language": "Dansk",
+    "Expected Text": "Start Shorts Abonnementer Dig Historik Musik Film og tv {slot} {premium} YouTube Kids Rapporteringshistorik",
     "Alternatives": {
       "slot": [
         "Live",
@@ -90,8 +90,8 @@
     }
   },
   {
-    "Applied Language": "Deutsch",
-    "Expected Data": "Startseite Shorts Abos Mein YouTube Verlauf Musik Filme & Shows {slot} {premium} YouTube Kids Meldeverlauf",
+    "Language": "Deutsch",
+    "Expected Text": "Startseite Shorts Abos Mein YouTube Verlauf Musik Filme & Shows {slot} {premium} YouTube Kids Meldeverlauf",
     "Alternatives": {
       "slot": [
         "Live",
@@ -105,8 +105,8 @@
     }
   },
   {
-    "Applied Language": "Eesti",
-    "Expected Data": "Avaleht Shorts Tellimused Teie Ajalugu Muusika Filmid ja telesarjad {slot} {premium} YouTube Kids Teavituste ajalugu",
+    "Language": "Eesti",
+    "Expected Text": "Avaleht Shorts Tellimused Teie Ajalugu Muusika Filmid ja telesarjad {slot} {premium} YouTube Kids Teavituste ajalugu",
     "Alternatives": {
       "slot": [
         "Otse",
@@ -120,8 +120,8 @@
     }
   },
   {
-    "Applied Language": "English (India)",
-    "Expected Data": "Home Shorts Subscriptions You History Music Movies & TV {slot} {premium} YouTube Kids Report history",
+    "Language": "English (India)",
+    "Expected Text": "Home Shorts Subscriptions You History Music Movies & TV {slot} {premium} YouTube Kids Report history",
     "Alternatives": {
       "slot": [
         "Live",
@@ -135,8 +135,8 @@
     }
   },
   {
-    "Applied Language": "English (UK)",
-    "Expected Data": "Home Shorts Subscriptions You History Music Movies & TV {slot} {premium} YouTube Kids Report history",
+    "Language": "English (UK)",
+    "Expected Text": "Home Shorts Subscriptions You History Music Movies & TV {slot} {premium} YouTube Kids Report history",
     "Alternatives": {
       "slot": [
         "Live",
@@ -150,8 +150,8 @@
     }
   },
   {
-    "Applied Language": "English (US)",
-    "Expected Data": "Home Shorts Subscriptions You History Music Movies & TV {slot} {premium} YouTube Kids Report history",
+    "Language": "English (US)",
+    "Expected Text": "Home Shorts Subscriptions You History Music Movies & TV {slot} {premium} YouTube Kids Report history",
     "Alternatives": {
       "slot": [
         "Live",
@@ -165,8 +165,8 @@
     }
   },
   {
-    "Applied Language": "Español (España)",
-    "Expected Data": "Inicio Shorts Suscripciones Tú Historial Música Películas y series {slot} {premium} YouTube Kids Historial de denuncias",
+    "Language": "Español (España)",
+    "Expected Text": "Inicio Shorts Suscripciones Tú Historial Música Películas y series {slot} {premium} YouTube Kids Historial de denuncias",
     "Alternatives": {
       "slot": [
         "En directo",
@@ -180,8 +180,8 @@
     }
   },
   {
-    "Applied Language": "Español (Latinoamérica)",
-    "Expected Data": "Principal Shorts Suscripciones Tú Historial Música Películas y TV {slot} {premium} YouTube Kids Historial de denuncias",
+    "Language": "Español (Latinoamérica)",
+    "Expected Text": "Principal Shorts Suscripciones Tú Historial Música Películas y TV {slot} {premium} YouTube Kids Historial de denuncias",
     "Alternatives": {
       "slot": [
         "En vivo",
@@ -195,8 +195,8 @@
     }
   },
   {
-    "Applied Language": "Español (US)",
-    "Expected Data": "Principal Shorts Suscripciones Tú Historial Música Películas y TV {slot} {premium} YouTube Kids Historial de denuncias",
+    "Language": "Español (US)",
+    "Expected Text": "Principal Shorts Suscripciones Tú Historial Música Películas y TV {slot} {premium} YouTube Kids Historial de denuncias",
     "Alternatives": {
       "slot": [
         "En vivo",
@@ -210,8 +210,8 @@
     }
   },
   {
-    "Applied Language": "Euskara",
-    "Expected Data": "Orri nagusia Shorts Harpidetzak Zu Historia Musika Filmak eta saioak {slot} {premium} YouTube Kids Salaketa-historia",
+    "Language": "Euskara",
+    "Expected Text": "Orri nagusia Shorts Harpidetzak Zu Historia Musika Filmak eta saioak {slot} {premium} YouTube Kids Salaketa-historia",
     "Alternatives": {
       "slot": [
         "Zuzenean",
@@ -225,8 +225,8 @@
     }
   },
   {
-    "Applied Language": "Français",
-    "Expected Data": "Accueil Shorts Abonnements Vous Historique Musique Films et séries TV {slot} {premium} YouTube Kids Signalements",
+    "Language": "Français",
+    "Expected Text": "Accueil Shorts Abonnements Vous Historique Musique Films et séries TV {slot} {premium} YouTube Kids Signalements",
     "Alternatives": {
       "slot": [
         "Direct",
@@ -240,8 +240,8 @@
     }
   },
   {
-    "Applied Language": "Français (Canada)",
-    "Expected Data": "Accueil Shorts Abonnements Vous Historique Musique Films et émissions de télévision {slot} {premium} YouTube Kids Historique des rapports",
+    "Language": "Français (Canada)",
+    "Expected Text": "Accueil Shorts Abonnements Vous Historique Musique Films et émissions de télévision {slot} {premium} YouTube Kids Historique des rapports",
     "Alternatives": {
       "slot": [
         "Jeux vidéo",
@@ -255,8 +255,8 @@
     }
   },
   {
-    "Applied Language": "Hrvatski",
-    "Expected Data": "Početna Shorts Pretplate Moje Povijest Glazba Filmovi i televizija {slot} {premium} YouTube Kids Povijest prijava",
+    "Language": "Hrvatski",
+    "Expected Text": "Početna Shorts Pretplate Moje Povijest Glazba Filmovi i televizija {slot} {premium} YouTube Kids Povijest prijava",
     "Alternatives": {
       "slot": [
         "Uživo",
@@ -270,8 +270,8 @@
     }
   },
   {
-    "Applied Language": "Íslenska",
-    "Expected Data": "Heim Shorts Áskriftir Þú Ferill Tónlist Kvikmyndir og sjónvarpsefni {slot} {premium} YouTube Kids Tilkynningaferill",
+    "Language": "Íslenska",
+    "Expected Text": "Heim Shorts Áskriftir Þú Ferill Tónlist Kvikmyndir og sjónvarpsefni {slot} {premium} YouTube Kids Tilkynningaferill",
     "Alternatives": {
       "slot": [
         "Í beinni",
@@ -285,8 +285,8 @@
     }
   },
   {
-    "Applied Language": "Italiano",
-    "Expected Data": "Home Shorts Iscrizioni Tu Cronologia Musica Film e TV {slot} {premium} YouTube Kids Segnalazioni",
+    "Language": "Italiano",
+    "Expected Text": "Home Shorts Iscrizioni Tu Cronologia Musica Film e TV {slot} {premium} YouTube Kids Segnalazioni",
     "Alternatives": {
       "slot": [
         "Live",
@@ -300,8 +300,8 @@
     }
   },
   {
-    "Applied Language": "Latviešu valoda",
-    "Expected Data": "Sākums Shorts Abonementi Jūs Vēsture Mūzika Filmas un TV pārraides {slot} {premium} YouTube Kids Ziņošanas vēsture",
+    "Language": "Latviešu valoda",
+    "Expected Text": "Sākums Shorts Abonementi Jūs Vēsture Mūzika Filmas un TV pārraides {slot} {premium} YouTube Kids Ziņošanas vēsture",
     "Alternatives": {
       "slot": [
         "Tiešraide",
@@ -315,8 +315,8 @@
     }
   },
   {
-    "Applied Language": "Lietuvių",
-    "Expected Data": "Pagrindinis Shorts Prenumeratos Jūs Istorija Muzika Filmai ir TV {slot} {premium} YouTube Kids Pranešimų istorija",
+    "Language": "Lietuvių",
+    "Expected Text": "Pagrindinis Shorts Prenumeratos Jūs Istorija Muzika Filmai ir TV {slot} {premium} YouTube Kids Pranešimų istorija",
     "Alternatives": {
       "slot": [
         "Tiesiogiai",
@@ -330,8 +330,8 @@
     }
   },
   {
-    "Applied Language": "Magyar",
-    "Expected Data": "Kezdőlap Shorts Feliratkozások Te Előzmények Zene Film és tévé {slot} {premium} YouTube Kids Bejelentési előzmények",
+    "Language": "Magyar",
+    "Expected Text": "Kezdőlap Shorts Feliratkozások Te Előzmények Zene Film és tévé {slot} {premium} YouTube Kids Bejelentési előzmények",
     "Alternatives": {
       "slot": [
         "Élő",
@@ -345,8 +345,8 @@
     }
   },
   {
-    "Applied Language": "Nederlands",
-    "Expected Data": "Home Shorts Abonnementen Jij Geschiedenis Muziek Films en tv {slot} {premium} YouTube Kids Rapportagegeschiedenis",
+    "Language": "Nederlands",
+    "Expected Text": "Home Shorts Abonnementen Jij Geschiedenis Muziek Films en tv {slot} {premium} YouTube Kids Rapportagegeschiedenis",
     "Alternatives": {
       "slot": [
         "Live",
@@ -360,8 +360,8 @@
     }
   },
   {
-    "Applied Language": "Polski",
-    "Expected Data": "Główna Shorts Subskrypcje Ty Historia Muzyka Filmy i TV {slot} {premium} YouTube Kids Historia zgłoszeń",
+    "Language": "Polski",
+    "Expected Text": "Główna Shorts Subskrypcje Ty Historia Muzyka Filmy i TV {slot} {premium} YouTube Kids Historia zgłoszeń",
     "Alternatives": {
       "slot": [
         "Na żywo",
@@ -375,8 +375,8 @@
     }
   },
   {
-    "Applied Language": "Português",
-    "Expected Data": "Início Shorts Subscrições Eu Histórico Música Filmes e TV {slot} {premium} YouTube Kids Histórico de denúncias",
+    "Language": "Português",
+    "Expected Text": "Início Shorts Subscrições Eu Histórico Música Filmes e TV {slot} {premium} YouTube Kids Histórico de denúncias",
     "Alternatives": {
       "slot": [
         "Em direto",
@@ -390,8 +390,8 @@
     }
   },
   {
-    "Applied Language": "Português (Brasil)",
-    "Expected Data": "Início Shorts Inscrições Você Histórico Música Filmes e TV {slot} {premium} YouTube Kids Histórico de denúncias",
+    "Language": "Português (Brasil)",
+    "Expected Text": "Início Shorts Inscrições Você Histórico Música Filmes e TV {slot} {premium} YouTube Kids Histórico de denúncias",
     "Alternatives": {
       "slot": [
         "Ao vivo",
@@ -405,8 +405,8 @@
     }
   },
   {
-    "Applied Language": "Shqip",
-    "Expected Data": "Faqja e parë Shorts Abonimet Ti Historiku Muzikë Filmat dhe televizioni {slot} {premium} YouTube Kids Historiku i raportimeve",
+    "Language": "Shqip",
+    "Expected Text": "Faqja e parë Shorts Abonimet Ti Historiku Muzikë Filmat dhe televizioni {slot} {premium} YouTube Kids Historiku i raportimeve",
     "Alternatives": {
       "slot": [
         "Drejtpërdrejt",
@@ -420,8 +420,8 @@
     }
   },
   {
-    "Applied Language": "Slovenščina",
-    "Expected Data": "Domača stran Kratki videoposnetki Naročnine Vi Zgodovina Glasba Filmi in TV {slot} {premium} YouTube Kids Zgodovina poročil",
+    "Language": "Slovenščina",
+    "Expected Text": "Domača stran Kratki videoposnetki Naročnine Vi Zgodovina Glasba Filmi in TV {slot} {premium} YouTube Kids Zgodovina poročil",
     "Alternatives": {
       "slot": [
         "V živo",
@@ -435,8 +435,8 @@
     }
   },
   {
-    "Applied Language": "Suomi",
-    "Expected Data": "Koti Shorts Tilaukset Sinä Historia Musiikki Elokuvat ja TV {slot} {premium} YouTube Kids Ilmoitushistoria",
+    "Language": "Suomi",
+    "Expected Text": "Koti Shorts Tilaukset Sinä Historia Musiikki Elokuvat ja TV {slot} {premium} YouTube Kids Ilmoitushistoria",
     "Alternatives": {
       "slot": [
         "Livetapahtumat",
@@ -450,8 +450,8 @@
     }
   },
   {
-    "Applied Language": "Svenska",
-    "Expected Data": "Hem Shorts Prenumerationer Ditt YouTube Historik Musik Filmer och tv {slot} {premium} YouTube Kids Rapporthistorik",
+    "Language": "Svenska",
+    "Expected Text": "Hem Shorts Prenumerationer Ditt YouTube Historik Musik Filmer och tv {slot} {premium} YouTube Kids Rapporthistorik",
     "Alternatives": {
       "slot": [
         "Live",
@@ -465,8 +465,8 @@
     }
   },
   {
-    "Applied Language": "Tiếng Việt",
-    "Expected Data": "Trang chủ Shorts Kênh đăng ký Bạn Video đã xem Âm nhạc Phim và truyền hình {slot} {premium} YouTube Kids Nhật ký báo cáo",
+    "Language": "Tiếng Việt",
+    "Expected Text": "Trang chủ Shorts Kênh đăng ký Bạn Video đã xem Âm nhạc Phim và truyền hình {slot} {premium} YouTube Kids Nhật ký báo cáo",
     "Alternatives": {
       "slot": [
         "Trực tiếp",
@@ -480,8 +480,8 @@
     }
   },
   {
-    "Applied Language": "Türkçe",
-    "Expected Data": "Ana Sayfa Shorts Abonelikler Siz Geçmiş Müzik Filmler ve TV {slot} {premium} YouTube Kids Içerik bildirme geçmişi",
+    "Language": "Türkçe",
+    "Expected Text": "Ana Sayfa Shorts Abonelikler Siz Geçmiş Müzik Filmler ve TV {slot} {premium} YouTube Kids Içerik bildirme geçmişi",
     "Alternatives": {
       "slot": [
         "Canlı",
@@ -495,8 +495,8 @@
     }
   },
   {
-    "Applied Language": "Беларуская",
-    "Expected Data": "Галоўная старонка Shorts Падпіскі Вы Гісторыя Музыка Фільмы і тэлеперадачы {slot} {premium} YouTube Kids Гісторыя скаргаў",
+    "Language": "Беларуская",
+    "Expected Text": "Галоўная старонка Shorts Падпіскі Вы Гісторыя Музыка Фільмы і тэлеперадачы {slot} {premium} YouTube Kids Гісторыя скаргаў",
     "Alternatives": {
       "slot": [
         "У жывым эфіры",
@@ -510,8 +510,8 @@
     }
   },
   {
-    "Applied Language": "Български",
-    "Expected Data": "Начало Shorts Абонаменти Вие История Музика Филми и телевизионни предавания {slot} {premium} YouTube Kids Подадени сигнали",
+    "Language": "Български",
+    "Expected Text": "Начало Shorts Абонаменти Вие История Музика Филми и телевизионни предавания {slot} {premium} YouTube Kids Подадени сигнали",
     "Alternatives": {
       "slot": [
         "На живо",
@@ -525,8 +525,8 @@
     }
   },
   {
-    "Applied Language": "Русский",
-    "Expected Data": "Главная Shorts Подписки Вы История Музыка Фильмы и сериалы {slot} {premium} YouTube Детям Жалобы",
+    "Language": "Русский",
+    "Expected Text": "Главная Shorts Подписки Вы История Музыка Фильмы и сериалы {slot} {premium} YouTube Детям Жалобы",
     "Alternatives": {
       "slot": [
         "Трансляции",
@@ -540,8 +540,8 @@
     }
   },
   {
-    "Applied Language": "Українська",
-    "Expected Data": "Головна YouTube Shorts Підписки Ви Історія Музика Фільми й серіали {slot} {premium} YouTube Kids Історія скарг",
+    "Language": "Українська",
+    "Expected Text": "Головна YouTube Shorts Підписки Ви Історія Музика Фільми й серіали {slot} {premium} YouTube Kids Історія скарг",
     "Alternatives": {
       "slot": [
         "Прямі трансляції",
@@ -555,8 +555,8 @@
     }
   },
   {
-    "Applied Language": "Ελληνικά",
-    "Expected Data": "Αρχικη Shorts Εγγραφες Εσεις Ιστορικο Μουσικη Ταινιες και τηλεοπτικες εκπομπες {slot} {premium} YouTube Kids Ιστορικο αναφορων",
+    "Language": "Ελληνικά",
+    "Expected Text": "Αρχικη Shorts Εγγραφες Εσεις Ιστορικο Μουσικη Ταινιες και τηλεοπτικες εκπομπες {slot} {premium} YouTube Kids Ιστορικο αναφορων",
     "Alternatives": {
       "slot": [
         "Live",
@@ -570,8 +570,8 @@
     }
   },
   {
-    "Applied Language": "Հայերեն",
-    "Expected Data": "Սկիզբ Shorts Հետևում եմ Դուք Պատմություն Երաժշտություն Ֆիլմեր և սերիալներ {slot} {premium} YouTube Kids Բողոքների պատմություն",
+    "Language": "Հայերեն",
+    "Expected Text": "Սկիզբ Shorts Հետևում եմ Դուք Պատմություն Երաժշտություն Ֆիլմեր և սերիալներ {slot} {premium} YouTube Kids Բողոքների պատմություն",
     "Alternatives": {
       "slot": [
         "Ուղիղ հեռարձակում",
@@ -585,8 +585,8 @@
     }
   },
   {
-    "Applied Language": "עברית",
-    "Expected Data": "דף הבית Shorts מינויים הדף שלי היסטוריה מוזיקה סרטים ותוכניות טלוויזיה {slot} {premium} YouTube Kids היסטוריית הדיווחים",
+    "Language": "עברית",
+    "Expected Text": "דף הבית Shorts מינויים הדף שלי היסטוריה מוזיקה סרטים ותוכניות טלוויזיה {slot} {premium} YouTube Kids היסטוריית הדיווחים",
     "Alternatives": {
       "slot": [
         "בשידור חי",
@@ -600,8 +600,8 @@
     }
   },
   {
-    "Applied Language": "العربية",
-    "Expected Data": "الصفحة الرئيسية Shorts الاشتراكات أنت السجلّ موسيقى أفلام وبرامج تلفزيونية {slot} {premium} YouTube Kids سجلّ الإبلاغ عن المحتوى",
+    "Language": "العربية",
+    "Expected Text": "الصفحة الرئيسية Shorts الاشتراكات أنت السجلّ موسيقى أفلام وبرامج تلفزيونية {slot} {premium} YouTube Kids سجلّ الإبلاغ عن المحتوى",
     "Alternatives": {
       "slot": [
         "بث مباشر",
@@ -615,8 +615,8 @@
     }
   },
   {
-    "Applied Language": "فارسی",
-    "Expected Data": "صفحه اصلی کوتهویدیوها اشتراکها شما سابقه موسیقی فیلم و تلویزیون {slot} {premium} YouTube Kids سابقه گزارش",
+    "Language": "فارسی",
+    "Expected Text": "صفحه اصلی کوتهویدیوها اشتراکها شما سابقه موسیقی فیلم و تلویزیون {slot} {premium} YouTube Kids سابقه گزارش",
     "Alternatives": {
       "slot": [
         "زنده",
@@ -630,8 +630,8 @@
     }
   },
   {
-    "Applied Language": "हिन्दी",
-    "Expected Data": "होम पेज Shorts सदस्यता आप देखे गए वीडियो संगीत फ़िल्में और टीवी शो {slot} {premium} YouTube Kids शिकायतों का डेटा",
+    "Language": "हिन्दी",
+    "Expected Text": "होम पेज Shorts सदस्यता आप देखे गए वीडियो संगीत फ़िल्में और टीवी शो {slot} {premium} YouTube Kids शिकायतों का डेटा",
     "Alternatives": {
       "slot": [
         "लाइव",
@@ -645,8 +645,8 @@
     }
   },
   {
-    "Applied Language": "বাংলা",
-    "Expected Data": "হোম Shorts সাবস্ক্রিপশন আপনি ইতিহাস মিউজিক সিনেমা ও টিভি {slot} {premium} YouTube Kids অভিযোগ জানানোর ইতিহাস",
+    "Language": "বাংলা",
+    "Expected Text": "হোম Shorts সাবস্ক্রিপশন আপনি ইতিহাস মিউজিক সিনেমা ও টিভি {slot} {premium} YouTube Kids অভিযোগ জানানোর ইতিহাস",
     "Alternatives": {
       "slot": [
         "লাইভ",
@@ -660,8 +660,8 @@
     }
   },
   {
-    "Applied Language": "ਪੰਜਾਬੀ",
-    "Expected Data": "ਹੋਮ Shorts ਸਬਸਕ੍ਰਿਪਸ਼ਨਾਂ ਤੁਸੀਂ ਇਤਿਹਾਸ ਸੰਗੀਤ ਫ਼ਿਲਮਾਂ ਅਤੇ ਟੀਵੀ {slot} {premium} YouTube Kids ਰਿਪੋਰਟ ਸੰਬੰਧੀ ਇਤਿਹਾਸ",
+    "Language": "ਪੰਜਾਬੀ",
+    "Expected Text": "ਹੋਮ Shorts ਸਬਸਕ੍ਰਿਪਸ਼ਨਾਂ ਤੁਸੀਂ ਇਤਿਹਾਸ ਸੰਗੀਤ ਫ਼ਿਲਮਾਂ ਅਤੇ ਟੀਵੀ {slot} {premium} YouTube Kids ਰਿਪੋਰਟ ਸੰਬੰਧੀ ਇਤਿਹਾਸ",
     "Alternatives": {
       "slot": [
         "ਲਾਈਵ",
@@ -675,8 +675,8 @@
     }
   },
   {
-    "Applied Language": "ગુજરાતી",
-    "Expected Data": "હોમ Shorts સબ્સ્ક્રિપ્શન તમે ઇતિહાસ સંગીત મૂવી અને ટીવી {slot} {premium} YouTube Kids રિપોર્ટનો ઇતિહાસ",
+    "Language": "ગુજરાતી",
+    "Expected Text": "હોમ Shorts સબ્સ્ક્રિપ્શન તમે ઇતિહાસ સંગીત મૂવી અને ટીવી {slot} {premium} YouTube Kids રિપોર્ટનો ઇતિહાસ",
     "Alternatives": {
       "slot": [
         "લાઇવ",
@@ -690,8 +690,8 @@
     }
   },
   {
-    "Applied Language": "தமிழ்",
-    "Expected Data": "முகப்பு Shorts சந்தாக்கள் நீங்கள் இதுவரை பார்த்தவை இசை திரைப்படங்கள் & டிவி நிகழ்ச்சிகள் {slot} {premium} YouTube Kids புகார் வரலாறு",
+    "Language": "தமிழ்",
+    "Expected Text": "முகப்பு Shorts சந்தாக்கள் நீங்கள் இதுவரை பார்த்தவை இசை திரைப்படங்கள் & டிவி நிகழ்ச்சிகள் {slot} {premium} YouTube Kids புகார் வரலாறு",
     "Alternatives": {
       "slot": [
         "நேரலை",
@@ -705,8 +705,8 @@
     }
   },
   {
-    "Applied Language": "తెలుగు",
-    "Expected Data": "మొదటి ట్యాబ్ Shorts సబ్స్క్రిప్షన్లు ఖాతా హిస్టరీ మ్యూజిక్ సినిమాలు & టీవీ {slot} {premium} YouTube Kids రిపోర్టుల హిస్టరీ",
+    "Language": "తెలుగు",
+    "Expected Text": "మొదటి ట్యాబ్ Shorts సబ్స్క్రిప్షన్లు ఖాతా హిస్టరీ మ్యూజిక్ సినిమాలు & టీవీ {slot} {premium} YouTube Kids రిపోర్టుల హిస్టరీ",
     "Alternatives": {
       "slot": [
         "లైవ్",
@@ -720,8 +720,8 @@
     }
   },
   {
-    "Applied Language": "中文 (简体)",
-    "Expected Data": "首页 Shorts 订阅 我 历史记录 音乐 影视 {slot} {premium} YouTube Kids 举报记录",
+    "Language": "中文 (简体)",
+    "Expected Text": "首页 Shorts 订阅 我 历史记录 音乐 影视 {slot} {premium} YouTube Kids 举报记录",
     "Alternatives": {
       "slot": [
         "直播",
@@ -735,8 +735,8 @@
     }
   },
   {
-    "Applied Language": "中文 (繁體)",
-    "Expected Data": "首頁 Shorts 訂閱內容 個人中心 觀看記錄 音樂 電影與電視節目 {slot} {premium} YouTube Kids 檢舉記錄",
+    "Language": "中文 (繁體)",
+    "Expected Text": "首頁 Shorts 訂閱內容 個人中心 觀看記錄 音樂 電影與電視節目 {slot} {premium} YouTube Kids 檢舉記錄",
     "Alternatives": {
       "slot": [
         "直播",
@@ -750,8 +750,8 @@
     }
   },
   {
-    "Applied Language": "中文 (香港)",
-    "Expected Data": "主頁 Shorts 訂閱項目 個人中心 記錄 音樂 電影和電視節目 {slot} {premium} YouTube Kids 舉報記錄",
+    "Language": "中文 (香港)",
+    "Expected Text": "主頁 Shorts 訂閱項目 個人中心 記錄 音樂 電影和電視節目 {slot} {premium} YouTube Kids 舉報記錄",
     "Alternatives": {
       "slot": [
         "直播",
@@ -765,8 +765,8 @@
     }
   },
   {
-    "Applied Language": "日本語",
-    "Expected Data": "ホーム ショート 登録チャンネル マイページ 履歴 音楽 映画とテレビ番組 {slot} {premium} YouTube Kids 報告履歴",
+    "Language": "日本語",
+    "Expected Text": "ホーム ショート 登録チャンネル マイページ 履歴 音楽 映画とテレビ番組 {slot} {premium} YouTube Kids 報告履歴",
     "Alternatives": {
       "slot": [
         "ライブ",
@@ -780,8 +780,8 @@
     }
   },
   {
-    "Applied Language": "한국어",
-    "Expected Data": "홈 Shorts 구독 내 페이지 기록 음악 영화 및 TV {slot} {premium} YouTube Kids 신고 기록",
+    "Language": "한국어",
+    "Expected Text": "홈 Shorts 구독 내 페이지 기록 음악 영화 및 TV {slot} {premium} YouTube Kids 신고 기록",
     "Alternatives": {
       "slot": [
         "라이브",

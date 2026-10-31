@@ -1,0 +1,214 @@
+[
+  {
+    "Language": "Afrikaans",
+    "Expected Text": "Tuis Kortvideo's Intekeninge Myne"
+  },
+  {
+    "Language": "Azərbaycan",
+    "Expected Text": "Ev Shorts Abunəliklər Siz"
+  },
+  {
+    "Language": "Bahasa Indonesia",
+    "Expected Text": "Beranda Shorts Subscription Anda"
+  },
+  {
+    "Language": "Bosanski",
+    "Expected Text": "Početna stranica Shorts Pretplate Vi"
+  },
+  {
+    "Language": "Català",
+    "Expected Text": "Inici Shorts Subscripcions Tu"
+  },
+  {
+    "Language": "Dansk",
+    "Expected Text": "Start Shorts Abonnementer Dig"
+  },
+  {
+    "Language": "Deutsch",
+    "Expected Text": "Startseite Shorts Abos Mein YouTube"
+  },
+  {
+    "Language": "Eesti",
+    "Expected Text": "Avaleht Shorts Tellimused Teie"
+  },
+  {
+    "Language": "English (India)",
+    "Expected Text": "Home Shorts Subscriptions You"
+  },
+  {
+    "Language": "English (UK)",
+    "Expected Text": "Home Shorts Subscriptions You"
+  },
+  {
+    "Language": "English (US)",
+    "Expected Text": "Home Shorts Subscriptions You"
+  },
+  {
+    "Language": "Español (España)",
+    "Expected Text": "Inicio Shorts Suscripciones Tú"
+  },
+  {
+    "Language": "Español (Latinoamérica)",
+    "Expected Text": "Principal Shorts Suscripciones Tú"
+  },
+  {
+    "Language": "Español (US)",
+    "Expected Text": "Principal Shorts Suscripciones Tú"
+  },
+  {
+    "Language": "Euskara",
+    "Expected Text": "Orri nagusia Shorts Harpidetzak Zu"
+  },
+  {
+    "Language": "Français",
+    "Expected Text": "Accueil Shorts Abonnements Vous"
+  },
+  {
+    "Language": "Français (Canada)",
+    "Expected Text": "Accueil Shorts Abonnements Vous"
+  },
+  {
+    "Language": "Hrvatski",
+    "Expected Text": "Početna Shorts Pretplate Moje"
+  },
+  {
+    "Language": "Íslenska",
+    "Expected Text": "Heim Shorts Áskriftir Þú"
+  },
+  {
+    "Language": "Italiano",
+    "Expected Text": "Home Shorts Iscrizioni Tu"
+  },
+  {
+    "Language": "Latviešu valoda",
+    "Expected Text": "Sākums Shorts Abonementi Jūs"
+  },
+  {
+    "Language": "Lietuvių",
+    "Expected Text": "Pagrindinis Shorts Prenumeratos Jūs"
+  },
+  {
+    "Language": "Magyar",
+    "Expected Text": "Kezdőlap Shorts Feliratkozások Te"
+  },
+  {
+    "Language": "Nederlands",
+    "Expected Text": "Home Shorts Abonnementen Jij"
+  },
+  {
+    "Language": "Polski",
+    "Expected Text": "Główna Shorts Subskrypcje Ty"
+  },
+  {
+    "Language": "Português",
+    "Expected Text": "Início Shorts Subscrições Eu"
+  },
+  {
+    "Language": "Português (Brasil)",
+    "Expected Text": "Início Shorts Inscrições Você"
+  },
+  {
+    "Language": "Shqip",
+    "Expected Text": "Faqja e parë Shorts Abonimet Ti"
+  },
+  {
+    "Language": "Slovenščina",
+    "Expected Text": "Domača stran Kratki videoposnetki Naročnine Vi"
+  },
+  {
+    "Language": "Suomi",
+    "Expected Text": "Koti Shorts Tilaukset Sinä"
+  },
+  {
+    "Language": "Svenska",
+    "Expected Text": "Hem Shorts Prenumerationer Ditt YouTube"
+  },
+  {
+    "Language": "Tiếng Việt",
+    "Expected Text": "Trang chủ Shorts Kênh đăng ký Bạn"
+  },
+  {
+    "Language": "Türkçe",
+    "Expected Text": "Ana Sayfa Shorts Abonelikler Siz"
+  },
+  {
+    "Language": "Беларуская",
+    "Expected Text": "Галоўная старонка Shorts Падпіскі Вы"
+  },
+  {
+    "Language": "Български",
+    "Expected Text": "Начало Shorts Абонаменти Вие"
+  },
+  {
+    "Language": "Русский",
+    "Expected Text": "Главная Shorts Подписки Вы"
+  },
+  {
+    "Language": "Українська",
+    "Expected Text": "Головна YouTube Shorts Підписки Ви"
+  },
+  {
+    "Language": "Ελληνικά",
+    "Expected Text": "Αρχική Shorts Εγγραφές Εσείς"
+  },
+  {
+    "Language": "Հայերեն",
+    "Expected Text": "Սկիզբ Shorts Հետևում եմ Դուք"
+  },
+  {
+    "Language": "עברית",
+    "Expected Text": "דף הבית Shorts מינויים הדף שלי"
+  },
+  {
+    "Language": "العربية",
+    "Expected Text": "الصفحة الرئيسية Shorts الاشتراكات أنت"
+  },
+  {
+    "Language": "فارسی",
+    "Expected Text": "صفحه اصلی کوته‌ویدیوها اشتراک‌ها شما"
+  },
+  {
+    "Language": "हिन्दी",
+    "Expected Text": "होम पेज Shorts सदस्यता आप"
+  },
+  {
+    "Language": "বাংলা",
+    "Expected Text": "হোম Shorts সাবস্ক্রিপশন আপনি"
+  },
+  {
+    "Language": "ਪੰਜਾਬੀ",
+    "Expected Text": "ਹੋਮ Shorts ਸਬਸਕ੍ਰਿਪਸ਼ਨਾਂ ਤੁਸੀਂ"
+  },
+  {
+    "Language": "ગુજરાતી",
+    "Expected Text": "હોમ Shorts સબ્સ્ક્રિપ્શન તમે"
+  },
+  {
+    "Language": "தமிழ்",
+    "Expected Text": "முகப்பு Shorts சந்தாக்கள் நீங்கள்"
+  },
+  {
+    "Language": "తెలుగు",
+    "Expected Text": "మొదటి ట్యాబ్ Shorts సబ్‌స్క్రిప్షన్‌లు ఖాతా"
+  },
+  {
+    "Language": "中文 (简体)",
+    "Expected Text": "首页 Shorts 订阅 我"
+  },
+  {
+    "Language": "中文 (繁體)",
+    "Expected Text": "首頁 Shorts 訂閱內容 個人中心"
+  },
+  {
+    "Language": "中文 (香港)",
+    "Expected Text": "主頁 Shorts 訂閱項目 個人中心"
+  },
+  {
+    "Language": "日本語",
+    "Expected Text": "ホーム ショート 登録チャンネル マイページ"
+  },
+  {
+    "Language": "한국어",
+    "Expected Text": "홈 Shorts 구독 내 페이지"
+  }
+]

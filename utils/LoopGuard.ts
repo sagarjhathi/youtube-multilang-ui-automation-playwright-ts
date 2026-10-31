@@ -22,7 +22,7 @@ type Recovery = () => Promise<void>;
 /**
  * Keeps a language/location loop going when one iteration throws (ported from the Java LoopGuard).
  *
- * In the loop: call passed() at the end of the iteration and retryAfterFailure() in the catch
+ * In the loop: call itemPassed() at the end of the iteration and retryAfterFailure() in the catch
  * (true means run the same item again). The loop condition uses shouldStop().
  *
  * Rules: a failed item is retried once, and recorded as a failure only if the retry fails too. The loop stops
@@ -52,7 +52,7 @@ export class LoopGuard {
         return this.stop;
     }
 
-    public passed(item: string): void {
+    public itemPassed(item: string): void {
         this.passedItems++;
         commitPendingChecks();
         this.itemCounts.forEach((amount, label) => this.counts.set(label, (this.counts.get(label) || 0) + amount));
@@ -113,7 +113,7 @@ export class LoopGuard {
     }
 
     /** Counts something worth showing in the summary, for example "detection skipped". */
-    public count(label: string): void {
+    public countForSummary(label: string): void {
         this.itemCounts.set(label, (this.itemCounts.get(label) || 0) + 1);
     }
 

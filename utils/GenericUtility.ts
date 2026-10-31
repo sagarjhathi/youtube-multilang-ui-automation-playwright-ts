@@ -30,8 +30,8 @@ class GenericUtility{
         return texts.join(" ");
     }
 
-	public async getLangAttribute():Promise<string |null> {
-        console.log("getLangAttribute() - locating <html> and reading lang property");
+	public async readHtmlLang():Promise<string |null> {
+        console.log("readHtmlLang() - locating <html> and reading lang property");
         try {
             const html:Locator = this.page.locator("//html");
             const langProp :string |null = await html.getAttribute("lang");
@@ -60,70 +60,35 @@ class GenericUtility{
 
 
 
-    public async getWindowHeightWidth() :Promise<number[]>{
-
-        const viewport = this.page.viewportSize();
-        const arr:number[] = [];
-        if (viewport != null) {
-            arr.push(viewport.height);
-            arr.push(viewport.width);
-        }
-        return arr;
-
-    }
-
-
-
-    public async smoothScrollToElement( locator:Locator):Promise<void> {
-        console.log("[" + this.testName() + "] Within smoothScrollToElement method");
-
-        try {
-
-            if (locator != null) {
-                await locator.evaluate(el => el.scrollIntoView({ behavior: 'smooth' }));
-                await this.page.waitForTimeout(1000); // let the scroll finish
-                console.log("[" + this.testName() + "] Successfully scrolled to element: " + locator);
-            } else {
-                console.warn("[" + this.testName() + "] Element not found for locator: " + locator);
-            }
-
-        } catch (error) {
-            console.error("[" + this.testName() + "] Error while scrolling to element: " + locator + " - " + error);
-        }
-    }
-
-
-    public async scrollDownByPixel( scrollDownPixel:number):Promise<void> {
-
-        console.log("[" + this.testName() + "] Within scrollByPixel method");
-        await this.page.mouse.wheel(0,scrollDownPixel);
-    }
 
 
 
 
-	/** Row-count override for the language-driven tests (runconfig.json: runForAllLanguages / overideLanguageCount*). */
-	public resolveLanguageIterationCount(fullRowCount :number):number {
+
+
+
+
+
+	/** Row-count override for the language-driven tests (runconfig.json: runForAllLanguages / languageCount). */
+	public languageCountToRun(fullRowCount :number):number {
 		const isCron:boolean = RunConfig.isCron();
 		const suffix:string = RunConfig.keySuffix();
 
 		const runForAllLanguages:boolean = RunConfig.getBoolean("runForAllLanguages" + suffix, false);
-		const defaultLanguageCount :number = RunConfig.getInt("overideLanguageCountDefault" + suffix);
-		const overrideLanguageCount:number = RunConfig.getInt("overideLanguageCount" + suffix, defaultLanguageCount);
+		const languageCount:number = RunConfig.getInt("languageCount" + suffix);
 
-		return this.resolveIterationCount(isCron, runForAllLanguages, overrideLanguageCount, fullRowCount);
+		return this.resolveIterationCount(isCron, runForAllLanguages, languageCount, fullRowCount);
 	}
 
-	/** Row-count override for the country-driven tests (runconfig.json: runForAllCountries / overideCountriesCount*). */
-	public resolveCountryIterationCount(fullRowCount:number):number {
+	/** Row-count override for the location-driven tests (runconfig.json: runForAllLocations / locationCount). */
+	public locationCountToRun(fullRowCount:number):number {
 		const isCron:boolean = RunConfig.isCron();
 		const suffix:string = RunConfig.keySuffix();
 
-		const runForAllCountries:boolean = RunConfig.getBoolean("runForAllCountries" + suffix, false);
-		const defaultCountriesCount:number = RunConfig.getInt("overideCountriesCountDefault" + suffix);
-		const overrideCountriesCount:number = RunConfig.getInt("overideCountriesCount" + suffix, defaultCountriesCount);
+		const runForAllLocations:boolean = RunConfig.getBoolean("runForAllLocations" + suffix, false);
+		const locationCount:number = RunConfig.getInt("locationCount" + suffix);
 
-		return this.resolveIterationCount(isCron, runForAllCountries, overrideCountriesCount, fullRowCount);
+		return this.resolveIterationCount(isCron, runForAllLocations, locationCount, fullRowCount);
 	}
 
 	/**

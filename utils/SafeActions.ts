@@ -47,25 +47,6 @@ class SafeActions {
         }
     }
 
-    /** Waits for the element to be visible and enabled, then returns it. */
-    public async safeFindElement(locator: Locator): Promise<Locator> {
-        console.log("Trying to find element: " + locator);
-        let reason = "element not visible or not enabled";
-        for (let attempt = 1; attempt <= this.attempts; attempt++) {
-            try {
-                await locator.first().waitFor({ state: "visible", timeout: this.timeout });
-                if (await this.isReady(locator.first())) {
-                    return locator.first();
-                }
-                console.log("Element found but not ready (attempt " + attempt + "): " + locator);
-            } catch (e) {
-                reason = String(e).split("\n")[0];
-                console.log("Could not find element (attempt " + attempt + "): " + locator + " -> " + String(e).split("\n")[0]);
-            }
-            await this.refreshIfNeeded(attempt);
-        }
-        throw this.failure("Find element", locator, reason);
-    }
 
     /** Waits for the first match to be visible, then returns every match that is visible and enabled. */
     public async safeFindElements(locator: Locator): Promise<Locator[]> {

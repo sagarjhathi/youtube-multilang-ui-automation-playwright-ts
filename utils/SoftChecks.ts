@@ -11,7 +11,7 @@ type FailedCheck = { actual: unknown; expected: unknown; message: string };
 let collecting = false;
 let pending: FailedCheck[] = [];
 
-export function softCheck<T>(actual: T, message: string, expected: T): void {
+export function softCheck<T>(actual: T, expected: T, message: string): void {
     if (!collecting) {
         expect.soft(actual, message).toBe(expected);
         return;

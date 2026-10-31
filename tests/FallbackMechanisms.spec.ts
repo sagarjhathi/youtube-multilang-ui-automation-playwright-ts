@@ -3,7 +3,7 @@ import { test, expect, Page } from "@playwright/test";
 import SafeActions from "../utils/SafeActions";
 import { LoopGuard } from "../utils/LoopGuard";
 import { softCheck, stopCollecting } from "../utils/SoftChecks";
-import { acceptedTexts, removeOptionalEntries } from "../utils/LanguageChecks";
+import { allowedVersions, removeOptionalEntries } from "../utils/LanguageChecks";
 import { readJson, readJsonByName } from "../utils/ReadJSON";
 import YtLandingPage from "../pages/YtLandingPage";
 
@@ -70,7 +70,7 @@ async function runLoop(guard: LoopGuard, items: string[], body: (item: string, a
         ran[item] = (ran[item] ?? 0) + 1;
         try {
             await body(item, ran[item]);
-            guard.passed(item);
+            guard.itemPassed(item);
         } catch (e) {
             if (await guard.retryAfterFailure(item, e, recovery)) {
                 i--;
@@ -175,7 +175,7 @@ test("L2 SoftChecks: the failed check of an attempt that is run again is dropped
     const guard = new LoopGuard();
 
     await runLoop(guard, ["vi"], async (_item, attempt) => {
-        softCheck(attempt === 1 ? "unknown" : "vietnamese", "detection wrong for vi", "vietnamese");   // fails on the first attempt only
+        softCheck(attempt === 1 ? "unknown" : "vietnamese", "vietnamese", "detection wrong for vi");   // fails on the first attempt only
         if (attempt === 1) throw new Error("click timed out after the check");
     });
     guard.logSummary(1);
@@ -188,7 +188,7 @@ test("L2 SoftChecks: the failed check of an attempt that is run again is dropped
 test("L3 SoftChecks: a failed check on an attempt that finishes is NOT dropped and fails the test", async () => {
     const guard = new LoopGuard();
 
-    await runLoop(guard, ["x"], async () => { softCheck("wrong text", "Side menu text is wrong for x", "right text"); });
+    await runLoop(guard, ["x"], async () => { softCheck("wrong text", "right text", "Side menu text is wrong for x"); });
     guard.logSummary(1);
 
     expect(takeExpectedFailures()).toEqual(["Side menu text is wrong for x"]);
@@ -266,7 +266,7 @@ test("L9 LoopGuard: counters are kept per item, a retried item is counted once",
     const guard = new LoopGuard();
 
     await runLoop(guard, ["a"], async (_item, attempt) => {
-        guard.count("detection skipped");
+        guard.countForSummary("detection skipped");
         if (attempt === 1) throw new Error("boom");
     });
     guard.logSummary(1);
@@ -294,7 +294,7 @@ const settingsPage = (opts: { ignoreFirstClick: boolean; openDelay: number }) =>
 </script>`;
 
 test("P1 settings menu: already open -> no click; slow to open -> waits, no second click; missed click -> clicks again", async ({ page }, testInfo) => {
-    const landing = new YtLandingPage(page, testInfo);
+    const landing = new YtLandingPage(page);
 
     await page.setContent(settingsPage({ ignoreFirstClick: false, openDelay: 0 }));
     await page.locator("#gear").click();
@@ -335,7 +335,7 @@ const guidePage = (opts: { startPressed: boolean; ignoreFirstClick: boolean; min
 })();</script>`;
 
 test("P2 side menu collapse: already collapsed -> no click; slow mini guide -> no second click; missed click -> clicks again", async ({ page }, testInfo) => {
-    const landing = new YtLandingPage(page, testInfo);
+    const landing = new YtLandingPage(page);
 
     await page.setContent(guidePage({ startPressed: false, ignoreFirstClick: false, miniDelay: 0 }));
     await landing.collapseSideMenuIfExpanded();
@@ -363,7 +363,7 @@ test("P3 stable read: a side menu that is still filling up is read in full, not 
       add();
     })();</script>`);
 
-    const text = await new YtLandingPage(page, testInfo).readExpandedSideMenu();
+    const text = await new YtLandingPage(page).readExpandedSideMenu();
 
     expect(text).toBe("Home Shorts Subs You History Music Movies Premium Kids Notifications");
     expect(logged("The menu was still changing")).toBe(true);
@@ -385,7 +385,7 @@ const settingsTextPage = (growing: boolean) => `
 })();</script>`;
 
 test("P4 settings text: read until it is not empty and stable; a text that stays empty is an error", async ({ page }, testInfo) => {
-    const landing = new YtLandingPage(page, testInfo);
+    const landing = new YtLandingPage(page);
 
     await page.setContent(settingsTextPage(true));
     expect(await landing.readSettingsMenuText()).toBe("Language Location");
@@ -397,14 +397,14 @@ test("P4 settings text: read until it is not empty and stable; a text that stays
 
 test("P5 the item loop, end to end: an empty settings read plus a failing click are repeated and the test passes", async ({ page }, testInfo) => {
     // the Vietnamese case of run #47 on a fake page: attempt 1 reads an empty text (failed check) and then a click fails
-    const landing = new YtLandingPage(page, testInfo);
+    const landing = new YtLandingPage(page);
     const guard = new LoopGuard();
 
     await runLoop(guard, ["vi"], async (_item, attempt) => {
         await page.setContent(settingsTextPage(attempt > 1));
         let text = "";
         try { text = await landing.readSettingsMenuText(); } catch { text = ""; }
-        softCheck(text !== "" ? "vietnamese" : "unknown", "Language of the settings menu text is wrong for vi", "vietnamese");
+        softCheck(text !== "" ? "vietnamese" : "unknown", "vietnamese", "Language of the settings menu text is wrong for vi");
         if (attempt === 1) await new SafeActions(page, 300, 1).safeClick(page.locator("#not-there"));     // the click that times out
     }, async () => {});
     guard.logSummary(1);
@@ -416,19 +416,19 @@ test("P5 the item loop, end to end: an empty settings read plus a failing click 
 
 // ================================================================ H: allowed versions of the side menu text
 
-const sideMenuRows = readJson("verifyingSideMenuLanguageAsInSettings.json");
+const sideMenuRows = readJson("expectedSideMenuExpanded.json");
 
 /** The allowed texts of a language, built from its row in the data file. */
 function allowedTexts(language: string): string[] {
-    const row = sideMenuRows.find((candidate: { [column: string]: string }) => candidate["Applied Language"] === language);
-    return acceptedTexts(row["Expected Data"], row["Alternatives"]).map(version => version.text);
+    const row = sideMenuRows.find((candidate: { [column: string]: string }) => candidate["Language"] === language);
+    return allowedVersions(row["Expected Text"], row["Alternatives"]).map(version => version.text);
 }
 
 /** True when the page text equals one of the allowed texts (the page text is cleaned the way the test cleans it). */
 const isAllowed = (language: string, pageText: string) => allowedTexts(language).includes(removeOptionalEntries(pageText));
 
-test("H1 acceptedTexts: every placeholder is filled with every option (3 x 2 = 6 texts)", async () => {
-    const versions = acceptedTexts("Home Shorts {slot} {premium} Kids", {
+test("H1 allowedVersions: every placeholder is filled with every option (3 x 2 = 6 texts)", async () => {
+    const versions = allowedVersions("Home Shorts {slot} {premium} Kids", {
         slot: ["Live", "Hype", ""],
         premium: ["YouTube Premium", "Try Premium for $0"],
     });
@@ -492,10 +492,10 @@ test("H6 data check: every language has its placeholders once, no empty group, n
     const problems: string[] = [];
 
     for (const row of sideMenuRows) {
-        const language = row["Applied Language"];
+        const language = row["Language"];
         const alternatives = row["Alternatives"] as { [placeholder: string]: string[] };
         for (const placeholder of Object.keys(alternatives)) {
-            const count = row["Expected Data"].split("{" + placeholder + "}").length - 1;
+            const count = row["Expected Text"].split("{" + placeholder + "}").length - 1;
             if (count !== 1) problems.push(language + ": {" + placeholder + "} appears " + count + " times in the base text");
             if (alternatives[placeholder].length === 0) problems.push(language + ": no options for " + placeholder);
         }
@@ -520,9 +520,9 @@ test("W1 whole-test retry: a test that fails on its first run is run again from 
 // ================================================================ D: the data files (the expected data is looked up by language name)
 
 const TEXT_FILES = [
-    "verifyingSideMenuLanguageAsInSettings.json",
-    "verifyingSideMenuCollapsedLangAsInSettings.json",
-    "verifyingGlobalFilterLandingPage.json",
+    "expectedSideMenuExpanded.json",
+    "expectedSideMenuCollapsed.json",
+    "expectedSearchFilter.json",
 ];
 
 test("D1 every language of languages.json has exactly one row in every expected-text file, with nothing extra", async () => {
@@ -532,7 +532,7 @@ test("D1 every language of languages.json has exactly one row in every expected-
     expect(new Set(names).size, "languages.json has a language twice").toBe(names.length);
 
     for (const fileName of TEXT_FILES) {
-        const rows = readJsonByName(fileName, "Applied Language");       // throws if a language is in the file twice
+        const rows = readJsonByName(fileName);       // throws if a language is in the file twice
         for (const name of names) {
             expect(() => rows.get(name), name + " in " + fileName).not.toThrow();
         }
@@ -558,10 +558,10 @@ test("D3 a name that has no row, or two rows, stops with an error that names the
     expect(() => readJsonByName("languages.json", "Expected Language")).toThrow(/Two rows for .* in languages.json/);
 });
 
-test("D4 Country_Name_Code.json: every location name once, a code for all but the United States", async () => {
-    const rows = readJson("Country_Name_Code.json");
+test("D4 countryCodes.json: every location name once, a code for all but the United States", async () => {
+    const rows = readJson("countryCodes.json");
     expect(rows.length).toBe(111);
-    readJsonByName("Country_Name_Code.json", "Country Name");         // throws if a location is in the file twice
+    readJsonByName("countryCodes.json", "Country Name");         // throws if a location is in the file twice
     for (const row of rows) {
         expect(row["Country Name"].trim(), "a location name is empty").not.toBe("");
         if (row["Country Name"] !== "United States") {
@@ -571,7 +571,7 @@ test("D4 Country_Name_Code.json: every location name once, a code for all but th
 });
 
 test("D5 the country tests are named after the first and last country of their half (names are written in the spec)", async () => {
-    const names: string[] = readJson("Country_Name_Code.json").map((row: { [column: string]: string }) => row["Country Name"]);
+    const names: string[] = readJson("countryCodes.json").map((row: { [column: string]: string }) => row["Country Name"]);
     const middle = Math.ceil(names.length / 2);
     const spec = fs.readFileSync("tests/YtMasterSafeActions.spec.ts", "utf8");
     const expected = [
