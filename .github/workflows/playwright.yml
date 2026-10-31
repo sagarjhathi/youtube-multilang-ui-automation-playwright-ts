@@ -11,10 +11,6 @@ on:
         description: "Canary run: spoil one value in every test on purpose, every test has to FAIL. Reports go to the canary/ folder of gh-pages, the real reports are not touched"
         type: boolean
         default: false
-      recovery:
-        description: "Recovery run: runs tests/RecoveryOnLivePage.spec.ts instead of the normal tests. It puts faults into the real page (a missed click, a slow menu, a language that cannot be picked) so every recovery path has to act. Reports go to the recovery/ folder of gh-pages, the real reports are not touched"
-        type: boolean
-        default: false
   schedule:
     # every night at 01:30 IST (GitHub cron runs in UTC: 20:00 UTC = 01:30 IST the next morning)
     - cron: "0 20 * * *"
@@ -54,10 +50,7 @@ jobs:
       - name: Run Playwright tests
         env:
           CANARY: ${{ inputs.canary }}
-        run: |
-          SPEC=tests/YtMasterSafeActions.spec.ts
-          if [ "${{ inputs.recovery }}" = "true" ]; then SPEC=tests/RecoveryOnLivePage.spec.ts; fi
-          npx playwright test $SPEC --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: npx playwright test tests/YtMasterSafeActions.spec.ts --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - name: Upload blob report
         if: ${{ !cancelled() }}
@@ -184,14 +177,12 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         run: |
           cd site
-          if [ "${{ steps.canary.outputs.on }}" = "true" ] || [ "${{ inputs.recovery }}" = "true" ]; then
-            # Canary run or recovery run: the reports go to canary/ or recovery/ and the real reports stay as they are.
-            FOLDER=canary
-            if [ "${{ inputs.recovery }}" = "true" ]; then FOLDER=recovery; fi
-            rm -rf $FOLDER
-            mkdir $FOLDER
-            cp -r ../playwright-report $FOLDER/playwright
-            cp -r ../allure-report $FOLDER/allure
+          if [ "${{ steps.canary.outputs.on }}" = "true" ]; then
+            # Canary run: the reports go to canary/ and the real reports stay as they are.
+            rm -rf canary
+            mkdir canary
+            cp -r ../playwright-report canary/playwright
+            cp -r ../allure-report canary/allure
           else
             # Start from a clean folder: remove the old reports, then add the new ones.
             rm -rf playwright allure index.html
