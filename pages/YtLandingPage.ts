@@ -513,6 +513,38 @@ class YtLandingPage {
         return text;
     }
 
+    // ------------------------------------------------------------------
+    // Recovery after a failed language / location: LoopGuard runs one of these before it runs the item again.
+    // They bring the page back to the state the loop starts from.
+    // ------------------------------------------------------------------
+
+    /** Page reloaded, language list open (the loops of the expanded side menu and the settings menu). */
+    public async reopenLanguageList() :Promise<void> {
+        await this.openingLandingPage();
+        await this.openLanguageList();
+    }
+
+    /** Page reloaded, side menu collapsed, language list open (the loops of the collapsed side menu). */
+    public async reopenCollapsedLanguageList() :Promise<void> {
+        await this.openingLandingPage();
+        // Old code: await this.clickLeftMenuButton(); (blind toggle, no check that the menu collapsed)
+        await this.collapseSideMenuIfExpanded();
+        await this.openLanguageList();
+    }
+
+    /** Page reloaded, location list open (the country code loops). */
+    public async reopenLocationList() :Promise<void> {
+        await this.openingLandingPage();
+        await this.openLocationList();
+    }
+
+    /** Page reloaded, search for "youtube" done (the search filter loops). */
+    public async reopenSearchResults() :Promise<void> {
+        await this.openingLandingPage();
+        await this.givingInputUnderSearchBar("youtube");
+        await this.genericUtility.clickEnter(this.searchInputLandinfPage);
+    }
+
     /** Opens the global filter popup on the search results page. */
     public async openGlobalFilterPopup() :Promise<void> {
         await this.safeActions.safeClick(this.globalFilterButton);

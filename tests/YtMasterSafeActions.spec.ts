@@ -1,4 +1,4 @@
-import { test, Page, TestInfo } from "@playwright/test";
+import { test } from "@playwright/test";
 import GenericUtility from "../utils/GenericUtility";
 import YtLandingPage from "../pages/YtLandingPage";
 import { readJson, readJsonByName } from "../utils/ReadJSON";
@@ -23,33 +23,6 @@ const sideMenus = readJsonByName("verifyingSideMenuLanguageAsInSettings.json", "
 const collapsedMenus = readJsonByName("verifyingSideMenuCollapsedLangAsInSettings.json", "Applied Language");
 const globalFilters = readJsonByName("verifyingGlobalFilterLandingPage.json", "Applied Language");
 const countries = readJsonByName("Country_Name_Code.json", "Country Name");     // the country code of a location is found by the location's name
-
-
-// ------------------------------------------------------------ recovery after a failed language / location
-// They bring the page back to the state the loop starts from.
-
-async function reopenLanguageList(landingPage: YtLandingPage) {
-    await landingPage.openingLandingPage();
-    await landingPage.openLanguageList();
-}
-
-async function reopenCollapsedLanguageList(landingPage: YtLandingPage) {
-    await landingPage.openingLandingPage();
-    // Old code: await landingPage.clickLeftMenuButton(); (blind toggle, no check that the menu collapsed)
-    await landingPage.collapseSideMenuIfExpanded();
-    await landingPage.openLanguageList();
-}
-
-async function reopenLocationList(landingPage: YtLandingPage) {
-    await landingPage.openingLandingPage();
-    await landingPage.openLocationList();
-}
-
-async function reopenSearchResults(landingPage: YtLandingPage, genericUtility: GenericUtility) {
-    await landingPage.openingLandingPage();
-    await landingPage.givingInputUnderSearchBar("youtube");
-    await genericUtility.clickEnter(landingPage.searchInputLandinfPage);
-}
 
 
 // ------------------------------------------------------------ expanded side menu
@@ -94,7 +67,7 @@ test("verifyingSideMenuLanguageAsInSettings", async ({ page }, testInfo) => {
             await landingPage.openLanguageList();
             guard.passed(langText);
         } catch (e) {
-            if (await guard.retryAfterFailure(langText, e, () => reopenLanguageList(landingPage))) {
+            if (await guard.retryAfterFailure(langText, e, () => landingPage.reopenLanguageList())) {
                 i--;    // run the same language again
             }
         }
@@ -132,7 +105,7 @@ test("verifyingSideMenuLanguageAsInSettingsLingua", async ({ page }, testInfo) =
             await landingPage.openLanguageList();
             guard.passed(langText);
         } catch (e) {
-            if (await guard.retryAfterFailure(langText, e, () => reopenLanguageList(landingPage))) {
+            if (await guard.retryAfterFailure(langText, e, () => landingPage.reopenLanguageList())) {
                 i--;
             }
         }
@@ -172,7 +145,7 @@ test("verifyingSideMenuCollapsedLangAsInSettings", async ({ page }, testInfo) =>
             await landingPage.openLanguageList();
             guard.passed(langText);
         } catch (e) {
-            if (await guard.retryAfterFailure(langText, e, () => reopenCollapsedLanguageList(landingPage))) {
+            if (await guard.retryAfterFailure(langText, e, () => landingPage.reopenCollapsedLanguageList())) {
                 i--;
             }
         }
@@ -211,7 +184,7 @@ test("verifyingSideMenuCollapsedLangAsInSettingsLingua", async ({ page }, testIn
             await landingPage.openLanguageList();
             guard.passed(langText);
         } catch (e) {
-            if (await guard.retryAfterFailure(langText, e, () => reopenCollapsedLanguageList(landingPage))) {
+            if (await guard.retryAfterFailure(langText, e, () => landingPage.reopenCollapsedLanguageList())) {
                 i--;
             }
         }
@@ -250,7 +223,7 @@ test("verifyingSettingOptionsLang", async ({ page }, testInfo) => {
             await landingPage.openLanguageList();
             guard.passed(langText);
         } catch (e) {
-            if (await guard.retryAfterFailure(langText, e, () => reopenLanguageList(landingPage))) {
+            if (await guard.retryAfterFailure(langText, e, () => landingPage.reopenLanguageList())) {
                 i--;
             }
         }
@@ -262,10 +235,14 @@ test("verifyingSettingOptionsLang", async ({ page }, testInfo) => {
 
 // ------------------------------------------------------------ country code next to the logo
 // 111 locations in one test took about 12 minutes, so the list is split in two tests that run side by side.
-// The index i is the position in the location list on the page, so the two tests only differ in where the loop starts and ends.
+// The tests are named after the first and last country of their half, written out on purpose: the name shows what the test covers
+// and changes only when somebody changes it. The fallback test D5 fails if a name no longer matches the data.
+
+// The index i is the position in the location list on the page, so the two tests only differ in where the loop starts and ends
+// (first half: 0 to the middle, second half: the middle to the end).
 // The expected code is found by the name of the location that was picked (Country_Name_Code.json), not by the position.
 
-async function checkCountryCodes(page: Page, testInfo: TestInfo, half: "first" | "second") {
+test("verifyingCountryCodeOnLogo_Algeria_to_Liechtenstein", async ({ page }, testInfo) => {
     const landingPage = new YtLandingPage(page, testInfo);
     const genericUtility = new GenericUtility(page);
 
@@ -276,8 +253,8 @@ async function checkCountryCodes(page: Page, testInfo: TestInfo, half: "first" |
     const locationCount = genericUtility.resolveCountryIterationCount(allLocations.length);
 
     const middle = Math.ceil(locationCount / 2);
-    const [start, end] = half === "first" ? [0, middle] : [middle, locationCount];
-    console.log("Country codes, " + half + " half: locations " + start + " to " + (end - 1) + " of " + locationCount);
+    const [start, end] = [0, middle];
+    console.log("Country codes, first half: locations " + start + " to " + (end - 1) + " of " + locationCount);
 
     const guard = new LoopGuard();
     for (let i = start; i < end && !guard.shouldStop(); i++) {
@@ -303,21 +280,61 @@ async function checkCountryCodes(page: Page, testInfo: TestInfo, half: "first" |
             await landingPage.openLocationList();
             guard.passed(locationText);
         } catch (e) {
-            if (await guard.retryAfterFailure(locationText, e, () => reopenLocationList(landingPage))) {
+            if (await guard.retryAfterFailure(locationText, e, () => landingPage.reopenLocationList())) {
                 i--;
             }
         }
     }
 
     guard.logSummary(end - start);
-}
-
-test("verifyCountryCodeAsBasedOnRegion_FirstHalfOfLocations", async ({ page }, testInfo) => {
-    await checkCountryCodes(page, testInfo, "first");
 });
 
-test("verifyCountryCodeAsBasedOnRegion_SecondHalfOfLocations", async ({ page }, testInfo) => {
-    await checkCountryCodes(page, testInfo, "second");
+
+test("verifyingCountryCodeOnLogo_Lithuania_to_Zimbabwe", async ({ page }, testInfo) => {
+    const landingPage = new YtLandingPage(page, testInfo);
+    const genericUtility = new GenericUtility(page);
+
+    await landingPage.openingLandingPage();
+    await landingPage.openLocationList();
+
+    const allLocations = await landingPage.getLocationList();
+    const locationCount = genericUtility.resolveCountryIterationCount(allLocations.length);
+
+    const middle = Math.ceil(locationCount / 2);
+    const [start, end] = [middle, locationCount];
+    console.log("Country codes, second half: locations " + start + " to " + (end - 1) + " of " + locationCount);
+
+    const guard = new LoopGuard();
+    for (let i = start; i < end && !guard.shouldStop(); i++) {
+        let locationText = "location #" + i;     // replaced by the real name once the location is picked
+        try {
+            locationText = await landingPage.pickLocation(i);
+
+            const detectedCode = await landingPage.getCountryCode();
+            const position = i - start;          // 0 for the first location of this test: the canary spoils the first two of each half
+            const country = countries.get(locationText.trim());     // a location that is new on the page has no row: "No row for X in Country_Name_Code.json"
+            let expectedCode = canary(country["Country Code"], position, 0);
+            expectedCode = canary(expectedCode, position, 1, "");
+            console.log(locationText + "  row " + i + "  detected code: " + detectedCode + "  expected code: " + expectedCode);
+
+            // only the United States has no code next to the logo, an empty expected code anywhere else is a data mistake
+            if (expectedCode.trim() === "") {
+                softCheck(country["Country Name"], 'Expected country code is empty for "' + locationText + '", only "United States" has none', "United States");
+                guard.count("no code expected");
+            }
+
+            softCheck(detectedCode.trim(), 'Country code is wrong after choosing location "' + locationText + '"', expectedCode.trim());
+
+            await landingPage.openLocationList();
+            guard.passed(locationText);
+        } catch (e) {
+            if (await guard.retryAfterFailure(locationText, e, () => landingPage.reopenLocationList())) {
+                i--;
+            }
+        }
+    }
+
+    guard.logSummary(end - start);
 });
 
 
@@ -353,7 +370,7 @@ test("verifyingGlobalFilterLandingPage", async ({ page }, testInfo) => {
 
             guard.passed(langText);
         } catch (e) {
-            if (await guard.retryAfterFailure(langText, e, () => reopenSearchResults(landingPage, genericUtility))) {
+            if (await guard.retryAfterFailure(langText, e, () => landingPage.reopenSearchResults())) {
                 i--;
             }
         }
@@ -394,7 +411,7 @@ test("verifyingGlobalFilterLandingPageLingua", async ({ page }, testInfo) => {
 
             guard.passed(langText);
         } catch (e) {
-            if (await guard.retryAfterFailure(langText, e, () => reopenSearchResults(landingPage, genericUtility))) {
+            if (await guard.retryAfterFailure(langText, e, () => landingPage.reopenSearchResults())) {
                 i--;
             }
         }

@@ -16,8 +16,8 @@ The tests run against the **live** youtube.com, signed out, in a real browser. N
 | `verifyingSideMenuCollapsedLangAsInSettings` | Collapsed side-menu text for each language equals the expected text |
 | `verifyingSideMenuCollapsedLangAsInSettingsLingua` | Detected language and `<html lang>` for the collapsed menu |
 | `verifyingSettingOptionsLang` | Detected language of the settings menu, and `<html lang>` |
-| `verifyCountryCodeAsBasedOnRegion_FirstHalfOfLocations` | The country code on the YouTube logo for each region in the first half of the location list |
-| `verifyCountryCodeAsBasedOnRegion_SecondHalfOfLocations` | The same for the second half of the list (the two halves run side by side, so the slowest test is about half as long) |
+| `verifyingCountryCodeOnLogo_Algeria_to_Liechtenstein` | The country code on the YouTube logo for each region in the first half of the location list, from Algeria to Liechtenstein (the test is named after the first and last country of its half, taken from `Country_Name_Code.json`) |
+| `verifyingCountryCodeOnLogo_Lithuania_to_Zimbabwe` | The same for the second half, from Lithuania to Zimbabwe (the two halves run side by side, so the slowest test is about half as long) |
 | `verifyingGlobalFilterLandingPage` | Search-filter popup text on the results page for each language |
 | `verifyingGlobalFilterLandingPageLingua` | Detected language of the filter popup, and `<html lang>` |
 

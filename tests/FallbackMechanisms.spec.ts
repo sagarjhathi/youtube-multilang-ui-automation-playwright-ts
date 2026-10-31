@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import { test, expect, Page } from "@playwright/test";
 import SafeActions from "../utils/SafeActions";
 import { LoopGuard } from "../utils/LoopGuard";
@@ -566,5 +567,18 @@ test("D4 Country_Name_Code.json: every location name once, a code for all but th
         if (row["Country Name"] !== "United States") {
             expect(row["Country Code"].trim(), row["Country Name"] + " has no code").not.toBe("");
         }
+    }
+});
+
+test("D5 the country tests are named after the first and last country of their half (names are written in the spec)", async () => {
+    const names: string[] = readJson("Country_Name_Code.json").map((row: { [column: string]: string }) => row["Country Name"]);
+    const middle = Math.ceil(names.length / 2);
+    const spec = fs.readFileSync("tests/YtMasterSafeActions.spec.ts", "utf8");
+    const expected = [
+        "verifyingCountryCodeOnLogo_" + names[0] + "_to_" + names[middle - 1],
+        "verifyingCountryCodeOnLogo_" + names[middle] + "_to_" + names[names.length - 1],
+    ];
+    for (const name of expected) {
+        expect(spec, "the spec has no country test named " + name + " (the data file or the middle of the list changed: rename the test)").toContain('test("' + name.replace(/ /g, "") + '"');
     }
 });
