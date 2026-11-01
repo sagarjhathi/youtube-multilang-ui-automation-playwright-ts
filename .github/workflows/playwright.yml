@@ -201,29 +201,43 @@ jobs:
             echo "on=false" >> "$GITHUB_OUTPUT"
           fi
 
-      # A green report must not hide lost tests (once a shard waited 90 minutes in the Chromium install and was cancelled).
-      # Simple check: the number of tests with a result has to equal the number of tests in the spec, and every shard has to send a report.
-      # Only when they differ, the tests of the spec that have no result are listed. The problem is written into a red box
-      # on the report page; the job is failed at the very end, after the publish.
-      - name: Check that all shards ran and all tests completed
+      # A green report must not hide lost or failed tests (once a shard waited 90 minutes in the Chromium install and was cancelled).
+      # Simple check: the number of tests with a result has to equal the number of tests in the spec, every shard has to send a report,
+      # and the failed tests are counted. Only when something is wrong, the tests are named. The problem is shown in several places
+      # (a red box on the report page, an error annotation and the summary of the run) but it never stops the publish.
+      - name: Check that all shards ran, all tests completed and none failed
         id: coverage
         run: |
           shards_expected=4   # shardTotal of the test job
           shards_found=$(ls all-blob-reports/*.zip | wc -l)
           npx playwright test tests/YtMasterSafeActions.spec.ts --list | grep ' › ' | sed 's/.* › //' > tests-in-spec.txt
           node -p 'const t = []; (function walk(s) { (s.specs || []).forEach(x => t.push(x.title)); (s.suites || []).forEach(walk); })(require("./merged-results.json")); t.join("\n")' > tests-with-result.txt
-          tests_expected=$(wc -l < tests-in-spec.txt)
-          tests_found=$(wc -l < tests-with-result.txt)
-          echo "Shards: $shards_found of $shards_expected | tests with a result: $tests_found of $tests_expected"
+          # a test failed when its result in the merged report is not ok (a retry that passes counts as passed)
+          node -p 'const t = []; (function walk(s) { (s.specs || []).forEach(x => { if (!x.ok) t.push(x.title); }); (s.suites || []).forEach(walk); })(require("./merged-results.json")); t.join("\n")' > tests-failed.txt
+          tests_expected=$(grep -c . tests-in-spec.txt || true)
+          tests_found=$(grep -c . tests-with-result.txt || true)
+          tests_failed=$(grep -c . tests-failed.txt || true)
+          echo "Shards: $shards_found of $shards_expected | tests with a result: $tests_found of $tests_expected | failed: $tests_failed"
 
-          if [ "$shards_found" -eq "$shards_expected" ] && [ "$tests_found" -eq "$tests_expected" ]; then
-            : > coverage-warning.html
-            echo "ok=true" >> "$GITHUB_OUTPUT"
-          else
+          problems=""
+          if [ "$shards_found" -ne "$shards_expected" ] || [ "$tests_found" -ne "$tests_expected" ]; then
             # the tests of the spec that have no result at all
             missing=$(grep -vxFf tests-with-result.txt tests-in-spec.txt | sed ':a;N;$!ba;s/\n/, /g')
-            echo "Did not run: $missing"
-            echo "<div class=\"warning\"><strong>Only $tests_found of $tests_expected tests have a result in this report</strong> ($shards_found of $shards_expected shards sent a report). A shard was probably cancelled or failed before the tests started. Tests that did not run: $missing</div>" > coverage-warning.html
+            problems="Only $tests_found of $tests_expected tests have a result ($shards_found of $shards_expected shards sent a report). A shard was probably cancelled or failed before the tests started. Tests that did not run: $missing."
+          fi
+          if [ "$tests_failed" -gt 0 ]; then
+            failed=$(sed ':a;N;$!ba;s/\n/, /g' tests-failed.txt)
+            problems="$problems $tests_failed test(s) failed: $failed."
+          fi
+
+          if [ -z "$problems" ]; then
+            : > coverage-warning.html
+            : > coverage-message.txt
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "$problems"
+            echo "$problems" > coverage-message.txt
+            echo "<div class=\"warning\"><strong>This run has problems</strong> $problems</div>" > coverage-warning.html
             echo "ok=false" >> "$GITHUB_OUTPUT"
           fi
 
@@ -256,8 +270,11 @@ jobs:
           git commit -m "Publish reports from run #${{ github.run_number }}"
           git push --force origin latest:gh-pages
 
-      - name: Fail the job when tests are missing
+      # Does not fail the job: the reports are published either way, and a red shard already makes the run red.
+      # It only puts the problem where people look: an error annotation and the summary of the run.
+      - name: Show the test problems in the run
         if: ${{ !cancelled() && steps.coverage.outputs.ok == 'false' }}
         run: |
-          echo "::error::Some tests have no result in the report, see the red box on the report page"
-          exit 1
+          message=$(cat coverage-message.txt)
+          echo "::error title=Tests missing or failed::$message"
+          { echo "### Tests missing or failed"; echo; echo "$message"; } >> "$GITHUB_STEP_SUMMARY"
