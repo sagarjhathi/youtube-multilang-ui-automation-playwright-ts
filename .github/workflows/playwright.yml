@@ -43,8 +43,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # The package download on the runner sometimes hangs (one shard waited 90 minutes and was cancelled).
+      # Each try is stopped after 8 minutes and tried again, up to 3 times.
       - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+        timeout-minutes: 30
+        run: |
+          for attempt in 1 2 3; do
+            if timeout --kill-after=20 480 npx playwright install --with-deps chromium; then
+              exit 0
+            fi
+            echo "Install attempt $attempt failed or timed out"
+            sleep 10
+          done
+          exit 1
 
       # the reporters (blob for the merged HTML report, allure-results) and the other CI settings come from playwright.config.ts (CI=true)
       - name: Run Playwright tests
@@ -97,6 +108,12 @@ jobs:
 
       - name: Merge into one HTML report
         run: npx playwright merge-reports --reporter=html ./all-blob-reports
+
+      # the same results as a json file, to count the tests in the last step
+      - name: Merge into one json file
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_NAME: merged-results.json
+        run: npx playwright merge-reports --reporter=json ./all-blob-reports
 
       - name: Upload merged HTML report
         uses: actions/upload-artifact@v4
@@ -173,6 +190,32 @@ jobs:
             echo "on=false" >> "$GITHUB_OUTPUT"
           fi
 
+      # A green report must not hide lost tests (once a shard waited 90 minutes in the Chromium install and was cancelled).
+      # Simple check: the number of tests with a result has to equal the number of tests in the spec, and every shard has to send a report.
+      # Only when they differ, the tests of the spec that have no result are listed. The problem is written into a red box
+      # on the report page; the job is failed at the very end, after the publish.
+      - name: Check that all shards ran and all tests completed
+        id: coverage
+        run: |
+          shards_expected=4   # shardTotal of the test job
+          shards_found=$(ls all-blob-reports/*.zip | wc -l)
+          npx playwright test tests/YtMasterSafeActions.spec.ts --list | grep ' › ' | sed 's/.* › //' > tests-in-spec.txt
+          node -p 'const t = []; (function walk(s) { (s.specs || []).forEach(x => t.push(x.title)); (s.suites || []).forEach(walk); })(require("./merged-results.json")); t.join("\n")' > tests-with-result.txt
+          tests_expected=$(wc -l < tests-in-spec.txt)
+          tests_found=$(wc -l < tests-with-result.txt)
+          echo "Shards: $shards_found of $shards_expected | tests with a result: $tests_found of $tests_expected"
+
+          if [ "$shards_found" -eq "$shards_expected" ] && [ "$tests_found" -eq "$tests_expected" ]; then
+            : > coverage-warning.html
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            # the tests of the spec that have no result at all
+            missing=$(grep -vxFf tests-with-result.txt tests-in-spec.txt | sed ':a;N;$!ba;s/\n/, /g')
+            echo "Did not run: $missing"
+            echo "<div class=\"warning\"><strong>Only $tests_found of $tests_expected tests have a result in this report</strong> ($shards_found of $shards_expected shards sent a report). A shard was probably cancelled or failed before the tests started. Tests that did not run: $missing</div>" > coverage-warning.html
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Publish to gh-pages
         if: ${{ github.event_name != 'pull_request' }}
         run: |
@@ -190,6 +233,7 @@ jobs:
             cp -r ../allure-report allure
             cp ../.github/pages/index.html index.html
             sed -i "s|__RUN_INFO__|Run #${{ github.run_number }} - commit ${GITHUB_SHA::7} - $(date -u +'%Y-%m-%d %H:%M UTC')|" index.html
+            node -e 'const fs = require("fs"); fs.writeFileSync("index.html", fs.readFileSync("index.html", "utf8").replace("<!--COVERAGE_WARNING-->", () => fs.readFileSync("../coverage-warning.html", "utf8")))'
           fi
           touch .nojekyll
 
@@ -200,3 +244,9 @@ jobs:
           git add -A
           git commit -m "Publish reports from run #${{ github.run_number }}"
           git push --force origin latest:gh-pages
+
+      - name: Fail the job when tests are missing
+        if: ${{ !cancelled() && steps.coverage.outputs.ok == 'false' }}
+        run: |
+          echo "::error::Some tests have no result in the report, see the red box on the report page"
+          exit 1
