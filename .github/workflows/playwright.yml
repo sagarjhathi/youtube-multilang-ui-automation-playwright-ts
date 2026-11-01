@@ -97,6 +97,12 @@ jobs:
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # One publish at a time: every publish force-pushes the gh-pages branch, and GitHub Pages rejects a deployment while the
+    # previous one is still running (HTTP 400 "in progress deployment"). Waiting runs are queued, never cancelled.
+    # (The concurrency group at the top of this file, with cancel-in-progress: true, is a different one and stays as it is.)
+    concurrency:
+      group: gh-pages-publish
+      cancel-in-progress: false
     permissions:
       contents: write   # needed to push the reports to the gh-pages branch
     steps:
@@ -158,14 +164,14 @@ jobs:
           fi
 
       - name: Check out gh-pages
-        if: steps.pages_branch.outputs.exists == 'true'
+        if: ${{ github.event_name != 'pull_request' && steps.pages_branch.outputs.exists == 'true' }}
         uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: site
 
       - name: Start an empty site folder (first run only)
-        if: steps.pages_branch.outputs.exists != 'true'
+        if: ${{ github.event_name != 'pull_request' && steps.pages_branch.outputs.exists != 'true' }}
         run: |
           mkdir site
           cd site
@@ -173,6 +179,7 @@ jobs:
           git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
 
       - name: Copy previous Allure history (for trend graphs)
+        if: ${{ github.event_name != 'pull_request' }}
         run: |
           if [ -d site/allure/history ]; then
             cp -r site/allure/history allure-results/history
@@ -201,6 +208,19 @@ jobs:
             echo "on=false" >> "$GITHUB_OUTPUT"
           fi
 
+      # Canary run only: every test has to fail. A passed test means that the test does not check what it says.
+      # Nothing here fails the job: a problem is added to the message of the next step.
+      - name: Canary, did every test fail?
+        if: ${{ steps.canary.outputs.on == 'true' }}
+        run: |
+          failed=$(node -p 'require("./merged-results.json").stats.unexpected')
+          passed=$(node -p 'const s = require("./merged-results.json").stats; s.expected + s.flaky')
+          echo "Canary: $failed tests failed, $passed passed (all must fail)"
+          : > canary-problem.txt
+          if [ "$passed" -gt 0 ] || [ "$failed" -eq 0 ]; then
+            echo "Canary run: $failed tests failed and $passed passed, but every test has to fail." > canary-problem.txt
+          fi
+
       # A green report must not hide lost or failed tests (once a shard waited 90 minutes in the Chromium install and was cancelled).
       # Simple check: the number of tests with a result has to equal the number of tests in the spec, every shard has to send a report,
       # and the failed tests are counted. Only when something is wrong, the tests are named. The problem is shown in several places
@@ -212,8 +232,8 @@ jobs:
           shards_found=$(ls all-blob-reports/*.zip | wc -l)
           npx playwright test tests/YtMasterSafeActions.spec.ts --list | grep ' › ' | sed 's/.* › //' > tests-in-spec.txt
           node -p 'const t = []; (function walk(s) { (s.specs || []).forEach(x => t.push(x.title)); (s.suites || []).forEach(walk); })(require("./merged-results.json")); t.join("\n")' > tests-with-result.txt
-          # a test failed when its result in the merged report is not ok (a retry that passes counts as passed)
-          node -p 'const t = []; (function walk(s) { (s.specs || []).forEach(x => { if (!x.ok) t.push(x.title); }); (s.suites || []).forEach(walk); })(require("./merged-results.json")); t.join("\n")' > tests-failed.txt
+          # a test failed when none of its results passed (a retry that passes counts as passed; a skipped test is not a failure)
+          node -p 'const t = []; (function walk(s) { (s.specs || []).forEach(x => { const results = x.tests.flatMap(test => test.results); if (!results.some(r => r.status === "passed") && !results.every(r => r.status === "skipped")) t.push(x.title); }); (s.suites || []).forEach(walk); })(require("./merged-results.json")); t.join("\n")' > tests-failed.txt
           tests_expected=$(grep -c . tests-in-spec.txt || true)
           tests_found=$(grep -c . tests-with-result.txt || true)
           tests_failed=$(grep -c . tests-failed.txt || true)
@@ -225,10 +245,16 @@ jobs:
             missing=$(grep -vxFf tests-with-result.txt tests-in-spec.txt | sed ':a;N;$!ba;s/\n/, /g')
             problems="Only $tests_found of $tests_expected tests have a result ($shards_found of $shards_expected shards sent a report). A shard was probably cancelled or failed before the tests started. Tests that did not run: $missing."
           fi
-          if [ "$tests_failed" -gt 0 ]; then
+          # in a canary run every test is meant to fail, so the failed tests are not a problem there
+          if [ "$tests_failed" -gt 0 ] && [ "${{ steps.canary.outputs.on }}" != "true" ]; then
             failed=$(sed ':a;N;$!ba;s/\n/, /g' tests-failed.txt)
             problems="$problems $tests_failed test(s) failed: $failed."
           fi
+          if [ -s canary-problem.txt ]; then
+            problems="$problems $(cat canary-problem.txt)"
+          fi
+          # one line, no % (it would break the annotation)
+          problems=$(echo "$problems" | tr -d '%\r' | tr '\n' ' ' | sed 's/^ *//; s/  */ /g; s/ *$//')
 
           if [ -z "$problems" ]; then
             : > coverage-warning.html

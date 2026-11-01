@@ -251,6 +251,10 @@ Detection uses the [`eld`](https://www.npmjs.com/package/eld) library through `e
 
 `.github/workflows/playwright.yml` runs `tests/YtMasterSafeActions.spec.ts` on push and pull request to `main` or `master`, on manual run, and every night at 01:30 IST (cron `0 20 * * *`, since GitHub cron uses UTC). The nightly run sets `IS_CRON=true`, so it reads the `...CI` keys in `runconfig.json`. It splits the tests into 4 shards, uploads each shard's blob report, then merges them into a single HTML report that is uploaded as the **`playwright-report`** artifact. Each shard also uploads its Allure results; a final step puts them together and uploads one **`allure-report`** artifact (download it, unzip it and open the folder with `npx allure open <unzipped folder>`; Allure pages do not work when opened straight from the file system).
 
+### Lost shards, failed tests and canary checks in CI
+
+A green report must not hide tests that never ran. After the merge, the `merge-reports` job checks that all 4 shards sent a report, that every test of the spec has a result, and which tests failed (a test that fails and then passes on its retry counts as passed). A problem is shown in three places: a red box on the report hub page, an error annotation on the run, and the run's job summary. **The `merge-reports` job stays green and the reports are always published**; the red shard is what makes the run red. In a canary run the same job checks that every test failed (`Canary: N tests failed, M passed`) and reports a problem when one passed or none failed. Publishes are serialized (one `gh-pages` publish at a time, the next one waits instead of being cancelled), because GitHub Pages rejects a deployment while the previous one is still running. To see the check work, start a manual run with **lose_a_shard** ticked: shard 2 stops before its tests start, and the red box names its tests. Never use it on a normal run.
+
 ### Published reports (GitHub Pages)
 
 On a push to `main` or `master`, a manual run or the nightly run, the merge job also publishes the reports to the `gh-pages` branch (pull requests only build them):
