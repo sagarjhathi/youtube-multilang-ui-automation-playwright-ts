@@ -1,3 +1,26 @@
+# How this workflow runs
+#
+#   offline-checks  ->  test (4 shards)  ->  merge-reports
+#
+#   offline-checks  Runs tests/FallbackMechanisms.spec.ts on small fake pages: no YouTube, no network, about a minute.
+#                   It checks the safety layers and the data files. If it fails, nothing else runs.
+#   test            4 shards run the real tests in parallel; each one uploads its raw results.
+#   merge-reports   Joins the shards into one Playwright report and one Allure report, checks that no test is
+#                   missing or failed, and publishes both reports to GitHub Pages (the gh-pages branch).
+#
+# Which job goes red
+#   - offline-checks: when a safety-layer test or a data check fails. The shards and merge-reports are then skipped.
+#   - a test shard: when one of its tests fails or its setup breaks. That is what makes the whole run red.
+#   - merge-reports: stays green when the reports were published, even if tests failed or a shard was lost.
+#     Such a problem is shown instead as a red box on the hub page, an error annotation and the run summary.
+#
+# Manual switches (Actions, Run workflow)
+#   canary              every test has to fail; the reports go to the canary/ folder of gh-pages
+#   check_failed_tests  health check: every test fails on purpose, but the run is judged as a normal one
+#   check_lost_shard    health check: shard 2 fails before its tests start
+#
+# Pull requests build the reports but never publish them.
+
 name: Playwright tests
 
 on:
@@ -8,11 +31,15 @@ on:
   workflow_dispatch:
     inputs:
       canary:
-        description: "Canary run: spoil one value in every test on purpose, every test has to FAIL. Reports go to the canary/ folder of gh-pages, the real reports are not touched"
+        description: "Spoil one value in every test on purpose: every test must fail. Reports go to canary/ on gh-pages"
         type: boolean
         default: false
-      lose_a_shard:
-        description: "Test of the report check: shard 2 fails on purpose before its tests start, so the red box on the report page has to name its tests. Never use this on a normal run"
+      check_failed_tests:
+        description: "Health check: every test fails on purpose, the run is judged as a normal one (shards red, red box names the failed tests)"
+        type: boolean
+        default: false
+      check_lost_shard:
+        description: "Health check: shard 2 fails before its tests start (the red box has to name its tests)"
         type: boolean
         default: false
   schedule:
@@ -24,8 +51,44 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # ---- 1. Offline checks: the safety layers and the data files, on fake pages ----
+  offline-checks:
+    name: Offline checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Same retried install as in the shards (the package download on the runner sometimes hangs).
+      - name: Install Chromium
+        timeout-minutes: 30
+        run: |
+          for attempt in 1 2 3; do
+            if timeout --kill-after=20 480 npx playwright install --with-deps chromium; then
+              exit 0
+            fi
+            echo "Install attempt $attempt failed or timed out"
+            sleep 10
+          done
+          exit 1
+
+      # --reporter=list replaces the blob and allure reporters of playwright.config.ts, so this job writes no report
+      # folder at all. It also uploads no artifact, so merge-reports can never pick up its results.
+      - name: Run the offline checks
+        run: npx playwright test tests/FallbackMechanisms.spec.ts --reporter=list
+
+  # ---- 2. The real tests, one shard per job ----
   test:
     name: Tests (shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }})
+    needs: offline-checks
     runs-on: ubuntu-latest
     timeout-minutes: 90
     strategy:
@@ -37,11 +100,11 @@ jobs:
       # RunConfig reads this: true only for the nightly run, which then uses the ...CI keys in configs/runconfig.json
       IS_CRON: ${{ github.event_name == 'schedule' }}
     steps:
-      # Only for a manual run with "lose_a_shard" ticked: shard 2 stops here, before any test, like a cancelled shard.
+      # check_lost_shard: stops shard 2 before any test, like a cancelled shard
       - name: Lose a shard on purpose
-        if: ${{ inputs.lose_a_shard && matrix.shardIndex == 2 }}
+        if: ${{ inputs.check_lost_shard && matrix.shardIndex == 2 }}
         run: |
-          echo "::error::Shard 2 fails on purpose (lose_a_shard input), its tests will not run"
+          echo "::error::Shard 2 fails on purpose (check_lost_shard input), its tests will not run"
           exit 1
 
       - uses: actions/checkout@v4
@@ -68,10 +131,13 @@ jobs:
           done
           exit 1
 
-      # the reporters (blob for the merged HTML report, allure-results) and the other CI settings come from playwright.config.ts (CI=true)
+      # Reporters (blob, allure-results) and other CI settings come from playwright.config.ts (CI=true).
+      # check_failed_tests turns the canary values on for this step only (retries and traces are off then, which suits
+      # a health check). Nothing else treats the run as a canary run: "Is this a canary run?" in merge-reports reads
+      # only the canary input, so the reports go to the normal folders and the failed tests are listed in the red box.
       - name: Run Playwright tests
         env:
-          CANARY: ${{ inputs.canary }}
+          CANARY: ${{ inputs.canary || inputs.check_failed_tests }}
         run: npx playwright test tests/YtMasterSafeActions.spec.ts --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - name: Upload blob report
@@ -90,16 +156,18 @@ jobs:
           path: allure-results
           retention-days: 7
 
+  # ---- 3. Merge the shards, check them, publish ----
   merge-reports:
     name: Merge reports
-    needs: test
-    # run even when some shards failed, so the report is always produced
-    if: ${{ !cancelled() }}
+    needs: [offline-checks, test]
+    # Runs even when some shards failed, so the reports are always produced; skipped when the offline checks failed
+    # (the shards did not start then).
+    if: ${{ !cancelled() && needs.offline-checks.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    # One publish at a time: every publish force-pushes the gh-pages branch, and GitHub Pages rejects a deployment while the
-    # previous one is still running (HTTP 400 "in progress deployment"). Waiting runs are queued, never cancelled.
-    # (The concurrency group at the top of this file, with cancel-in-progress: true, is a different one and stays as it is.)
+    # One publish at a time: every publish force-pushes gh-pages, and GitHub Pages rejects a deployment while the
+    # previous one is still running (HTTP 400 "in progress deployment"). A waiting run is queued, not cancelled.
+    # (This is a different group from the one at the top of the file, which cancels older runs of the same branch.)
     concurrency:
       group: gh-pages-publish
       cancel-in-progress: false
@@ -123,14 +191,11 @@ jobs:
           pattern: blob-report-*
           merge-multiple: true
 
-      - name: Merge into one HTML report
-        run: npx playwright merge-reports --reporter=html ./all-blob-reports
-
-      # the same results as a json file, to count the tests in the last step
-      - name: Merge into one json file
+      # One call builds the HTML report and a json file with the same results; the check below reads the json.
+      - name: Merge into one HTML report and one json file
         env:
           PLAYWRIGHT_JSON_OUTPUT_NAME: merged-results.json
-        run: npx playwright merge-reports --reporter=json ./all-blob-reports
+        run: npx playwright merge-reports --reporter=html,json ./all-blob-reports
 
       - name: Upload merged HTML report
         uses: actions/upload-artifact@v4
@@ -152,8 +217,8 @@ jobs:
           pattern: allure-results-*
           merge-multiple: true
 
-      # The gh-pages branch holds the published reports; we need the previous Allure report
-      # from it to carry the trend history forward. On the very first run the branch does not exist yet.
+      # gh-pages holds the published reports; the previous Allure report in it carries the trend history forward.
+      # On the very first run the branch does not exist yet. A pull request needs none of this (it never publishes).
       - name: Check whether gh-pages exists
         id: pages_branch
         run: |
@@ -195,10 +260,7 @@ jobs:
           path: allure-report
           retention-days: 14
 
-      # ---- Publish ----
-      # Pull requests only build the reports; pushes to main or master and manual runs publish.
-
-      # A canary run is switched on by the "canary" input of a manual run or by "CANARY": true in configs/runconfig.json
+      # A canary run is switched on by the "canary" input or by "CANARY": true in configs/runconfig.json
       - name: Is this a canary run?
         id: canary
         run: |
@@ -208,65 +270,87 @@ jobs:
             echo "on=false" >> "$GITHUB_OUTPUT"
           fi
 
-      # Canary run only: every test has to fail. A passed test means that the test does not check what it says.
-      # Nothing here fails the job: a problem is added to the message of the next step.
-      - name: Canary, did every test fail?
-        if: ${{ steps.canary.outputs.on == 'true' }}
-        run: |
-          failed=$(node -p 'require("./merged-results.json").stats.unexpected')
-          passed=$(node -p 'const s = require("./merged-results.json").stats; s.expected + s.flaky')
-          echo "Canary: $failed tests failed, $passed passed (all must fail)"
-          : > canary-problem.txt
-          if [ "$passed" -gt 0 ] || [ "$failed" -eq 0 ]; then
-            echo "Canary run: $failed tests failed and $passed passed, but every test has to fail." > canary-problem.txt
-          fi
-
       # A green report must not hide lost or failed tests (once a shard waited 90 minutes in the Chromium install and was cancelled).
-      # Simple check: the number of tests with a result has to equal the number of tests in the spec, every shard has to send a report,
-      # and the failed tests are counted. Only when something is wrong, the tests are named. The problem is shown in several places
-      # (a red box on the report page, an error annotation and the summary of the run) but it never stops the publish.
+      # The number of tests with a result must equal the number of tests in the spec, every shard must send a report,
+      # and failed tests are counted. In a canary run every test has to fail, so there the check works the other way round.
+      # It never fails the job: it writes one message (empty when all is well) that the next steps show.
       - name: Check that all shards ran, all tests completed and none failed
         id: coverage
         run: |
+          canary_on=${{ steps.canary.outputs.on }}
           shards_expected=4   # shardTotal of the test job
-          shards_found=$(ls all-blob-reports/*.zip | wc -l)
+
+          # 1. What should be there: the number of shards, and the tests the spec defines.
+          # (find with "|| true" cannot fail, not even when the folder does not exist because no shard sent a report)
+          shards_found=$(find all-blob-reports -name '*.zip' 2>/dev/null | wc -l || true)
           npx playwright test tests/YtMasterSafeActions.spec.ts --list | grep ' › ' | sed 's/.* › //' > tests-in-spec.txt
-          node -p 'const t = []; (function walk(s) { (s.specs || []).forEach(x => t.push(x.title)); (s.suites || []).forEach(walk); })(require("./merged-results.json")); t.join("\n")' > tests-with-result.txt
-          # a test failed when none of its results passed (a retry that passes counts as passed; a skipped test is not a failure)
-          node -p 'const t = []; (function walk(s) { (s.specs || []).forEach(x => { const results = x.tests.flatMap(test => test.results); if (!results.some(r => r.status === "passed") && !results.every(r => r.status === "skipped")) t.push(x.title); }); (s.suites || []).forEach(walk); })(require("./merged-results.json")); t.join("\n")' > tests-failed.txt
+
+          # 2. What is there: read the merged results once and write the lists the check needs.
+          # The script prints "<tests failed> <tests passed>" (the totals of the canary check). A skipped test is not a failure,
+          # and a test that fails and then passes on its retry counts as passed.
+          cat > "$RUNNER_TEMP/read-results.js" <<'EOF'
+          const fs = require("fs");
+          // no json at all (no shard sent a report) is the same as a report without tests
+          const report = fs.existsSync("merged-results.json")
+            ? JSON.parse(fs.readFileSync("merged-results.json", "utf8"))
+            : { suites: [], stats: { unexpected: 0, expected: 0, flaky: 0 } };
+
+          const withResult = [];
+          const failed = [];
+          function walk(suite) {
+            (suite.specs || []).forEach(spec => {
+              withResult.push(spec.title);
+              const results = spec.tests.flatMap(test => test.results);
+              const nonePassed = !results.some(result => result.status === "passed");
+              const allSkipped = results.every(result => result.status === "skipped");
+              if (nonePassed && !allSkipped) failed.push(spec.title);
+            });
+            (suite.suites || []).forEach(walk);
+          }
+          walk(report);
+
+          fs.writeFileSync("tests-with-result.txt", withResult.join("\n") + "\n");
+          fs.writeFileSync("tests-failed.txt", failed.join("\n") + "\n");
+          console.log(report.stats.unexpected, report.stats.expected + report.stats.flaky);
+          EOF
+          totals=$(node "$RUNNER_TEMP/read-results.js")
+          read canary_failed canary_passed <<< "$totals"
+
           tests_expected=$(grep -c . tests-in-spec.txt || true)
           tests_found=$(grep -c . tests-with-result.txt || true)
           tests_failed=$(grep -c . tests-failed.txt || true)
+          join_lines() { sed ':a;N;$!ba;s/\n/, /g'; }
+
+          if [ "$canary_on" = "true" ]; then
+            echo "Canary: $canary_failed tests failed, $canary_passed passed (all must fail)"
+          fi
           echo "Shards: $shards_found of $shards_expected | tests with a result: $tests_found of $tests_expected | failed: $tests_failed"
 
+          # 3. Compare and build the message.
           problems=""
           if [ "$shards_found" -ne "$shards_expected" ] || [ "$tests_found" -ne "$tests_expected" ]; then
-            # the tests of the spec that have no result at all
-            missing=$(grep -vxFf tests-with-result.txt tests-in-spec.txt | sed ':a;N;$!ba;s/\n/, /g')
+            missing=$(grep -vxFf tests-with-result.txt tests-in-spec.txt | join_lines)
             problems="Only $tests_found of $tests_expected tests have a result ($shards_found of $shards_expected shards sent a report). A shard was probably cancelled or failed before the tests started. Tests that did not run: $missing."
           fi
-          # in a canary run every test is meant to fail, so the failed tests are not a problem there
-          if [ "$tests_failed" -gt 0 ] && [ "${{ steps.canary.outputs.on }}" != "true" ]; then
-            failed=$(sed ':a;N;$!ba;s/\n/, /g' tests-failed.txt)
-            problems="$problems $tests_failed test(s) failed: $failed."
+          # in a canary run every test is meant to fail, so failed tests are not a problem there
+          if [ "$tests_failed" -gt 0 ] && [ "$canary_on" != "true" ]; then
+            problems="$problems $tests_failed test(s) failed: $(join_lines < tests-failed.txt)."
           fi
-          if [ -s canary-problem.txt ]; then
-            problems="$problems $(cat canary-problem.txt)"
+          if [ "$canary_on" = "true" ] && { [ "$canary_passed" -gt 0 ] || [ "$canary_failed" -eq 0 ]; }; then
+            problems="$problems Canary run: $canary_failed tests failed and $canary_passed passed, but every test has to fail."
           fi
           # one line, no % (it would break the annotation)
           problems=$(echo "$problems" | tr -d '%\r' | tr '\n' ' ' | sed 's/^ *//; s/  */ /g; s/ *$//')
 
           if [ -z "$problems" ]; then
-            : > coverage-warning.html
             : > coverage-message.txt
             echo "ok=true" >> "$GITHUB_OUTPUT"
           else
-            echo "$problems"
-            echo "$problems" > coverage-message.txt
-            echo "<div class=\"warning\"><strong>This run has problems</strong> $problems</div>" > coverage-warning.html
+            echo "$problems" | tee coverage-message.txt
             echo "ok=false" >> "$GITHUB_OUTPUT"
           fi
 
+      # Pull requests only build the reports; pushes to main or master and manual runs publish.
       - name: Publish to gh-pages
         if: ${{ github.event_name != 'pull_request' }}
         run: |
@@ -283,8 +367,19 @@ jobs:
             cp -r ../playwright-report playwright
             cp -r ../allure-report allure
             cp ../.github/pages/index.html index.html
-            sed -i "s|__RUN_INFO__|Run #${{ github.run_number }} - commit ${GITHUB_SHA::7} - $(date -u +'%Y-%m-%d %H:%M UTC')|" index.html
-            node -e 'const fs = require("fs"); fs.writeFileSync("index.html", fs.readFileSync("index.html", "utf8").replace("<!--COVERAGE_WARNING-->", () => fs.readFileSync("../coverage-warning.html", "utf8")))'
+            # Fill in the hub page: the run info, and the red box (empty when the check found no problem).
+            RUN_INFO="Run #${{ github.run_number }} - commit ${GITHUB_SHA::7} - $(date -u +'%Y-%m-%d %H:%M UTC')"
+            RED_BOX=""
+            if [ -s ../coverage-message.txt ]; then
+              RED_BOX="<div class=\"warning\"><strong>This run has problems</strong> $(cat ../coverage-message.txt)</div>"$'\n'
+            fi
+            RUN_INFO="$RUN_INFO" RED_BOX="$RED_BOX" node -e '
+              const fs = require("fs");
+              const page = fs.readFileSync("index.html", "utf8")
+                .replace("__RUN_INFO__", () => process.env.RUN_INFO)
+                .replace("<!--COVERAGE_WARNING-->", () => process.env.RED_BOX);
+              fs.writeFileSync("index.html", page);
+            '
           fi
           touch .nojekyll
 
@@ -296,8 +391,8 @@ jobs:
           git commit -m "Publish reports from run #${{ github.run_number }}"
           git push --force origin latest:gh-pages
 
-      # Does not fail the job: the reports are published either way, and a red shard already makes the run red.
-      # It only puts the problem where people look: an error annotation and the summary of the run.
+      # Last on purpose, after the publish. It does not fail the job: the reports are published either way,
+      # and a red shard already makes the run red. It puts the problem where people look: an annotation and the run summary.
       - name: Show the test problems in the run
         if: ${{ !cancelled() && steps.coverage.outputs.ok == 'false' }}
         run: |

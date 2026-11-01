@@ -61,7 +61,7 @@ Notes:
 
 ### Fallback tests (do the retry mechanisms really work?)
 
-`tests/FallbackMechanisms.spec.ts` makes each safety layer act on purpose, on small fake pages with the same tags as YouTube (no network, no YouTube, about a minute): SafeActions (late element, refresh, DOM-click fallback, the one-line error), LoopGuard (retry, two failures, abort after 5 element or 3 environment failures, reset by a pass, a failing recovery), SoftChecks (a first attempt's failed check is dropped, a finished attempt's is kept), the settings-menu and side-menu recoveries, the stable reads, the allowed side-menu versions (built from the data and checked against the texts seen in CI) and the whole-test retry (W1 shows as flaky on purpose). Run it with `npx playwright test tests/FallbackMechanisms.spec.ts`. CI does not run it. The canary below does the same job for the real tests on YouTube.
+`tests/FallbackMechanisms.spec.ts` makes each safety layer act on purpose, on small fake pages with the same tags as YouTube (no network, no YouTube, about a minute): SafeActions (late element, refresh, DOM-click fallback, the one-line error), LoopGuard (retry, two failures, abort after 5 element or 3 environment failures, reset by a pass, a failing recovery), SoftChecks (a first attempt's failed check is dropped, a finished attempt's is kept), the settings-menu and side-menu recoveries, the stable reads, the allowed side-menu versions (built from the data and checked against the texts seen in CI) and the whole-test retry (W1 shows as flaky on purpose). Run it with `npx playwright test tests/FallbackMechanisms.spec.ts`. CI runs it first, in the `offline-checks` job (see CI below). The canary below does the same job for the real tests on YouTube.
 
 ### Canary run (do the tests really fail?)
 
@@ -249,11 +249,23 @@ Detection uses the [`eld`](https://www.npmjs.com/package/eld) library through `e
 
 ## CI (GitHub Actions)
 
-`.github/workflows/playwright.yml` runs `tests/YtMasterSafeActions.spec.ts` on push and pull request to `main` or `master`, on manual run, and every night at 01:30 IST (cron `0 20 * * *`, since GitHub cron uses UTC). The nightly run sets `IS_CRON=true`, so it reads the `...CI` keys in `runconfig.json`. It splits the tests into 4 shards, uploads each shard's blob report, then merges them into a single HTML report that is uploaded as the **`playwright-report`** artifact. Each shard also uploads its Allure results; a final step puts them together and uploads one **`allure-report`** artifact (download it, unzip it and open the folder with `npx allure open <unzipped folder>`; Allure pages do not work when opened straight from the file system).
+`.github/workflows/playwright.yml` runs `tests/YtMasterSafeActions.spec.ts` on push and pull request to `main` or `master`, on manual run, and every night at 01:30 IST (cron `0 20 * * *`, since GitHub cron uses UTC). The nightly run sets `IS_CRON=true`, so it reads the `...CI` keys in `runconfig.json`. First the `offline-checks` job runs `tests/FallbackMechanisms.spec.ts` (the safety layers and the data checks, on fake pages, about a minute); if it fails, nothing else runs. Then the workflow splits the tests into 4 shards, uploads each shard's blob report, then merges them into a single HTML report that is uploaded as the **`playwright-report`** artifact. Each shard also uploads its Allure results; a final step puts them together and uploads one **`allure-report`** artifact (download it, unzip it and open the folder with `npx allure open <unzipped folder>`; Allure pages do not work when opened straight from the file system).
 
-### Lost shards, failed tests and canary checks in CI
+### CI gates, lost shards and failed tests
 
-A green report must not hide tests that never ran. After the merge, the `merge-reports` job checks that all 4 shards sent a report, that every test of the spec has a result, and which tests failed (a test that fails and then passes on its retry counts as passed). A problem is shown in three places: a red box on the report hub page, an error annotation on the run, and the run's job summary. **The `merge-reports` job stays green and the reports are always published**; the red shard is what makes the run red. In a canary run the same job checks that every test failed (`Canary: N tests failed, M passed`) and reports a problem when one passed or none failed. Publishes are serialized (one `gh-pages` publish at a time, the next one waits instead of being cancelled), because GitHub Pages rejects a deployment while the previous one is still running. To see the check work, start a manual run with **lose_a_shard** ticked: shard 2 stops before its tests start, and the red box names its tests. Never use it on a normal run.
+The workflow runs in this order: **offline-checks**, then the 4 test **shards**, then **merge-reports** (the file starts with the same summary).
+
+- **offline-checks** runs `tests/FallbackMechanisms.spec.ts` (safety layers and the data checks of the language and country files, on fake pages, no YouTube). If it fails, the shards and merge-reports are skipped. It writes no blob report or Allure results and uploads no artifact, so merge-reports can never pick up its results.
+- A **shard** goes red when one of its tests fails or its setup breaks. That is what makes the run red.
+- **merge-reports** stays green when the reports were published, even if tests failed or a shard was lost. It checks that all 4 shards sent a report, that every test of the spec has a result, and which tests failed (a test that fails and then passes on its retry counts as passed). A problem is shown in three places: a red box on the report hub page, an error annotation on the run, and the run's job summary. In a canary run it checks the other way round: every test must have failed (`Canary: N tests failed, M passed`). Publishes are serialized (one `gh-pages` publish at a time, the next one waits instead of being cancelled), because GitHub Pages rejects a deployment while the previous one is still running.
+
+Manual switches (Actions, "Playwright tests", Run workflow). Never tick the two health checks on a normal run; they replace the published hub page, so run a normal one afterwards.
+
+| Switch | What it does | What you must see |
+|---|---|---|
+| `canary` | every test is spoiled on purpose and must fail; reports go to `canary/` | all shards red, merge-reports green, `Canary: N tests failed, 0 passed`, the real reports untouched |
+| `check_lost_shard` | health check: shard 2 fails before its tests start | shard 2 red, the other shards green, merge-reports green, red box, annotation and summary naming shard 2's tests |
+| `check_failed_tests` | health check: every test fails on purpose (the canary values are used for the test step only), the run is judged as a normal one | every shard red, merge-reports green, reports published to the normal folders, red box listing all failed tests |
 
 ### Published reports (GitHub Pages)
 
