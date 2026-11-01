@@ -11,6 +11,10 @@ on:
         description: "Canary run: spoil one value in every test on purpose, every test has to FAIL. Reports go to the canary/ folder of gh-pages, the real reports are not touched"
         type: boolean
         default: false
+      lose_a_shard:
+        description: "Test of the report check: shard 2 fails on purpose before its tests start, so the red box on the report page has to name its tests. Never use this on a normal run"
+        type: boolean
+        default: false
   schedule:
     # every night at 01:30 IST (GitHub cron runs in UTC: 20:00 UTC = 01:30 IST the next morning)
     - cron: "0 20 * * *"
@@ -33,6 +37,13 @@ jobs:
       # RunConfig reads this: true only for the nightly run, which then uses the ...CI keys in configs/runconfig.json
       IS_CRON: ${{ github.event_name == 'schedule' }}
     steps:
+      # Only for a manual run with "lose_a_shard" ticked: shard 2 stops here, before any test, like a cancelled shard.
+      - name: Lose a shard on purpose
+        if: ${{ inputs.lose_a_shard && matrix.shardIndex == 2 }}
+        run: |
+          echo "::error::Shard 2 fails on purpose (lose_a_shard input), its tests will not run"
+          exit 1
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
