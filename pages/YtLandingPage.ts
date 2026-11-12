@@ -16,26 +16,26 @@ class YtLandingPage {
     private static MENU_STABLE_WAIT = 500;
 
     // top bar
-    public settingsButton: Locator;               // the Settings button at the top right
-    public sideMenuButton: Locator;               // the hamburger button at the top left (opens and closes the side menu)
+    private settingsButton: Locator;               // the Settings button at the top right
+    private sideMenuButton: Locator;               // the hamburger button at the top left (opens and closes the side menu)
     public searchBox: Locator;
     private countryCodeLabel: Locator;            // the country code next to the YouTube logo
 
     // side menu
-    public expandedSideMenuEntries: Locator;
-    public collapsedSideMenuEntries: Locator;
+    private expandedSideMenuEntries: Locator;
+    private collapsedSideMenuEntries: Locator;
 
     // settings menu (the popup of the Settings button)
     private settingsMenu: Locator;                // the whole popup
     public settingsMenuRow: Locator;              // one row of it, visible only while the menu is open
-    public languageRow: Locator;                  // the "Language" row of the settings menu
-    public locationRow: Locator;                  // the "Location" row of the settings menu
-    public locationRows: Locator;                 // the rows of the open location list
+    private languageRow: Locator;                  // the "Language" row of the settings menu
+    private locationRow: Locator;                  // the "Location" row of the settings menu
+    private locationRows: Locator;                 // the rows of the open location list
 
     // search filter popup on the search results page
-    public searchFilterButton: Locator;
+    private searchFilterButton: Locator;
     private searchFilterPopup: Locator;
-    public searchFilterCloseButton: Locator;
+    private searchFilterCloseButton: Locator;
 
     constructor(page: Page) {
         this.page = page;

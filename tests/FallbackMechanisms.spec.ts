@@ -8,12 +8,21 @@ import { readJson, readJsonByName } from "../utils/ReadJSON";
 import YtLandingPage from "../pages/YtLandingPage";
 
 /**
- * Fault-injection tests: they make every fallback mechanism of the project actually run, on purpose, and check what it does.
+ * Offline tests: they make every fallback mechanism of the project actually run, on purpose, and check what it does.
  * No YouTube and no network: the pages are small fakes with the same tags the locators use, so it takes about a minute.
  * Run with:  npx playwright test tests/FallbackMechanisms.spec.ts
- * (CI runs only YtMasterSafeActions.spec.ts, so these tests are not part of the CI run.)
+ * (CI runs this file first, in the offline-checks job; the shards of YtMasterSafeActions.spec.ts start only if it passes.)
  *
  *   M = SafeActions   L = LoopGuard / SoftChecks   P = page-state helpers   H = allowed side menu versions   W = whole-test retry
+ *   D = the data files (not a fallback, but cheap to check here and it gates CI the same way)
+ *
+ * How the tests work:
+ *   - M, L and P use a fake page that is served at https://fake.test/ (or put in with page.setContent). The fake page breaks on purpose
+ *     (an element that is late, a click that is ignored, a menu that fills up slowly) and the test checks how the code reacts.
+ *   - The code writes a log line when a fallback fires, so a test often asserts that line (logged("...")). If you change a log
+ *     message in utils/ or pages/, the test that looks for it has to change too, that is on purpose: it proves the fallback fired.
+ *   - Some tests wait for real time (a late element, a slow menu). The delays are chosen with a wide margin; they are explained where used.
+ *   - References like "run #47" or "Java 10-28 17:30" are CI runs and Java reports, explained in docs/26 and docs/29.
  */
 
 test.use({ launchOptions: { slowMo: 0 }, actionTimeout: 3000 });     // the fakes are fast, no slowMo needed
@@ -40,7 +49,14 @@ test.afterEach(() => {
 const logged = (text: string) => logs.some(line => line.includes(text));
 const strip = (text: string) => text.replace(/\u001b\[[0-9;]*m/g, "");
 
-/** Failures that a scenario is SUPPOSED to produce: returns their first lines and takes them out of the test result. */
+/**
+ * Failures that a scenario is SUPPOSED to produce: returns their first lines and takes them out of the test result.
+ *
+ * Why this exists: softCheck and LoopGuard report a problem by recording a failure on the running test (like expect.soft).
+ * A scenario such as "an item fails twice" therefore makes the test itself fail, although that is exactly what it checks.
+ * So the scenario reads the recorded failures, asserts on them, and then clears them and sets the status back to passed.
+ * Anything that is NOT cleared this way (for example a failure from a different line) still fails the test.
+ */
 function takeExpectedFailures(): string[] {
     const errors = test.info().errors;
     const messages = errors.map(error => strip(error.message ?? "").split("\n")[0].replace(/^Error: /, "").trim());
@@ -60,21 +76,47 @@ async function serveFake(page: Page, html: (load: number) => string) {
     return { loads: () => loads };
 }
 
+/** Page script for the fake pages: counts the clicks on the element with id "b" in window.clicks (read it with clicks(page)). */
+const COUNT_CLICKS_ON_B = "window.clicks = 0; document.getElementById('b').addEventListener('click', () => window.clicks++);";
+
+/** How often the element with id "b" was clicked on the fake page (0 when the page has no counter). */
 const clicks = (page: Page) => page.evaluate(() => (window as unknown as { clicks?: number }).clicks ?? 0);
 
-/** The loop of the CI spec: try the item, report it passed, or ask LoopGuard to run it again. Returns how often each item ran. */
+/** Runs an action that has to fail and returns its error; the test fails here if the action passes. */
+async function failureOf(action: Promise<unknown>): Promise<Error> {
+    let failure = undefined as Error | undefined;
+    await action.catch(error => { failure = error as Error; });
+    if (!failure) {
+        throw new Error("The action was expected to fail, but it passed");
+    }
+    return failure;
+}
+
+/** Asserts that nothing was recorded as a failure of the running test (no failed soft check, no failed item). */
+function expectNoFailures() {
+    expect(test.info().errors.length, "no failure should be recorded for this scenario").toBe(0);
+}
+
+/**
+ * The loop of the CI spec, in short: try the item; if it passes tell LoopGuard; if it fails ask LoopGuard whether to run it again
+ * (it runs the recovery first). Each item gets at most one retry, and the loop stops when LoopGuard says so.
+ * The body gets the item and the attempt number (1 = first try, 2 = the retry). Returns how often each item ran.
+ */
 async function runLoop(guard: LoopGuard, items: string[], body: (item: string, attempt: number) => Promise<void>, recovery: () => Promise<void> = async () => {}) {
     const ran: Record<string, number> = {};
-    for (let i = 0; i < items.length && !guard.shouldStop(); i++) {
-        const item = items[i];
+    let index = 0;
+    while (index < items.length && !guard.shouldStop()) {
+        const item = items[index];
         ran[item] = (ran[item] ?? 0) + 1;
         try {
             await body(item, ran[item]);
             guard.itemPassed(item);
-        } catch (e) {
-            if (await guard.retryAfterFailure(item, e, recovery)) {
-                i--;
-            }
+            index++;                                            // done, go to the next item
+        } catch (error) {
+            const runAgain = await guard.retryAfterFailure(item, error, recovery);
+            if (!runAgain) {
+                index++;                                        // failed for good, go to the next item
+            }                                                   // otherwise the same index runs again
         }
     }
     return ran;
@@ -84,10 +126,10 @@ async function runLoop(guard: LoopGuard, items: string[], body: (item: string, a
 // ================================================================ M: SafeActions
 
 test("M1 SafeActions: an element that shows up late is clicked on a later attempt (no refresh needed)", async ({ page }) => {
-    await serveFake(page, () => `<button id="b" style="display:none">go</button><script>
-        window.clicks = 0; document.getElementById('b').addEventListener('click', () => window.clicks++);</script>`);
+    await serveFake(page, () => `<button id="b" style="display:none">go</button><script>${COUNT_CLICKS_ON_B}</script>`);
     await page.evaluate(() => { setTimeout(() => { document.getElementById("b")!.style.display = "block"; }, 1200); });      // appears 1.2 s from now
 
+    // each attempt waits 700 ms and the button shows up after 1200 ms, so the first attempt fails and a later one clicks it
     await new SafeActions(page, 700, 3).safeClick(page.locator("#b"));
 
     expect(await clicks(page)).toBe(1);
@@ -96,9 +138,10 @@ test("M1 SafeActions: an element that shows up late is clicked on a later attemp
 });
 
 test("M2 SafeActions: the page is refreshed after the second failed attempt and the third attempt works", async ({ page }) => {
+    // the first load has no button, every load after the reload has it
     const site = await serveFake(page, load => load < 2
         ? `<div>nothing here yet</div>`
-        : `<button id="b">go</button><script>window.clicks = 0; document.getElementById('b').addEventListener('click', () => window.clicks++);</script>`);
+        : `<button id="b">go</button><script>${COUNT_CLICKS_ON_B}</script>`);
 
     await new SafeActions(page, 500, 3).safeClick(page.locator("#b"));
 
@@ -108,9 +151,10 @@ test("M2 SafeActions: the page is refreshed after the second failed attempt and 
 });
 
 test("M3 SafeActions: a native click that is blocked falls back to a DOM click", async ({ page }) => {
+    // an invisible full-size div (z-index 9) covers the button, so a real mouse click lands on the div and Playwright refuses it
     await serveFake(page, () => `<button id="b" style="position:absolute;left:10px;top:10px">go</button>
         <div style="position:absolute;left:0;top:0;width:300px;height:200px;z-index:9"></div>
-        <script>window.clicks = 0; document.getElementById('b').addEventListener('click', () => window.clicks++);</script>`);
+        <script>${COUNT_CLICKS_ON_B}</script>`);
 
     await new SafeActions(page, 1000, 3).safeClick(page.locator("#b"));
 
@@ -121,10 +165,9 @@ test("M3 SafeActions: a native click that is blocked falls back to a DOM click",
 test("M4 SafeActions: when every attempt fails the error is ONE line with action, element, reason and page", async ({ page }) => {
     await serveFake(page, () => `<div>no button</div>`);
 
-    const error = await new SafeActions(page, 300, 2).safeClick(page.locator("#nope")).catch(e => e as Error);
+    const error = await failureOf(new SafeActions(page, 300, 2).safeClick(page.locator("#nope")));
 
-    expect(error).toBeInstanceOf(Error);
-    const message = (error as Error).message;
+    const message = error.message;
     expect(message.includes("\n")).toBe(false);
     expect(message).toContain("Click failed after 2 attempts");
     expect(message).toContain("| element=");
@@ -139,13 +182,13 @@ test("M5 SafeActions: safeFindElements returns only the elements that are ready,
     const ready = await safe.safeFindElements(page.locator(".e"));
     expect(ready.length).toBe(2);
 
-    const error = await safe.safeFindElements(page.locator(".missing")).catch(e => e as Error);
-    expect((error as Error).message).toContain("Find elements failed after 2 attempts");
+    const error = await failureOf(safe.safeFindElements(page.locator(".missing")));
+    expect(error.message).toContain("Find elements failed after 2 attempts");
 });
 
 test("M6 SafeActions: safeDomClick clicks even when the element is covered", async ({ page }) => {
     await serveFake(page, () => `<button id="b">go</button><div style="position:fixed;inset:0;z-index:9"></div>
-        <script>window.clicks = 0; document.getElementById('b').addEventListener('click', () => window.clicks++);</script>`);
+        <script>${COUNT_CLICKS_ON_B}</script>`);
 
     await new SafeActions(page, 1000, 2).safeDomClick(page.locator("#b"));
 
@@ -168,7 +211,7 @@ test("L1 LoopGuard: an item that fails once is repeated after the recovery and p
     expect(recoveries).toBe(1);
     expect(logged("b passed on the retry")).toBe(true);
     expect(logged("Summary | completed 3 of 3 | 1 passed on the retry")).toBe(true);
-    expect(test.info().errors.length).toBe(0);
+    expectNoFailures();
 });
 
 test("L2 SoftChecks: the failed check of an attempt that is run again is dropped (the Vietnamese case)", async () => {
@@ -182,7 +225,7 @@ test("L2 SoftChecks: the failed check of an attempt that is run again is dropped
 
     expect(logged("1 failed check(s) of the first attempt dropped")).toBe(true);
     expect(logged("failed checks of first attempts dropped: 1")).toBe(true);
-    expect(test.info().errors.length).toBe(0);
+    expectNoFailures();
 });
 
 test("L3 SoftChecks: a failed check on an attempt that finishes is NOT dropped and fails the test", async () => {
@@ -259,7 +302,7 @@ test("L8 LoopGuard: a recovery that itself fails is logged and does not stop the
 
     expect(logged("Could not recover the page | reload failed too")).toBe(true);
     expect(logged("a passed on the retry")).toBe(true);
-    expect(test.info().errors.length).toBe(0);
+    expectNoFailures();
 });
 
 test("L9 LoopGuard: counters are kept per item, a retried item is counted once", async () => {
@@ -278,6 +321,13 @@ test("L9 LoopGuard: counters are kept per item, a retried item is counted once",
 
 // ================================================================ P: page-state helpers (fake YouTube page)
 
+/**
+ * Fake of the top bar Settings button and its popup menu (same tag names as the real page, so the locators of YtLandingPage work).
+ *   ignoreFirstClick  true = the first click on the gear does nothing (the "missed click" that happens on the real page)
+ *   openDelay         ms between the click and the menu rows showing up (0 = at once)
+ * A click on an open menu closes it, like the real page; that is why a needless second click would be a bug.
+ * The ${...} parts below are filled in by TypeScript before the page runs, so the page sees plain true / false / numbers.
+ */
 const settingsPage = (opts: { ignoreFirstClick: boolean; openDelay: number }) => `
 <ytd-topbar-menu-button-renderer class="style-scope ytd-masthead style-default" id="gear" style="display:block;width:40px;height:20px">gear</ytd-topbar-menu-button-renderer>
 <div id="host"></div>
@@ -293,7 +343,7 @@ const settingsPage = (opts: { ignoreFirstClick: boolean; openDelay: number }) =>
   });
 </script>`;
 
-test("P1 settings menu: already open -> no click; slow to open -> waits, no second click; missed click -> clicks again", async ({ page }, testInfo) => {
+test("P1 settings menu: already open -> no click; slow to open -> waits, no second click; missed click -> clicks again", async ({ page }) => {
     const landing = new YtLandingPage(page);
 
     await page.setContent(settingsPage({ ignoreFirstClick: false, openDelay: 0 }));
@@ -316,6 +366,13 @@ test("P1 settings menu: already open -> no click; slow to open -> waits, no seco
     expect(logged("Settings menu is not open after the click, clicking the settings button again")).toBe(true);
 });
 
+/**
+ * Fake of the hamburger button, the logo and the collapsed side menu ("mini guide").
+ *   startPressed      true = the page starts with the side menu expanded (aria-pressed="true"), false = it starts collapsed
+ *   ignoreFirstClick  true = the first click on the button does nothing (a missed click)
+ *   miniDelay         ms until the collapsed entries show up after collapsing (a slow page)
+ * Clicking toggles aria-pressed; expanded = no mini entries, collapsed = the mini entries are there.
+ */
 const guidePage = (opts: { startPressed: boolean; ignoreFirstClick: boolean; miniDelay: number }) => `
 <div id="guide-button" style="display:block;width:40px;height:20px"><button id="b" aria-pressed="${opts.startPressed}" style="width:40px;height:20px">menu</button></div>
 <ytd-topbar-logo-renderer id="logo">logo</ytd-topbar-logo-renderer>
@@ -334,13 +391,15 @@ const guidePage = (opts: { startPressed: boolean; ignoreFirstClick: boolean; min
   });
 })();</script>`;
 
-test("P2 side menu collapse: already collapsed -> no click; slow mini guide -> no second click; missed click -> clicks again", async ({ page }, testInfo) => {
+test("P2 side menu collapse: already collapsed -> no click; slow mini guide -> no second click; missed click -> clicks again", async ({ page }) => {
     const landing = new YtLandingPage(page);
 
     await page.setContent(guidePage({ startPressed: false, ignoreFirstClick: false, miniDelay: 0 }));
     await landing.collapseSideMenuIfExpanded();
     expect(await clicks(page)).toBe(0);                       // already collapsed
 
+    // 4000 ms is longer than the 3 s that collapseSideMenuIfExpanded waits for the collapsed entries (a constant in YtLandingPage.ts):
+    // the helper has to give up waiting, see that the menu IS collapsed (aria-pressed false), and NOT click again. Change both together.
     await page.setContent(guidePage({ startPressed: true, ignoreFirstClick: false, miniDelay: 4000 }));
     await landing.collapseSideMenuIfExpanded();
     expect(await clicks(page)).toBe(1);                       // collapsed, the entries are only slow: no second click
@@ -353,7 +412,7 @@ test("P2 side menu collapse: already collapsed -> no click; slow mini guide -> n
     expect(logged("Side menu did not collapse after the click, clicking the menu button again")).toBe(true);
 });
 
-test("P3 stable read: a side menu that is still filling up is read in full, not after the first 5 entries", async ({ page }, testInfo) => {
+test("P3 stable read: a side menu that is still filling up is read in full, not after the first 5 entries", async ({ page }) => {
     await page.setContent(`<div id="m"></div><script>(() => {
       const names = ['Home','Shorts','Subs','You','History','Music','Movies','Premium','Kids','Notifications'];
       let i = 0;
@@ -369,6 +428,11 @@ test("P3 stable read: a side menu that is still filling up is read in full, not 
     expect(logged("The menu was still changing")).toBe(true);
 });
 
+/**
+ * Fake of the Settings button whose menu opens with an EMPTY row.
+ *   growing  true = the row fills in later ("Language" after 0.7 s, "Language Location" after 1.2 s), so a good read has to wait for the final text
+ *            false = the row stays empty for ever (readSettingsMenuText has to give up with an error)
+ */
 const settingsTextPage = (growing: boolean) => `
 <ytd-topbar-menu-button-renderer class="style-scope ytd-masthead style-default" id="gear" style="display:block;width:40px;height:20px">gear</ytd-topbar-menu-button-renderer>
 <div id="host"></div>
@@ -384,18 +448,18 @@ const settingsTextPage = (growing: boolean) => `
   });
 })();</script>`;
 
-test("P4 settings text: read until it is not empty and stable; a text that stays empty is an error", async ({ page }, testInfo) => {
+test("P4 settings text: read until it is not empty and stable; a text that stays empty is an error", async ({ page }) => {
     const landing = new YtLandingPage(page);
 
     await page.setContent(settingsTextPage(true));
     expect(await landing.readSettingsMenuText()).toBe("Language Location");
 
     await page.setContent(settingsTextPage(false));
-    const error = await landing.readSettingsMenuText().catch(e => e as Error);
-    expect((error as Error).message).toContain("Read the settings menu text but it is empty");
+    const error = await failureOf(landing.readSettingsMenuText());
+    expect(error.message).toContain("Read the settings menu text but it is empty");
 });
 
-test("P5 the item loop, end to end: an empty settings read plus a failing click are repeated and the test passes", async ({ page }, testInfo) => {
+test("P5 the item loop, end to end: an empty settings read plus a failing click are repeated and the test passes", async ({ page }) => {
     // the Vietnamese case of run #47 on a fake page: attempt 1 reads an empty text (failed check) and then a click fails
     const landing = new YtLandingPage(page);
     const guard = new LoopGuard();
@@ -406,11 +470,11 @@ test("P5 the item loop, end to end: an empty settings read plus a failing click 
         try { text = await landing.readSettingsMenuText(); } catch { text = ""; }
         softCheck(text !== "" ? "vietnamese" : "unknown", "vietnamese", "Language of the settings menu text is wrong for vi");
         if (attempt === 1) await new SafeActions(page, 300, 1).safeClick(page.locator("#not-there"));     // the click that times out
-    }, async () => {});
+    });
     guard.logSummary(1);
 
     expect(logged("failed check(s) of the first attempt dropped")).toBe(true);
-    expect(test.info().errors.length).toBe(0);
+    expectNoFailures();
 });
 
 
@@ -455,37 +519,57 @@ test("H3 the texts really seen on the page (CI and Java reports) are allowed: Af
     const end = "YouTube Kids Aangeegeskiedenis";
     const plain = "YouTube Premium";
     const promo = "Probeer Premium vir $0";
+    const withLabs = "YouTube Kids YouTube Labs Aangeegeskiedenis";
 
-    expect(isAllowed("Afrikaans", `${start} Ophef ${plain} ${end}`)).toBe(true);                       // V1 the old data
-    expect(isAllowed("Afrikaans", `${start} Regstreeks ${plain} ${end}`)).toBe(true);                  // V2 Live (CI runs #39 to #53)
-    expect(isAllowed("Afrikaans", `${start} Regstreeks ${plain} YouTube Kids YouTube Labs Aangeegeskiedenis`)).toBe(true);   // V3 with Labs (Java 10-28 17:30)
-    expect(isAllowed("Afrikaans", `${start} Regstreeks ${promo} YouTube Kids YouTube Labs Aangeegeskiedenis`)).toBe(true);   // V4 promo + Labs (Java 10-28 22:27)
-    expect(isAllowed("Afrikaans", `${start} Regstreeks ${promo} ${end}`)).toBe(true);                  // V5 promo (the sheet of Java 10-29)
-    expect(isAllowed("Afrikaans", `${start} ${plain} ${end}`)).toBe(true);                             // the slot entry missing (TS run #40 for other languages)
+    // [where this text was seen, the text]: the label shows in the failure message
+    const seenOnThePage: [string, string][] = [
+        ["V1 the old data (slot word Ophef)",                  `${start} Ophef ${plain} ${end}`],
+        ["V2 Live in the slot (CI runs #39 to #53)",           `${start} Regstreeks ${plain} ${end}`],
+        ["V3 with Labs (Java report 10-28 17:30)",             `${start} Regstreeks ${plain} ${withLabs}`],
+        ["V4 promo + Labs (Java report 10-28 22:27)",          `${start} Regstreeks ${promo} ${withLabs}`],
+        ["V5 promo (the sheet of Java 10-29)",                 `${start} Regstreeks ${promo} ${end}`],
+        ["slot entry missing (TS run #40, other languages)",   `${start} ${plain} ${end}`],
+    ];
+    for (const [seen, pageText] of seenOnThePage) {
+        expect(isAllowed("Afrikaans", pageText), "should be allowed: " + seen).toBe(true);
+    }
 });
 
 test("H4 the texts really seen on the page: English (US) and Français (Canada)", async () => {
-    expect(isAllowed("English (US)", "Home Shorts Subscriptions You History Music Movies & TV Hype YouTube Premium YouTube Kids Report history")).toBe(true);
-    expect(isAllowed("English (US)", "Home Shorts Subscriptions You History Music Movies & TV Live YouTube Premium YouTube Kids YouTube Labs Report history")).toBe(true);
-    expect(isAllowed("English (US)", "Home Shorts Subscriptions You History Music Movies & TV Live Try Premium for $0 YouTube Kids YouTube Labs Report history")).toBe(true);
-
+    const us = "Home Shorts Subscriptions You History Music Movies & TV";
     const canada = "Accueil Shorts Abonnements Vous Historique Musique Films et émissions de télévision";
-    expect(isAllowed("Français (Canada)", `${canada} Applaudissement YouTube Premium YouTube Kids Historique des rapports`)).toBe(true);     // old data
-    expect(isAllowed("Français (Canada)", `${canada} Jeux vidéo YouTube Premium YouTube Kids YouTube Labs Historique des rapports`)).toBe(true);   // Java 10-28 17:30
-    expect(isAllowed("Français (Canada)", `${canada} Jeux vidéo Essayez Premium pour 0 USD YouTube Kids YouTube Labs Historique des rapports`)).toBe(true);   // Java 10-28 22:27
-    expect(isAllowed("Français (Canada)", `${canada} YouTube Premium YouTube Kids Historique des rapports`)).toBe(true);                      // slot missing (TS run #40)
+
+    // [language, where this text was seen, the text]
+    const seenOnThePage: [string, string, string][] = [
+        ["English (US)",      "slot word Hype",                    `${us} Hype YouTube Premium YouTube Kids Report history`],
+        ["English (US)",      "Live + Labs",                       `${us} Live YouTube Premium YouTube Kids YouTube Labs Report history`],
+        ["English (US)",      "Live + promo + Labs",               `${us} Live Try Premium for $0 YouTube Kids YouTube Labs Report history`],
+        ["Français (Canada)", "old data (Applaudissement)",        `${canada} Applaudissement YouTube Premium YouTube Kids Historique des rapports`],
+        ["Français (Canada)", "Java report 10-28 17:30",           `${canada} Jeux vidéo YouTube Premium YouTube Kids YouTube Labs Historique des rapports`],
+        ["Français (Canada)", "Java report 10-28 22:27 (promo)",   `${canada} Jeux vidéo Essayez Premium pour 0 USD YouTube Kids YouTube Labs Historique des rapports`],
+        ["Français (Canada)", "slot missing (TS run #40)",         `${canada} YouTube Premium YouTube Kids Historique des rapports`],
+    ];
+    for (const [language, seen, pageText] of seenOnThePage) {
+        expect(isAllowed(language, pageText), language + " should be allowed: " + seen).toBe(true);
+    }
 });
 
 test("H5 texts that are NOT allowed fail: new wording, another entry, a changed word, a cut menu", async () => {
     const start = "Tuis Kortvideo's Intekeninge Myne Geskiedenis Musiek Flieks en TV";
     const end = "YouTube Kids Aangeegeskiedenis";
 
-    expect(isAllowed("Afrikaans", `${start} Regstreeks Probeer Premium vir $1 ${end}`)).toBe(false);      // a new promo wording
-    expect(isAllowed("Afrikaans", `${start} Gaming YouTube Premium ${end}`)).toBe(false);                 // another entry in the slot
-    expect(isAllowed("Afrikaans", `${start} Regstreeks Ophef YouTube Premium ${end}`)).toBe(false);       // both slot words
-    expect(isAllowed("Afrikaans", `${start.replace("Tuis", "Home")} Regstreeks YouTube Premium ${end}`)).toBe(false);   // a changed word elsewhere
-    expect(isAllowed("Afrikaans", "Tuis Kortvideo's Intekeninge Myne Geskiedenis")).toBe(false);              // a cut menu (Eesti, run #40)
-    expect(isAllowed("Afrikaans", `${start} YouTube Premium Regstreeks ${end}`)).toBe(false);             // the slot word in the wrong place
+    // [why it must be rejected, the text]
+    const mustBeRejected: [string, string][] = [
+        ["a new promo wording",                       `${start} Regstreeks Probeer Premium vir $1 ${end}`],
+        ["another entry in the slot",                 `${start} Gaming YouTube Premium ${end}`],
+        ["both slot words",                           `${start} Regstreeks Ophef YouTube Premium ${end}`],
+        ["a changed word elsewhere",                  `${start.replace("Tuis", "Home")} Regstreeks YouTube Premium ${end}`],
+        ["a cut menu (Eesti, run #40)",               "Tuis Kortvideo's Intekeninge Myne Geskiedenis"],
+        ["the slot word in the wrong place",          `${start} YouTube Premium Regstreeks ${end}`],
+    ];
+    for (const [why, pageText] of mustBeRejected) {
+        expect(isAllowed("Afrikaans", pageText), "should be rejected: " + why).toBe(false);
+    }
 });
 
 test("H6 data check: every language has its placeholders once, no empty group, no duplicate texts", async () => {
