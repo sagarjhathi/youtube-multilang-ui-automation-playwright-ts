@@ -49,6 +49,8 @@ test("verifyingSideMenuText_Expanded", async ({ page }, testInfo) => {
             // YouTube changes this menu in known ways (the "Alternatives" of the data file): the page text has to equal one of the allowed versions
             const expectedRow = expectedSideMenus.get(language);
             const versions = allowedVersions(canary(expectedRow["Expected Text"], i, 0), expectedRow["Alternatives"] ?? {});
+            // Whitespace: removeOptionalEntries also squeezes every run of whitespace, new lines included, into one space.
+            // The collapsed and search filter tests use normalizeForCompare, which keeps new lines, so they are stricter about layout.
             const actual = removeOptionalEntries(await landingPage.readExpandedSideMenu());
             const matched = versions.find(version => version.text === actual);
             const expected = matched ? actual : versions[0].text;      // nothing matches: the failure shows the difference to the usual version
@@ -77,7 +79,7 @@ test("verifyingSideMenuText_Expanded", async ({ page }, testInfo) => {
 });
 
 
-test("verifyingSideMenuLanguage_Expanded", async ({ page }, testInfo) => {
+test("verifyingSideMenuLanguage_Expanded", async ({ page }) => {
     const landingPage = new YtLandingPage(page);
     const genericUtility = new GenericUtility(page);
 
@@ -118,7 +120,10 @@ test("verifyingSideMenuLanguage_Expanded", async ({ page }, testInfo) => {
 
 // ------------------------------------------------------------ collapsed side menu
 
-test("verifyingSideMenuText_Collapsed", async ({ page }, testInfo) => {
+// Both collapsed tests collapse the menu once, before the loop. Unlike the expanded tests (which call expandSideMenuIfCollapsed after
+// every language switch), nothing collapses it again after pickLanguage: the menu is assumed to stay collapsed through a language switch.
+// If it did not, the read of the collapsed entries would fail and LoopGuard would run reopenCollapsedLanguageList, which collapses it.
+test("verifyingSideMenuText_Collapsed", async ({ page }) => {
     const landingPage = new YtLandingPage(page);
     const genericUtility = new GenericUtility(page);
 
@@ -155,7 +160,7 @@ test("verifyingSideMenuText_Collapsed", async ({ page }, testInfo) => {
 });
 
 
-test("verifyingSideMenuLanguage_Collapsed", async ({ page }, testInfo) => {
+test("verifyingSideMenuLanguage_Collapsed", async ({ page }) => {
     const landingPage = new YtLandingPage(page);
     const genericUtility = new GenericUtility(page);
 
@@ -196,7 +201,7 @@ test("verifyingSideMenuLanguage_Collapsed", async ({ page }, testInfo) => {
 
 // ------------------------------------------------------------ settings menu options
 
-test("verifyingSettingsMenuLanguage", async ({ page }, testInfo) => {
+test("verifyingSettingsMenuLanguage", async ({ page }) => {
     const landingPage = new YtLandingPage(page);
     const genericUtility = new GenericUtility(page);
 
@@ -243,7 +248,7 @@ test("verifyingSettingsMenuLanguage", async ({ page }, testInfo) => {
 // (first half: 0 to the middle, second half: the middle to the end).
 // The expected code is found by the name of the location that was picked (countryCodes.json), not by the position.
 
-test("verifyingCountryCodeOnLogo_Algeria_to_Liechtenstein", async ({ page }, testInfo) => {
+test("verifyingCountryCodeOnLogo_Algeria_to_Liechtenstein", async ({ page }) => {
     const landingPage = new YtLandingPage(page);
     const genericUtility = new GenericUtility(page);
 
@@ -291,7 +296,7 @@ test("verifyingCountryCodeOnLogo_Algeria_to_Liechtenstein", async ({ page }, tes
 });
 
 
-test("verifyingCountryCodeOnLogo_Lithuania_to_Zimbabwe", async ({ page }, testInfo) => {
+test("verifyingCountryCodeOnLogo_Lithuania_to_Zimbabwe", async ({ page }) => {
     const landingPage = new YtLandingPage(page);
     const genericUtility = new GenericUtility(page);
 
