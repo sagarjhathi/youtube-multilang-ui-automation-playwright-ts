@@ -554,6 +554,17 @@ test("H4 the texts really seen on the page: English (US) and Français (Canada)"
     }
 });
 
+test("H4b the texts really seen on the page: Deutsch, the movies entry is 'Filme & Shows' or 'Filme & Serien'", async () => {
+    const start = "Startseite Shorts Abos Mein YouTube Verlauf Musik";
+    const end = "YouTube Kids Meldeverlauf";
+
+    // 'Shows' is the old wording (run #97 and before), 'Serien' is the new one (runs #98 to #100)
+    expect(isAllowed("Deutsch", `${start} Filme & Shows Live YouTube Premium ${end}`), "old wording: Shows").toBe(true);
+    expect(isAllowed("Deutsch", `${start} Filme & Serien Live YouTube Premium ${end}`), "new wording: Serien").toBe(true);
+    expect(isAllowed("Deutsch", `${start} Filme & Serien Live Premium kostenlos ausprobieren ${end}`), "new wording with the promo").toBe(true);
+    expect(isAllowed("Deutsch", `${start} Filme & Videos Live YouTube Premium ${end}`), "a third wording must still fail").toBe(false);
+});
+
 test("H5 texts that are NOT allowed fail: new wording, another entry, a changed word, a cut menu", async () => {
     const start = "Tuis Kortvideo's Intekeninge Myne Geskiedenis Musiek Flieks en TV";
     const end = "YouTube Kids Aangeegeskiedenis";
