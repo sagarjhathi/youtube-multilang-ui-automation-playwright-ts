@@ -20,6 +20,12 @@
 #   check_lost_shard    health check: shard 2 fails before its tests start
 #
 # Pull requests build the reports but never publish them.
+#
+# Discord messages (the secret YT_PLAYWRIGHT holds the webhook URL; without it the steps print a note and do nothing,
+# and a failing message never turns a job red)
+#   each shard       one message when it starts
+#   merge-reports    the result of the publish, the problems the check found, a link to the report hub
+#   offline checks   one message, only when they fail (the shards and merge-reports are skipped then)
 
 name: Playwright tests
 
@@ -113,6 +119,24 @@ jobs:
         with:
           node-version: 24
           cache: npm
+
+      # continue-on-error: a missing secret (pull request from a fork) or an unreachable webhook must not turn the shard
+      # red before its tests start. always(): the message is sent even when an earlier step failed (check_lost_shard).
+      # The time uses the POSIX zone IST-5:30, which every runner understands (the name Asia/Kolkata needs a zone database).
+      - name: Notify Discord – Start of shard
+        if: ${{ always() }}
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.YT_PLAYWRIGHT }}
+          TITLE: "CI Test Started - shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}"
+          ACTOR: ${{ github.actor }}
+          BRANCH: ${{ github.ref_name }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK" ]; then echo "No Discord webhook secret (YT_PLAYWRIGHT), message skipped"; exit 0; fi
+          timestamp=$(TZ='IST-5:30' date +"%Y-%m-%d %I:%M %p IST")
+          content=$(printf '%s\n' "**$TITLE**" "Triggered by: $ACTOR" "Branch: $BRANCH" "Start Time: $timestamp" "[View Run]($RUN_URL)")
+          jq -n --arg content "$content" '{content: $content}' | curl -sS --fail -H "Content-Type: application/json" -X POST -d @- "$DISCORD_WEBHOOK"
 
       - name: Install dependencies
         run: npm ci
@@ -399,3 +423,58 @@ jobs:
           message=$(cat coverage-message.txt)
           echo "::error title=Tests missing or failed::$message"
           { echo "### Tests missing or failed"; echo; echo "$message"; } >> "$GITHUB_STEP_SUMMARY"
+
+      # The publish job stays green when tests failed, so this message shows both: the state of this job, the result of
+      # the test shards and the problems the check found (one short line). The report hub is only published by a push or
+      # a manual run, and a canary run does not replace it, so the link is left out in those cases.
+      - name: Notify Discord – Publish result
+        if: ${{ always() }}
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.YT_PLAYWRIGHT }}
+          JOB_STATUS: ${{ job.status }}
+          TESTS_RESULT: ${{ needs.test.result }}
+          EVENT: ${{ github.event_name }}
+          BRANCH: ${{ github.ref_name }}
+          CANARY_RUN: ${{ steps.canary.outputs.on }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK" ]; then echo "No Discord webhook secret (YT_PLAYWRIGHT), message skipped"; exit 0; fi
+          timestamp=$(TZ='IST-5:30' date +"%Y-%m-%d %I:%M %p IST")
+          problems=$(head -c 700 coverage-message.txt 2>/dev/null | tr -d '\r\n')
+
+          lines=("**Report Publish - $JOB_STATUS**" "Tests job: $TESTS_RESULT")
+          if [ -n "$problems" ]; then lines+=("Problems: $problems"); fi
+          lines+=("Trigger: $EVENT" "Branch: $BRANCH" "Time: $timestamp" "[View Run]($RUN_URL)")
+          if [ "$EVENT" != "pull_request" ] && [ "$CANARY_RUN" != "true" ]; then
+            lines+=("[Report hub](https://$REPO_OWNER.github.io/$REPO_NAME/)")
+          fi
+
+          content=$(printf '%s\n' "${lines[@]}")
+          jq -n --arg content "$content" '{content: $content}' | curl -sS --fail -H "Content-Type: application/json" -X POST -d @- "$DISCORD_WEBHOOK"
+
+  # ---- 4. Tell Discord when the offline checks failed ----
+  # The shards and merge-reports are skipped then, and merge-reports holds the result message, so this job is the only
+  # one that can report that case. Only a real failure is reported: a cancelled run (a newer push replaced it) is not.
+  notify-offline-failure:
+    name: Notify offline failure
+    needs: offline-checks
+    if: ${{ always() && needs.offline-checks.result == 'failure' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Notify Discord – Offline checks did not pass
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.YT_PLAYWRIGHT }}
+          OFFLINE_RESULT: ${{ needs.offline-checks.result }}
+          EVENT: ${{ github.event_name }}
+          BRANCH: ${{ github.ref_name }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK" ]; then echo "No Discord webhook secret (YT_PLAYWRIGHT), message skipped"; exit 0; fi
+          timestamp=$(TZ='IST-5:30' date +"%Y-%m-%d %I:%M %p IST")
+          content=$(printf '%s\n' "**Offline checks - $OFFLINE_RESULT**" "Tests and report publish were skipped, the offline checks (safety layers and data files) need a fix" "Trigger: $EVENT" "Branch: $BRANCH" "Time: $timestamp" "[View Run]($RUN_URL)")
+          jq -n --arg content "$content" '{content: $content}' | curl -sS --fail -H "Content-Type: application/json" -X POST -d @- "$DISCORD_WEBHOOK"
