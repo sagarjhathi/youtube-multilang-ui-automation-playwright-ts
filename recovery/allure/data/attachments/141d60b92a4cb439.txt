@@ -1,0 +1,4 @@
+Opened YouTube landing page.
+Trying to click element: locator('//ytd-topbar-logo-renderer[@id=\'logo\']/preceding-sibling::*[@id=\'guide-button\']')
+Side menu is collapsed, expanding it, attempt 1
+Side menu is collapsed, expanding it, attempt 2

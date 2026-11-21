@@ -1,0 +1,338 @@
+Opened YouTube landing page.
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+[verifyingCountryCodeOnLogo_Lithuania_to_Zimbabwe] Execution is scheduled type /CRON Job on CI Hence referring to CI keys from runconfig.json
+[verifyingCountryCodeOnLogo_Lithuania_to_Zimbabwe] Run for all is on, row count is == 111
+Country codes, second half: locations 56 to 110 of 111
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(56)
+Detected country code: LT
+Lithuania  row 56  detected code: LT  expected code: LT
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(57)
+Detected country code: LU
+Luxembourg  row 57  detected code: LU  expected code: LU
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(58)
+Detected country code: MY
+Malaysia  row 58  detected code: MY  expected code: MY
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(59)
+Detected country code: MT
+Malta  row 59  detected code: MT  expected code: MT
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(60)
+Detected country code: MX
+Mexico  row 60  detected code: MX  expected code: MX
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(61)
+Detected country code: MD
+Moldova  row 61  detected code: MD  expected code: MD
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(62)
+Detected country code: ME
+Montenegro  row 62  detected code: ME  expected code: ME
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(63)
+Detected country code: MA
+Morocco  row 63  detected code: MA  expected code: MA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(64)
+Detected country code: NP
+Nepal  row 64  detected code: NP  expected code: NP
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(65)
+Detected country code: NL
+Netherlands  row 65  detected code: NL  expected code: NL
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(66)
+Detected country code: NZ
+New Zealand  row 66  detected code: NZ  expected code: NZ
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(67)
+Detected country code: NI
+Nicaragua  row 67  detected code: NI  expected code: NI
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(68)
+Detected country code: NG
+Nigeria  row 68  detected code: NG  expected code: NG
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(69)
+Detected country code: MK
+North Macedonia  row 69  detected code: MK  expected code: MK
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(70)
+Detected country code: NO
+Norway  row 70  detected code: NO  expected code: NO
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(71)
+Detected country code: OM
+Oman  row 71  detected code: OM  expected code: OM
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(72)
+Detected country code: PK
+Pakistan  row 72  detected code: PK  expected code: PK
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(73)
+Detected country code: PA
+Panama  row 73  detected code: PA  expected code: PA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(74)
+Detected country code: PG
+Papua New Guinea  row 74  detected code: PG  expected code: PG
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(75)
+Detected country code: PY
+Paraguay  row 75  detected code: PY  expected code: PY
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(76)
+Detected country code: PE
+Peru  row 76  detected code: PE  expected code: PE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(77)
+Detected country code: PH
+Philippines  row 77  detected code: PH  expected code: PH
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(78)
+Detected country code: PL
+Poland  row 78  detected code: PL  expected code: PL
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(79)
+Detected country code: PT
+Portugal  row 79  detected code: PT  expected code: PT
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(80)
+Detected country code: PR
+Puerto Rico  row 80  detected code: PR  expected code: PR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(81)
+Detected country code: QA
+Qatar  row 81  detected code: QA  expected code: QA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(82)
+Detected country code: RO
+Romania  row 82  detected code: RO  expected code: RO
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(83)
+Detected country code: RU
+Russia  row 83  detected code: RU  expected code: RU
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(84)
+Detected country code: SA
+Saudi Arabia  row 84  detected code: SA  expected code: SA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(85)
+Detected country code: SN
+Senegal  row 85  detected code: SN  expected code: SN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(86)
+Detected country code: RS
+Serbia  row 86  detected code: RS  expected code: RS
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(87)
+Detected country code: SG
+Singapore  row 87  detected code: SG  expected code: SG
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(88)
+Detected country code: SK
+Slovakia  row 88  detected code: SK  expected code: SK
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(89)
+Detected country code: SI
+Slovenia  row 89  detected code: SI  expected code: SI
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(90)
+Detected country code: ZA
+South Africa  row 90  detected code: ZA  expected code: ZA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(91)
+Detected country code: KR
+South Korea  row 91  detected code: KR  expected code: KR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(92)
+Detected country code: ES
+Spain  row 92  detected code: ES  expected code: ES
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(93)
+Detected country code: LK
+Sri Lanka  row 93  detected code: LK  expected code: LK
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(94)
+Detected country code: SE
+Sweden  row 94  detected code: SE  expected code: SE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(95)
+Detected country code: CH
+Switzerland  row 95  detected code: CH  expected code: CH
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(96)
+Detected country code: TW
+Taiwan  row 96  detected code: TW  expected code: TW
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(97)
+Detected country code: TZ
+Tanzania  row 97  detected code: TZ  expected code: TZ
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(98)
+Detected country code: TH
+Thailand  row 98  detected code: TH  expected code: TH
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(99)
+Detected country code: TN
+Tunisia  row 99  detected code: TN  expected code: TN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(100)
+Detected country code: TR
+Turkey  row 100  detected code: TR  expected code: TR
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(101)
+Detected country code: UG
+Uganda  row 101  detected code: UG  expected code: UG
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(102)
+Detected country code: UA
+Ukraine  row 102  detected code: UA  expected code: UA
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(103)
+Detected country code: AE
+United Arab Emirates  row 103  detected code: AE  expected code: AE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(104)
+Detected country code: GB
+United Kingdom  row 104  detected code: GB  expected code: GB
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(105)
+Detected country code: 
+United States  row 105  detected code:   expected code: 
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(106)
+Detected country code: UY
+Uruguay  row 106  detected code: UY  expected code: UY
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(107)
+Detected country code: VE
+Venezuela  row 107  detected code: VE  expected code: VE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(108)
+Detected country code: VN
+Vietnam  row 108  detected code: VN  expected code: VN
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(109)
+Detected country code: YE
+Yemen  row 109  detected code: YE  expected code: YE
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Fetched the location list, count = 111
+Trying to click element: locator('//yt-multi-page-menu-section-renderer[@class=\'style-scope ytd-multi-page-menu-renderer\']//ytd-compact-link-renderer').visible().nth(110)
+Detected country code: ZW
+Zimbabwe  row 110  detected code: ZW  expected code: ZW
+Trying to click element: locator('//ytd-topbar-menu-button-renderer[@class=\'style-scope ytd-masthead style-default\']').first()
+Trying to click element: locator('xpath=(//div[@id=\'content-icon\'])[4]')
+Summary | completed 55 of 55 | no code expected: 1

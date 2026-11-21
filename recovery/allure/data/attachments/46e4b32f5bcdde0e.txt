@@ -1,0 +1,22 @@
+Opened YouTube landing page.
+[R7 network down: every page load fails -> 3 items fail on the retry, the loop stops, a failed recovery is logged] Execution is Not CRON Job Hence referring to normal keys from runconfig.json
+[R7 network down: every page load fails -> 3 items fail on the retry, the loop stops, a failed recovery is logged] Run for all is on, row count is == 53
+Afrikaans  row 0
+Afrikaans failed | page.goto: net::ERR_FAILED at https://www.youtube.com/
+Could not recover the page | page.goto: net::ERR_FAILED at https://www.youtube.com/
+Afrikaans  row 0
+Afrikaans failed | page.goto: net::ERR_FAILED at https://www.youtube.com/
+Could not recover the page | page.goto: net::ERR_FAILED at https://www.youtube.com/
+Azərbaycan  row 1
+Azərbaycan failed | page.goto: net::ERR_FAILED at https://www.youtube.com/
+Could not recover the page | page.goto: net::ERR_FAILED at https://www.youtube.com/
+Azərbaycan  row 1
+Azərbaycan failed | page.goto: net::ERR_FAILED at https://www.youtube.com/
+Could not recover the page | page.goto: net::ERR_FAILED at https://www.youtube.com/
+Bahasa Indonesia  row 2
+Bahasa Indonesia failed | page.goto: net::ERR_FAILED at https://www.youtube.com/
+Could not recover the page | page.goto: net::ERR_FAILED at https://www.youtube.com/
+Bahasa Indonesia  row 2
+Bahasa Indonesia failed | page.goto: net::ERR_FAILED at https://www.youtube.com/
+Could not recover the page | page.goto: net::ERR_FAILED at https://www.youtube.com/
+Summary | completed 0 of 53 | checks failed: 4 | 3 items failed | stopped early
