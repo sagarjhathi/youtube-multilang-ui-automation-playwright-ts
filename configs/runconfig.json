@@ -5,11 +5,11 @@
   "runForAllLanguagesCI": true,
   "languageCountCI": 2,
 
-  "runForAllLocations": true,
-  "locationCount": 2,
+  "runForAllLocations": false,
+  "locationCount": 10,
 
   "runForAllLocationsCI": true,
-  "locationCountCI": 110,
+  "locationCountCI": 111,
 
   "CANARY": false,
 

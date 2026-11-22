@@ -1,6 +1,6 @@
 # YouTube Multi-Language UI Validator (Playwright)
 
-[![Playwright tests](https://github.com/sagarjhathi/youtube-multi-language-ui-validator-automation-play/actions/workflows/playwright.yml/badge.svg)](https://github.com/sagarjhathi/youtube-multi-language-ui-validator-automation-play/actions/workflows/playwright.yml)
+[![Playwright tests](https://github.com/sagarjhathi/youtube-multilang-ui-automation-playwright-ts/actions/workflows/playwright.yml/badge.svg)](https://github.com/sagarjhathi/youtube-multilang-ui-automation-playwright-ts/actions/workflows/playwright.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 End-to-end tests that switch the YouTube interface language (and region) again and again, and check that the UI shows the right text for each one. Written with Playwright and TypeScript. It is the Playwright version of a Java and Selenium project that does the same checks.
@@ -155,7 +155,7 @@ The expected text comes from the live site, so it goes out of date when YouTube 
 |---|---|
 | `runForAllLanguages` | `true` runs every language row; `false` runs only `languageCount` rows |
 | `languageCount` | How many languages to run when `runForAllLanguages` is `false` |
-| `runForAllLocations`, `locationCount` | The same two settings for the country (location) tests |
+| `runForAllLocations`, `locationCount` | The same two settings for the country (location) tests. Currently `false` and `10`: a local run and a push or pull-request run on CI check the first 10 locations (5 per half). Note that when `runForAllLocations` is `true`, `locationCount` is ignored |
 | `Url` | Start page |
 | keys ending in `CI` | The same settings for scheduled runs (see below) |
 
@@ -169,7 +169,7 @@ $env:runForAllLanguages = "false"; $env:languageCount = "10"; npx playwright tes
 runForAllLanguages=false languageCount=10 npx playwright test tests/YtMasterSafeActions.spec.ts
 ```
 
-Setting `IS_CRON=true` makes the tests read the `...CI` keys instead.
+Setting `IS_CRON=true` makes the tests read the `...CI` keys instead. The workflow sets it only for the nightly run, which has `runForAllLocationsCI` on and so checks all locations. With only 10 locations the two country tests keep their names (`Algeria_to_Liechtenstein`, `Lithuania_to_Zimbabwe`) but cover just the first 5 and the next 5 locations.
 
 ### `playwright.config.ts`
 
@@ -211,10 +211,10 @@ $env:BROWSERS = "firefox"; npx playwright test tests/YtMasterSafeActions.spec.ts
 BROWSERS=chromium,webkit npx playwright test tests/YtMasterSafeActions.spec.ts
 ```
 
-- Every chosen browser runs every test, so two browsers take twice as long. With `all` the safe spec lists 40 tests (8 per browser).
+- Every chosen browser runs every test, so two browsers take twice as long. With `all` the safe spec lists 45 tests (9 per browser).
 - An unknown name stops the run with a message that lists the valid ones.
 - `chrome` and `edge` use the Google Chrome and Microsoft Edge installed on the machine. `chromium`, `firefox` and `webkit` need `npm run install:browsers` once.
-- The `--disable-blink-features=AutomationControlled` flag exists only in Chromium based browsers, so only `chromium`, `chrome` and `edge` get it.
+- The Chromium launch flags (`--start-maximized`, `--disable-translate` and `--disable-features=Translate,TranslateUI`) exist only in Chromium based browsers, so only `chromium`, `chrome` and `edge` get them. The tests do not hide that the browser is automated: the flag `--disable-blink-features=AutomationControlled` that did this was removed on 2026-11-22.
 - The expected data was captured in Chromium, so Firefox and WebKit can show small differences in text or layout. CI installs only Chromium. To run other browsers there, set `BROWSERS` in the workflow's `env:` and install them in the install step.
 
 ## How the tests work

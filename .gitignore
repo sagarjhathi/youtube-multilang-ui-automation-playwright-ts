@@ -38,3 +38,7 @@ Thumbs.db
 npm-debug.log*
 # Project notes (local only)
 docs/
+
+# Claude Code: local notes, settings, skills and agents stay on the owner's machine. CLAUDE.md is tracked.
+.claude/
+CLAUDE.local.md

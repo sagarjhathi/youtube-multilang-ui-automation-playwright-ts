@@ -1,9 +1,12 @@
 {
-  "name": "youtube-multi-language-ui-validator-automation-play",
+  "name": "youtube-multilang-ui-automation-playwright-ts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "typecheck": "tsc --noEmit -p .",
+    "offline-checks": "playwright test tests/FallbackMechanisms.spec.ts",
+    "list-tests": "playwright test --list",
     "report": "playwright show-report",
     "allure:generate": "allure generate allure-results --clean -o allure-report",
     "allure:open": "allure open allure-report",
@@ -18,7 +21,8 @@
     "@playwright/test": "^1.64.0",
     "@types/node": "^26.6.5",
     "allure-commandline": "^2.46.1",
-    "allure-playwright": "^3.13.0"
+    "allure-playwright": "^3.13.0",
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "eld": "^2.1.0"

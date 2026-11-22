@@ -73,7 +73,6 @@ const CHROMIUM_ARGS = [
   '--start-maximized',
   '--disable-translate',
   '--disable-features=Translate,TranslateUI',
-  '--disable-blink-features=AutomationControlled',     // hides the "controlled by automation" flag from the page
 ];
 
 type BrowserName = keyof typeof BROWSERS;
