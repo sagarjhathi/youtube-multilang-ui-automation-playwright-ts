@@ -140,7 +140,7 @@ Machine notes: no `python`, `jq` or `gh` on the owner's PC; use `node` and `curl
 - No loops, big parallel batches or data collection with live runs. One case, after asking.
 - A skip is not a pass, and a green workflow is not proof of testing. (The test step has no `continue-on-error`; only the three Discord steps do. Checked by grep.)
 - Never leave a test that could not check something by a silent early exit or a bare return: throw an error that names the problem, or `test.skip` with a reason.
-- Never write `${{ github.* }}` inside a workflow `run:` script; pass it through `env:` (a branch name can contain `$(...)`). The workflow still has three such uses (lines 268, 398, 418); they are backlog items, do not fix unasked.
+- Never put a value that can carry free text (`github.ref_name`, `github.actor`, `github.head_ref`, PR titles, commit messages) inside a workflow `run:` script; pass it through `env:` and read it as a shell variable (a branch name can contain `$(...)`). Values that cannot carry text (`github.run_number`, `github.run_id`, `github.repository`) are safe in `run:`. The workflow has three plain uses (lines 268, 398, 418: `github.token`, `github.repository`, `github.run_number`); none carries free text, so they are optional cleanup, not a rule violation. Do not fix them unasked.
 - No secrets or webhook URLs in any file or log. Never print the `YT_PLAYWRIGHT` value.
 - No "TEMPORARY" triggers or temp files left on master.
 - Do not count every `*.zip` in the blob-report folder as shards; `merge-reports` unpacks trace zips into the same folder. Count `-maxdepth 1 -name 'report*.zip'`.
