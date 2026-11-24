@@ -49,8 +49,8 @@ on:
         type: boolean
         default: false
   schedule:
-    # every night at 01:30 IST (GitHub cron runs in UTC: 20:00 UTC = 01:30 IST the next morning)
-    - cron: "0 20 * * *"
+    # every night at 09:43 IST (GitHub cron runs in UTC: 04:13 UTC = 09:43 IST the same morning), an off-peak odd minute chosen to avoid delayed or skipped scheduled runs
+    - cron: "13 4 * * *"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
