@@ -1,6 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import SafeActions from "../utils/SafeActions";
 import GenericUtility from "../utils/GenericUtility";
+import { attachShot } from "../utils/Evidence";
 
 class YtLandingPage {
 
@@ -117,8 +118,9 @@ class YtLandingPage {
         }
         console.log("Settings menu is not open after the click, clicking the settings button again");
         await this.safeActions.safeClick(this.settingsButton);
-        await this.settingsMenuRow.waitFor({ state: "visible" }).catch(() => {
+        await this.settingsMenuRow.waitFor({ state: "visible" }).catch(async () => {
             console.log("Settings menu is still not open after the second click");
+            await attachShot(this.page, "menu-not-open", "settings menu");
         });
     }
 
@@ -159,6 +161,7 @@ class YtLandingPage {
         }
         if ((await menuButton.getAttribute("aria-pressed")) === "true") {
             console.log("Side menu did not collapse after the click, clicking the menu button again");
+            await attachShot(this.page, "menu-collapse-failed", "side menu");
             await this.safeActions.safeClick(this.sideMenuButton);
         }
     }
@@ -222,6 +225,9 @@ class YtLandingPage {
             }
             sameReads = current !== "" && current === previous ? sameReads + 1 : 1;
             previous = current;
+        }
+        if (sameReads < 3) {
+            await attachShot(this.page, "menu-not-stable", "menu read");     // the caller decides if this is an error, the picture shows what was on the page
         }
         return previous;
     }

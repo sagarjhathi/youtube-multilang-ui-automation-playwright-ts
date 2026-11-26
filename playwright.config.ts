@@ -109,7 +109,7 @@ export default defineConfig({
 
   use: {
     trace: canary ? 'off' : run.trace,
-    screenshot: 'off',
+    screenshot: 'only-on-failure',               // a failure outside the loops (opening the page, the first list); the failures inside the loops are handled by utils/Evidence.ts
     video: run.video,
 
     headless: true,                            // set to false to watch the browser

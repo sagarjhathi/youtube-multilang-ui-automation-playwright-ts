@@ -21,6 +21,11 @@ export function softCheck<T>(actual: T, expected: T, message: string): void {
     }
 }
 
+/** How many failed checks are waiting for the end of the item (LoopGuard uses it to decide if a screenshot is needed). */
+export function pendingCount(): number {
+    return pending.length;
+}
+
 /** LoopGuard starts collecting when it is created. */
 export function startCollecting(): void {
     collecting = true;

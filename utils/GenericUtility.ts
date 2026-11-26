@@ -1,5 +1,6 @@
-import test, { Locator, Page, TestInfo } from "@playwright/test";
+import test, { Locator, Page } from "@playwright/test";
 import RunConfig from "../configs/RunConfig";
+import { attachShot } from "./Evidence";
 
 
 class GenericUtility{
@@ -40,6 +41,7 @@ class GenericUtility{
 
         } catch (error) {
             console.error("Failed to read html lang attribute: " + error);
+            await attachShot(this.page, "lang-attr-unreadable", "page");
             return null;
         }
     }
@@ -110,34 +112,6 @@ class GenericUtility{
 		return overrideCount;
 	}
 
-
-
-    public async capture(testInfo:TestInfo ,...names:string[]){
-        // no screenshots on CI runs, only the trace is kept
-        if (process.env.CI) {
-            return "";
-        }
-        try{
-                const inputNames=names.join("_");
-                const fileName=`${inputNames || "screenshot"}_${Date.now()}.png`;
-                const filePath = testInfo.outputPath(fileName);
-
-                 await this.page.screenshot({ path: filePath });
-
-    await testInfo.attach(inputNames || "screenshot", {
-      path: filePath,
-      contentType: "image/png",
-    });
-
-    return filePath;
-        }catch (error) {
-    console.error(`Screenshot capture failed: ${error}`);
-    return "";
-  }
-
-    }
-
-
-    }
+}
 
 export default GenericUtility;

@@ -1,5 +1,6 @@
-import { expect, test } from "@playwright/test";
-import { commitPendingChecks, discardPendingChecks, startCollecting, stopCollecting } from "./SoftChecks";
+import { expect, Page, test } from "@playwright/test";
+import { commitPendingChecks, discardPendingChecks, pendingCount, startCollecting, stopCollecting } from "./SoftChecks";
+import { attachShot, takeShot } from "./Evidence";
 
 /** Error messages that mean the browser, network or site is broken, not just one element missing. */
 const ENVIRONMENT_MESSAGES = [
@@ -43,9 +44,45 @@ export class LoopGuard {
     private counts = new Map<string, number>();
     private itemCounts = new Map<string, number>();     // counted while the item runs, added to counts only when the item finishes
     private discardedChecks = 0;
+    private page?: Page;                         // with a page the guard keeps screenshots as evidence of failures (utils/Evidence.ts), without one it takes none
+    private heldShot: Buffer | null = null;      // see holdShot()
 
-    constructor() {
+    constructor(page?: Page) {
+        this.page = page;
         startCollecting();      // the failed checks of an item are kept back until the item is finished
+    }
+
+    /** 1 while the item runs the first time, 2 while it runs the retry. */
+    private attempt(): number {
+        return this.retrying ? 2 : 1;
+    }
+
+    /** Screenshot of a failure, attached to the test. Does nothing without a page. */
+    private async shot(kind: string, item: string): Promise<void> {
+        if (this.page) {
+            await attachShot(this.page, kind, item, this.attempt());
+        }
+    }
+
+    /**
+     * Takes a screenshot now and keeps it in memory, for a page that is about to change before the checks run
+     * (the search filter popup is closed before its text is compared). It is attached only if keepShotIfChecksFailed finds a failed check.
+     */
+    public async holdShot(): Promise<void> {
+        this.heldShot = this.page ? await takeShot(this.page) : null;
+    }
+
+    /**
+     * Call it after all reads and checks of the item, BEFORE the next click or reload: if a check of this item failed, the page
+     * is still in the state that was checked, so that is the moment for the screenshot. A passing item costs nothing.
+     * Uses the shot of holdShot() when there is one.
+     */
+    public async keepShotIfChecksFailed(item: string): Promise<void> {
+        const held = this.heldShot;
+        this.heldShot = null;
+        if (this.page && pendingCount() > 0) {
+            await attachShot(this.page, "check-failed", item, this.attempt(), held);
+        }
     }
 
     public shouldStop(): boolean {
@@ -53,6 +90,7 @@ export class LoopGuard {
     }
 
     public itemPassed(item: string): void {
+        this.heldShot = null;
         this.passedItems++;
         commitPendingChecks();
         this.itemCounts.forEach((amount, label) => this.counts.set(label, (this.counts.get(label) || 0) + amount));
@@ -69,11 +107,16 @@ export class LoopGuard {
     /** @returns true if the same item should be run again, false to move on to the next one */
     public async retryAfterFailure(item: string, error: unknown, recovery: Recovery): Promise<boolean> {
         console.log(item + " failed | " + this.describe(error));
+        this.heldShot = null;
+
+        // the shot comes BEFORE the recovery: the recovery reloads the page, and the failure state would be gone
+        await this.shot("failed-before-recovery", item);
 
         try {
             await recovery();
         } catch (recoveryError) {
             console.log("Could not recover the page | " + this.describe(recoveryError));
+            await this.shot("recovery-failed", item);
         }
 
         // first failure: run the same item once more, its checks are done again, so those of this attempt are dropped
@@ -95,6 +138,9 @@ export class LoopGuard {
         this.failedItems++;
         this.fail("Failed at " + item + " (also failed on retry) | " + this.describe(error));
         this.countFailure(item, this.isEnvironmentFailure(error));
+        if (this.stop) {
+            await this.shot("loop-aborted", item);
+        }
         return false;
     }
 
