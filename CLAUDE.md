@@ -56,15 +56,16 @@ utils/LanguageChecks.ts            normalizing, allowed versions, detection help
 utils/ReadJSON.ts                  readJson, readJsonByName (rows found by NAME)
 utils/Canary.ts                    canary mode
 utils/GenericUtility.ts            small shared helpers on a Page
+utils/Evidence.ts                  screenshots of failures (kept only where something went wrong, with a text note)
 tests/YtMasterSafeActions.spec.ts  the 9 LIVE tests (run on CI in 4 shards)
-tests/FallbackMechanisms.spec.ts   33 OFFLINE tests on fake pages (no network)
+tests/FallbackMechanisms.spec.ts   37 OFFLINE tests on fake pages (no network)
 .github/workflows/playwright.yml   CI: offline-checks -> test (4 shards) -> merge-reports (+ notify-offline-failure)
 .github/pages/index.html           landing page of the report hub
 docs/                              GIT-IGNORED local notes: STATUS, DECISIONS, LESSONS and 30 older notes
 .claude/                           GIT-IGNORED local: settings.json, skills, agents
 ```
 
-**Test counts** (from `npx playwright test --list`, run 2026-11-22): 42 tests in 2 files = 9 live + 33 offline. With `BROWSERS=all` the live spec lists 45 (9 per browser). A real CI report of 2026-11-20 showed 9 of 9 live tests (read from the published Playwright report).
+**Test counts** (from `npx playwright test --list`, run 2026-11-22): 46 tests in 2 files = 9 live + 37 offline (4 new on 2026-11-26). With `BROWSERS=all` the live spec lists 45 (9 per browser). A real CI report of 2026-11-20 showed 9 of 9 live tests (read from the published Playwright report).
 
 **Git-ignored:** `docs/`, `.claude/`, `CLAUDE.local.md`, `.env`, `.env.*`, `node_modules/`, `test-results/`, `playwright-report/`, `blob-report/`, `allure-results/`, `allure-report/`. **Tracked:** everything else, including `CLAUDE.md`. Nothing under `docs/` or `.claude/` is tracked (checked with `git ls-files` and `git ls-files -ci --exclude-standard`, both empty on 2026-11-22). Only `CLAUDE.md` is tracked of the agent setup files; the rest are local and ignored, so where they live does not matter.
 
@@ -76,9 +77,9 @@ Run from the repo root. Status: **verified** = run on 2026-11-22; otherwise UNVE
 |---|---|---|
 | Typecheck | `npm run typecheck` (= `tsc --noEmit -p .`, local TypeScript 7.0.2) | **verified**, exit 0 |
 | Lint | none. The repo has no lint tool and no lint script | verified by reading `package.json` |
-| Unit tests | none separate; the OFFLINE suite is the fast check: `npm run offline-checks` (= `playwright test tests/FallbackMechanisms.spec.ts`) | **verified**: 32 passed + 1 flaky (W1, on purpose), 37.8 s |
+| Unit tests | none separate; the OFFLINE suite is the fast check: `npm run offline-checks` (= `playwright test tests/FallbackMechanisms.spec.ts`) | **verified** 2026-11-26: 36 passed + 1 flaky (W1, on purpose), 35.5 s |
 | One offline test | `npx playwright test tests/FallbackMechanisms.spec.ts -g "H4b"` | **verified** (passed) |
-| List tests | `npm run list-tests` (= `playwright test --list`, 42); `npx playwright test tests/YtMasterSafeActions.spec.ts --list` (9) | **verified** |
+| List tests | `npm run list-tests` (= `playwright test --list`, 46); `npx playwright test tests/YtMasterSafeActions.spec.ts --list` (9) | **verified** |
 | One live case | `npx playwright test tests/YtMasterSafeActions.spec.ts -g "verifyingSearchFilterText$"` | UNVERIFIED today; LIVE, ask first |
 | A shard | `npx playwright test tests/YtMasterSafeActions.spec.ts --shard=1/4` | UNVERIFIED today; LIVE, ask first (this is what CI runs) |
 | Whole live suite | `npx playwright test tests/YtMasterSafeActions.spec.ts` | LIVE, 20-30 min per long test locally; never run it to "check" |

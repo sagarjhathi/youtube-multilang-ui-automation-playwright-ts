@@ -104,7 +104,8 @@ utils/
   SafeActions.ts                safe click / find element / find elements with waits and retries
   LoopGuard.ts                  retries one failed language or location, keeps the rest of the loop going
   LanguageChecks.ts             text normalising, language and lang attribute checks, assertion messages
-  GenericUtility.ts             html lang attribute, Enter key, screenshots, iteration counts
+  GenericUtility.ts             html lang attribute, Enter key, iteration counts
+  Evidence.ts                   screenshots of failures (see "Screenshots of failures")
   ReadJSON.ts                   reads and writes the data files in data/
 configs/
   runconfig.json                run settings (language count, countries, URL)
@@ -190,7 +191,15 @@ With `CANARY=true` (the canary run, see Canary run above) `playwright.config.ts`
 
 To try the CI settings on your machine: `CI=true npx playwright test` (PowerShell: `$env:CI = "true"; npx playwright test`). Open the local HTML report with `npm run report`.
 
-When the `CI` environment variable is set, the screenshot helper `GenericUtility.capture()` also does nothing.
+### Screenshots of failures
+
+Screenshots are taken only where something went wrong, on local runs and on CI (`utils/Evidence.ts`). A passing item never gets one.
+- A check of an item failed (text, detected language, `<html lang>`, country code): the picture is taken right after the page was read and before the next click, so it shows the page as it was checked.
+- An item threw an error: the picture is taken before `LoopGuard` reloads the page. If the reload fails too, or the loop stops early, there is one more picture.
+- Small problems that are only logged (settings menu not open, menu never stable, side menu not collapsing, `<html lang>` unreadable) get a picture too.
+- A failure outside the loops (opening the page, the first list) is covered by `screenshot: 'only-on-failure'` in `playwright.config.ts`.
+
+Each picture is a JPEG with a text note next to it (time, item, attempt, url, title, readyState, html lang). The name is `s<number>_<item>_<kind>_a<attempt>`, for example `s03_Deutsch_check-failed_a1`; the number counts the pictures of the test, so they sort in the order they were taken. At most 15 per test (3 in a canary run). The plan and the reasons are in `docs/31-screenshot-evidence-plan.md` (local note).
 
 ### Browsers
 

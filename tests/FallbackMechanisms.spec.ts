@@ -1,11 +1,12 @@
 import * as fs from "fs";
-import { test, expect, Page } from "@playwright/test";
+import { test, expect, Page, TestInfo } from "@playwright/test";
 import SafeActions from "../utils/SafeActions";
 import { LoopGuard } from "../utils/LoopGuard";
 import { softCheck, stopCollecting } from "../utils/SoftChecks";
 import { allowedVersions, removeOptionalEntries } from "../utils/LanguageChecks";
 import { readJson, readJsonByName } from "../utils/ReadJSON";
 import YtLandingPage from "../pages/YtLandingPage";
+import { attachShot, cleanName } from "../utils/Evidence";
 
 /**
  * Offline tests: they make every fallback mechanism of the project actually run, on purpose, and check what it does.
@@ -15,6 +16,7 @@ import YtLandingPage from "../pages/YtLandingPage";
  *
  *   M = SafeActions   L = LoopGuard / SoftChecks   P = page-state helpers   H = allowed side menu versions   W = whole-test retry
  *   D = the data files (not a fallback, but cheap to check here and it gates CI the same way)
+ *   S = screenshot evidence of failures (utils/Evidence.ts): the picture has to show the page as it was checked
  *
  * How the tests work:
  *   - M, L and P use a fake page that is served at https://fake.test/ (or put in with page.setContent). The fake page breaks on purpose
@@ -676,4 +678,77 @@ test("D5 the country tests are named after the first and last country of their h
     for (const name of expected) {
         expect(spec, "the spec has no country test named " + name + " (the data file or the middle of the list changed: rename the test)").toContain('test("' + name.replace(/ /g, "") + '"');
     }
+});
+
+
+// ---------------------------------------------------------------- S: screenshot evidence
+
+/** The attachment with this name of the running test (the body is the picture or the text note). */
+const attachment = (testInfo: TestInfo, name: string) => testInfo.attachments.find(item => item.name === name);
+
+test("S1 evidence: a passing item attaches no screenshot", async ({ page }, testInfo) => {
+    await page.setContent("<title>BEFORE</title><h1>checked state</h1>");
+    const guard = new LoopGuard(page);
+
+    await runLoop(guard, ["Deutsch"], async item => {
+        softCheck("same", "same", "never fails");
+        await guard.keepShotIfChecksFailed(item);
+    });
+
+    expectNoFailures();
+    expect(testInfo.attachments.length, "nothing failed, so nothing is attached").toBe(0);
+});
+
+test("S2 evidence: a failed check keeps the page as it was CHECKED, not as it is after the next step", async ({ page }, testInfo) => {
+    await page.setContent("<title>BEFORE</title><h1>checked state</h1>");
+    const guard = new LoopGuard(page);
+
+    await runLoop(guard, ["Deutsch"], async item => {
+        softCheck("wrong", "right", "check fails on purpose");
+        await guard.keepShotIfChecksFailed(item);
+        await page.evaluate(() => { document.title = "AFTER the next step"; });     // the loop goes on and changes the page
+    });
+
+    expect(takeExpectedFailures().length, "the failed check is still reported").toBe(1);
+    const picture = attachment(testInfo, "s01_Deutsch_check-failed_a1");
+    expect(picture?.contentType).toBe("image/jpeg");
+    expect(picture?.body?.length ?? 0).toBeGreaterThan(100);
+    const note = String(attachment(testInfo, "s01_Deutsch_check-failed_a1_note")?.body);
+    expect(note).toContain("title=BEFORE");
+    expect(note).not.toContain("AFTER");
+});
+
+test("S3 evidence: an error keeps the page BEFORE the recovery changes it, and the held shot of a dropped attempt is not attached", async ({ page }, testInfo) => {
+    await page.setContent("<title>BEFORE</title><h1>failure state</h1>");
+    const guard = new LoopGuard(page);
+
+    await runLoop(guard, ["Deutsch"], async (item, attempt) => {
+        if (attempt === 1) {
+            await guard.holdShot();
+            throw new Error("element not found on purpose");
+        }
+        await guard.keepShotIfChecksFailed(item);       // second try: no failed check, nothing to attach
+    }, async () => { await page.evaluate(() => { document.title = "AFTER recovery"; }); });
+
+    expectNoFailures();                                  // passed on the retry
+    const note = String(attachment(testInfo, "s01_Deutsch_failed-before-recovery_a1_note")?.body);
+    expect(note).toContain("title=BEFORE");
+    expect(testInfo.attachments.length, "only the failure picture and its note").toBe(2);
+});
+
+test("S4 evidence: names are safe, the limit holds and a closed page never breaks anything", async ({ page }, testInfo) => {
+    expect(cleanName('Français (Canada) / 日本語: "x"')).toBe("Français-Canada-日本語-x");
+    expect(cleanName("???")).toBe("item");
+
+    await page.setContent("<title>limit</title>");
+    for (let i = 0; i < 17; i++) {
+        await attachShot(page, "check-failed", "Deutsch", 1);
+    }
+    const pictures = () => testInfo.attachments.filter(item => item.contentType === "image/jpeg").length;
+    expect(pictures(), "the limit is 15 pictures per test").toBe(15);
+    expect(logged("Screenshot limit reached")).toBe(true);
+
+    await page.close();
+    await attachShot(page, "check-failed", "Deutsch", 1);   // must not throw
+    expect(pictures()).toBe(15);
 });
