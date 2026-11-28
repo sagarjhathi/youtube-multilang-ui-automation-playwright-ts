@@ -1,0 +1,13 @@
+Opened YouTube landing page.
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+The menu was still changing (44 then 67 characters), reading it again
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+The menu was still changing (67 then 117 characters), reading it again
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+The menu was still changing (117 then 145 characters), reading it again
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()
+Finding elements list: locator('//ytd-guide-entry-renderer[@class=\'style-scope ytd-guide-section-renderer\']').visible()

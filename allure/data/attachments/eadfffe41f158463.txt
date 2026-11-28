@@ -1,0 +1,8 @@
+time=2026-11-28T13:06:21.105Z
+kind=failed-before-recovery
+item=日本語
+attempt=1
+url=https://www.youtube.com/
+title=YouTube
+readyState=complete
+html lang=ja-JP
